@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        var refreshGirdData;
+        var bootstrap = function (a, b) {
+            var c = {
+                init: function () { c.initGird(); c.bind() },
+                bind: function () {
+                    a("#datesearch").lrdate({
+                        dfdata: [
+                            { name: "今天", begin: function () { return b.getDate("yyyy-MM-dd 00:00:00") }, end: function () { return b.getDate("yyyy-MM-dd 23:59:59") } },
+                            { name: "近7天", begin: function () { return b.getDate("yyyy-MM-dd 00:00:00", "d", -6) }, end: function () { return b.getDate("yyyy-MM-dd 23:59:59") } },
+                            { name: "近1个月", begin: function () { return b.getDate("yyyy-MM-dd 00:00:00", "m", -1) }, end: function () { return b.getDate("yyyy-MM-dd 23:59:59") } },
+                            { name: "近3个月", begin: function () { return b.getDate("yyyy-MM-dd 00:00:00", "m", -3) }, end: function () { return b.getDate("yyyy-MM-dd 23:59:59") } }
+                        ],
+                        mShow: false,
+                        premShow: false,
+                        jShow: false,
+                        prejShow: false,
+                        ysShow: false,
+                        yxShow: false,
+                        preyShow: false,
+                        yShow: false,
+                        dfvalue: "1",
+                        selectfn: function (d, e) { }
+                    });
+                    a("#multiple_condition_query").lrMultipleQuery(function (d) { }, 220);
+                    a("#customerId").lrselect({ url: top.$.rootUrl + "/LR_CRMModule/Customer/GetList", text: "F_FullName", value: "F_CustomerId", allowSearch: true, maxHeight: 400 });
+                    a("#sellerId").lrselect({ url: top.$.rootUrl + "/LR_OrganizationModule/User/GetList?departmentId=2f077ff9-5a6b-46b3-ae60-c5acdc9a48f1", text: "F_RealName", value: "F_UserId", allowSearch: true, maxHeight: 400 });
+                    a("#paymentState").lrDataItemSelect({ code: "Client_PaymentMode" });
+                    a("#btn_Search").on("click", function () {
+                        var d = a("#txt_Keyword").val();
+                        c.search({ keyword: d })
+                    });
+                    a("#lr_refresh").on("click", function () { location.reload() });
+                    a("#lr_add").on("click", function () { b.frameTab.open({ F_ModuleId: "order_add", F_Icon: "fa fa-file-text-o", F_FullName: "新增订单", F_UrlAddress: "/LR_CRMModule/CrmOrder/Form" }) });
+                    a("#lr_edit").on("click", function () {
+                        var d = a("#girdtable").jfGridValue("F_OrderId");
+                        if (b.checkrow(d)) { b.frameTab.open({ F_ModuleId: "order_add", F_Icon: "fa fa-file-text-o", F_FullName: "新增订单", F_UrlAddress: "/LR_CRMModule/CrmOrder/Form?keyValue=" + d }) }
+                    });
+                    a("#lr_delete").on("click", function () {
+                        var d = a("#girdtable").jfGridValue("F_OrderId");
+                        if (b.checkrow(d)) { b.layerConfirm("是否确认删除该项！", function (e) { if (e) { b.deleteForm(top.$.rootUrl + "/LR_CRMModule/CrmOrder/DeleteForm", { keyValue: d }, function () { refreshGirdData() }) } }) }
+                    })
+                }, initGird: function () { a("#girdtable").lrAuthorizeJfGrid({ url: top.$.rootUrl + "/LR_CRMModule/CrmOrder/GetPageList", headData: [{ label: "单据日期", name: "F_OrderDate", width: 100, align: "left", formatter: function (d) { return b.formatDate(d, "yyyy-MM-dd") } }, { label: "单据编号", name: "F_OrderCode", width: 130, align: "left" }, { label: "客户名称", name: "F_CustomerId", width: 250, align: "left", formatterAsync: function (d, f, e) { b.clientdata.getAsync("custmerData", { url: "/LR_CRMModule/Customer/GetList", key: f, valueId: "F_CustomerId", callback: function (g) { d(g.F_FullName) } }) } }, { label: "销售人员", name: "F_SellerId", width: 80, align: "left", formatterAsync: function (d, f, e) { b.clientdata.getAsync("user", { userId: f, callback: function (g) { d(g.F_RealName) } }) } }, { label: "优惠金额", name: "F_DiscountSum", width: 80, align: "left" }, { label: "收款金额", name: "F_Accounts", width: 80, align: "left" }, { label: "收款方式", name: "F_PaymentMode", width: 80, align: "center", formatterAsync: function (d, f, e) { b.clientdata.getAsync("dataItem", { key: f, itemCode: "Client_PaymentMode", callback: function (g) { d(g.F_ItemName) } }) } }, { label: "收款状态", name: "F_PaymentState", width: 80, align: "center", formatter: function (d) { if (d == 2) { return "<span style='color:green'>部分收款</span>" } else { if (d == 3) { return "<span style='color:blue'>全部收款</span>" } else { return "<span style='color:red'>未收款</span>" } } } }, { label: "制单人员", name: "F_CreateUserName", width: 80, align: "left" }, { label: "备注", name: "F_Description", width: 200, align: "left" }], mainId: "F_OrderId", reloadSelected: true, isPage: true }); c.search() }, search: function (d) { a("#girdtable").jfGridSet("reload", { param: d }) }
+            };
+            refreshGirdData = function () { c.search() };
+            c.init()
+        };
+    </script>
+</head>
+<body>
+
+</body>
+</html>

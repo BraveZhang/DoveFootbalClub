@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>打印</title>
+    <script src="~/Content/scripts/jquery/jquery-1.8.2.min.js"></script><!--这里只能使用低版本的库，因为jquery.jqprint-0.3里面不支持高版本-->
+    <script src="~/Content/scripts/utils/DOVE-ui.js"></script>
+    <script src="~/Content/scripts/plugins/printTable/jquery.jqprint-0.3.js"></script>
+    <link href="~/Content/styles/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/scripts/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/scripts/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/scripts/plugins/jqgrid/css" rel="stylesheet" />
+    <link href="~/Content/styles/DOVE-ui.css" rel="stylesheet" />
+    <link href="~/Content/styles/DOVE-report.css" rel="stylesheet" />
+    <script>
+        $(function () {
+            // 注释的方法也可以用，但是没有引用样式，先不使用
+            //var DataSource = top.frames[tabiframeId()].PrintDataSource();
+            //var colModel = DataSource.columnModel;   //表头
+            //var dataModel = DataSource.dataModel;       // 数据
+            //var footerData = DataSource.footerData;       // 合计
+            //var html = "<tr>";
+            //$.each(colModel, function (i) {
+            //    var title = colModel[i].label;
+            //    if (title) {
+            //        var width = colModel[i].width;
+            //        var align = colModel[i].align;
+            //        var hidden = colModel[i].hidden;
+            //        if (hidden == false) {
+            //            html += "<td style=\"width:" + (width - 5) + "px;text-align:" + align + ";\">" + title + "</td>";
+            //        }
+            //    }
+            //});
+            //html += "</tr>";
+            //for (var i = 0; i < dataModel.length; i++) {
+            //    html += "<tr>";
+            //    $.each(colModel, function (j) {
+            //        var title = colModel[j].label;
+            //        if (title) {
+            //            var width = colModel[j].width;
+            //            var align = colModel[j].align;
+            //            var hidden = colModel[j].hidden;
+            //            if (hidden == false) {
+            //                html += "<td style=\"width:" + (width - 5) + "px;text-align:" + align + ";\">" + dataModel[i]["" + colModel[j].name + ""] + "</td>";
+            //            }
+            //        }
+            //    });
+            //    html += "</tr>";
+            //}
+            //if (footerData) {
+            //    html += "<tr>";
+            //    $.each(colModel, function (j) {
+            //        var title = colModel[j].label;
+            //        if (title) {
+            //            var width = colModel[j].width;
+            //            var align = colModel[j].align;
+            //            var hidden = colModel[j].hidden;
+            //            if (hidden == false) {
+            //                if (footerData["" + colModel[j].name + ""] == undefined) return;
+            //                html += "<td style=\"width:" + (width - 5) + "px;text-align:" + align + ";\">" + footerData["" + colModel[j].name + ""] + "</td>";
+            //            }
+            //        }
+            //    });
+            //    html += "</tr>";
+            //}
+            //$("#tablePrint").html(html);
+
+            var DataSource = $.currentIframe().PrintDataSource();
+            var $printArea = DataSource;
+            $.each($printArea, function (i, item) {
+                var $_area = $(item)
+                if ($_area.find('.ui-jqgrid').length == 0) {
+                    var $tb = $_area.find("table.form").eq(0).clone().removeAttr("style").attr("class", "ui-table-print");
+                    $tb.find("th").css("width", "auto");
+                    //$tb.find("td").css("width", "auto");
+
+                    $(document.body).append($tb);
+                } else {
+                    var $tb = $_area.find("table.ui-jqgrid-htable").eq(0).clone().removeAttr("style").attr("class", "ui-table-print");
+                    var $data = $_area.find("table.ui-jqgrid-btable").eq(0).find("tbody").clone();
+                    var $title = $_area.find("div.grid-title");
+                    var $subtitle = $_area.find("div.grid-subtitle");
+                    var $summary = $_area.find("table.ui-jqgrid-ftable").find("tbody").clone();
+
+                    if ($title.length) {
+                        $('<caption/>').prependTo($tb).append($title.clone()).append($subtitle.clone());
+                    }
+                    $tb.find("th").css("width", "auto");
+                    $summary.find("td").css("width", "auto");
+                    //$tb.find("th").clone();
+                    //$summary.find("td").clone();
+                    $data.children().eq(0).remove();
+                    $tb.append($data).append($summary);
+                    //$(document.body).append($html).append($tb);
+                    $(".printArea").append($tb);
+                }
+            });
+        });
+        //提交打印
+        function SubmitPrint() {
+            $("#gridPanel").jqprint();
+        }
+    </script>
+    @*<style type="text/css">
+            body {
+                margin: 1px;
+                font-size: 12px;
+            }
+
+            td {
+                border: 1px solid #000;
+            }
+        </style>*@
+    <style>
+        body {
+            margin: 10px;
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+<body>
+    @*<div id="my_area">*@
+    <div class="gridPanel" id="gridPanel">
+        <div class="printArea">
+        </div>
+    </div>
+    @*<table id="tablePrint" border=1 width="100%" style="border:solid 1px black;border-collapse:collapse"></table>*@
+    @*</div>*@
+</body>
+</html>

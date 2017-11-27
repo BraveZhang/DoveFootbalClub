@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8CCDDE20-F6F2-4BFC-BB3E-04D252A93452}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DOVE.Application.Oracle.Mapping</RootNamespace>
+    <AssemblyName>DOVE.Application.Oracle.Mapping</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountMap.cs" />
+    <Compile Include="AuthorizeManage\AuthorizeDataMap.cs" />
+    <Compile Include="AuthorizeManage\AuthorizeMap.cs" />
+    <Compile Include="AuthorizeManage\FilterIPMap.cs" />
+    <Compile Include="AuthorizeManage\FilterTimeMap.cs" />
+    <Compile Include="AuthorizeManage\ModuleButtonMap.cs" />
+    <Compile Include="AuthorizeManage\ModuleColumnMap.cs" />
+    <Compile Include="AuthorizeManage\ModuleFormInstanceMap.cs" />
+    <Compile Include="AuthorizeManage\ModuleFormMap.cs" />
+    <Compile Include="AuthorizeManage\ModuleMap.cs" />
+    <Compile Include="BaseManage\DepartmentMap.cs" />
+    <Compile Include="BaseManage\OrganizeMap.cs" />
+    <Compile Include="BaseManage\RoleMap.cs" />
+    <Compile Include="BaseManage\UserMap.cs" />
+    <Compile Include="BaseManage\UserRelationMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicInfoManage\EmailAddresseeMap.cs" />
+    <Compile Include="PublicInfoManage\EmailCategoryMap.cs" />
+    <Compile Include="PublicInfoManage\EmailContentMap.cs" />
+    <Compile Include="PublicInfoManage\FileFolderMap.cs" />
+    <Compile Include="PublicInfoManage\FileInfoMap.cs" />
+    <Compile Include="PublicInfoManage\NewsMap.cs" />
+    <Compile Include="PublicInfoManage\ScheduleMap.cs" />
+    <Compile Include="ReportManage\RptTempMap.cs" />
+    <Compile Include="SystemManage\AreaMap.cs" />
+    <Compile Include="SystemManage\CodeRuleMap.cs" />
+    <Compile Include="SystemManage\CodeRuleSeedMap.cs" />
+    <Compile Include="SystemManage\DatabaseBackupMap.cs" />
+    <Compile Include="SystemManage\DatabaseLinkMap.cs" />
+    <Compile Include="SystemManage\DataItemDetailMap.cs" />
+    <Compile Include="SystemManage\DataItemMap.cs" />
+    <Compile Include="SystemManage\LogMap.cs" />
+    <Compile Include="WeChatManage\WeChatAppMap.cs" />
+    <Compile Include="WeChatManage\WeChatDeptRelationMap.cs" />
+    <Compile Include="WeChatManage\WeChatUserRelationMap.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DOVE.Application.Entity\DOVE.Application.Entity.csproj">
+      <Project>{c10920fe-8c74-4993-a7f4-1da189da842c}</Project>
+      <Name>DOVE.Application.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

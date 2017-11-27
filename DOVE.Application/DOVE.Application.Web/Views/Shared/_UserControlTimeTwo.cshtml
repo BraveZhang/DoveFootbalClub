@@ -1,0 +1,282 @@
+﻿@*时间控件-多维度*@
+<script>
+    function InitialTimeControl() {
+    $(".ui-filter-text-day").click(function () {
+        if ($(this).next('.ui-filter-list-day').is(":hidden")) {
+            $(this).css('border-bottom-color', '#fff');
+            $(".ui-filter-list-day").slideDown(10);
+            $(this).addClass("active");
+        } else {
+            $(this).css('border-bottom-color', '#ccc');
+            $(".ui-filter-list-day").slideUp(10);
+            $(this).removeClass("active")
+        }
+    });
+    $(".ui-filter-text-week").click(function () {
+        if ($(this).next('.ui-filter-list-week').is(":hidden")) {
+            $(this).css('border-bottom-color', '#fff');
+            $(".ui-filter-list-week").slideDown(10);
+            $(this).addClass("active");
+        } else {
+            $(this).css('border-bottom-color', '#ccc');
+            $(".ui-filter-list-week").slideUp(10);
+            $(this).removeClass("active")
+        }
+    });
+    $(".ui-filter-text-month").click(function () {
+        if ($(this).next('.ui-filter-list-month').is(":hidden")) {
+            $(this).css('border-bottom-color', '#fff');
+            $(".ui-filter-list-month").slideDown(10);
+            $(this).addClass("active");
+            WdatePicker({eCont: 'ui_search_date_datepicker_datesearch_month',dateFmt: 'M',startDate: '%M',onpicked: pickedFunc_month});
+        } else {
+            $(this).css('border-bottom-color', '#ccc');
+            $(".ui-filter-list-month").slideUp(10);
+            $(this).removeClass("active")
+        }
+    });
+    $(".ui-filter-text-year").click(function () {
+        if ($(this).next('.ui-filter-list-year').is(":hidden")) {
+            $(this).css('border-bottom-color', '#fff');
+            $(".ui-filter-list-year").slideDown(10);
+            $(this).addClass("active");
+            WdatePicker({eCont: 'ui_search_date_datepicker_datesearch_year',dateFmt: 'yyyy',onpicked: pickedFunc_year});
+        } else {
+            $(this).css('border-bottom-color', '#ccc');
+            $(".ui-filter-list-year").slideUp(10);
+            $(this).removeClass("active")
+        }
+    });
+    $(".ui-filter-text-custom").click(function () {
+        if ($(this).next('.ui-filter-list-custom').is(":hidden")) {
+            $(this).css('border-bottom-color', '#fff');
+            $(".ui-filter-list-custom").slideDown(10);
+            $(this).addClass("active");
+        } else {
+            $(this).css('border-bottom-color', '#ccc');
+            $(".ui-filter-list-custom").slideUp(10);
+            $(this).removeClass("active")
+        }
+    });
+
+    WdatePicker({eCont: 'ui_search_date_datepicker_datesearch_day',dateFmt: 'yyyy-MM-dd',maxDate: '%y-%M-%d',vel: 'hd_day',onpicked: pickedFunc_day});
+    WdatePicker({eCont: 'ui_search_date_datepicker_datesearch_week',isShowWeek: true,firstDayOfWeek: 1,onpicked: pickedFunc_week});
+    //WdatePicker({ eCont: "ui_search_date_datepicker_datesearch_month", dateFmt: 'MM',onpicked: pickedFunc_month });// 此处注释掉，移到上面的click事件中，放在这容易导致浏览器兼容性问题
+    //WdatePicker({ eCont: "ui_search_date_datepicker_datesearch_year", dateFmt: 'yyyy',onpicked: pickedFunc_year });
+    WdatePicker({eCont: 'ui_search_date_datepicker_datesearch_custom1',vel: 'hd_custom1',onpicked: pickedFunc_custom1});
+    WdatePicker({eCont: 'ui_search_date_datepicker_datesearch_custom2',vel: 'hd_custom2',onpicked: pickedFunc_custom2});
+
+    //查询条件
+    $("#queryCondition .dropdown-menu li").click(function () {
+        var text = $(this).find('a').html();
+        var value = $(this).find('a').attr('data-value');
+        $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
+        $(".tbTime tr:first > td:gt(1)").each(function (i) {
+            $(".tbTime tr:first > td:gt(1)").eq(i).hide();
+        }); // 先将所有的条件td隐藏
+        switch (value) {
+        case "day": //天
+            $("." + value).show(); // 选什么，显示什么
+            $("#hd_dropdowntype").val(value);
+            $("#hd_day").val($("#SelectedDayTime").text());
+            SearchEvent();
+            slideUpfilter(["week", "month", "year", "custom"]);
+            break;
+        case "week": //周
+            $("." + value).show(); // 选什么，显示什么
+            $("#hd_dropdowntype").val(value);
+            $("#hd_week").val('@DateTime.Now.Year' + '_' + $("#SelectedWeekTime").text());
+            SearchEvent();
+            slideUpfilter(["day", "month", "year", "custom"]);
+            break;
+        case "month": //月
+            $("." + value).show(); // 选什么，显示什么
+            $("#hd_dropdowntype").val(value);
+            $("#hd_month").val($("#SelectedMonthTime").text());
+            SearchEvent();
+            slideUpfilter(["day", "week", "year", "custom"]);
+            break;
+        case "year": //年
+            $("." + value).show(); // 选什么，显示什么
+            $("#hd_dropdowntype").val(value);
+            $("#hd_year").val($("#SelectedYearTime").text());
+            SearchEvent();
+            slideUpfilter(["day", "week", "month", "custom"]);
+            break;
+        case "custom": //自定义
+            $("." + value).show(); // 选什么，显示什么
+            $("#hd_dropdowntype").val(value);
+            $("#hd_custom1").val($("#SelectedStartTime").text());
+            $("#hd_custom2").val($("#SelectedEndTime").text());
+            SearchEvent();
+            slideUpfilter(["day", "week", "month", "year"]);
+            break;
+        default:
+            break;
+        }
+    });
+
+    // 默认选择“日”
+    $("#queryCondition .dropdown-menu li").eq(0).click();
+    $("#hd_day").val('@DateTime.Now.ToString("yyyy-MM-dd")');
+}
+
+function slideUpfilter(typeArr) {
+    for (var i = 0; i < typeArr.length; i++) {
+        $(".ui-filter-text-" + typeArr[i]).css('border-bottom-color', '#ccc');
+        $(".ui-filter-list-" + typeArr[i]).slideUp(10);
+        $(".ui-filter-text-" + typeArr[i]).removeClass("active");
+    }
+}
+
+function pickedFunc_day(m) {
+    $('#SelectedDayTime').text(m.cal.getDateStr());
+    $(".ui-filter-text-day").click();
+    SearchEvent();
+}
+
+function pickedFunc_week(m) {
+    $('#SelectedWeekTime').text(m.cal.getP('W', 'W'));
+    $("#hd_week").val(m.cal.getP('y', 'yyyy') + '_' + m.cal.getP('W', 'W'));
+    $.ajax({
+        url: '/Utility/GetWeekRange?year=' + m.cal.getP('y', 'yyyy') + '&week=' + m.cal.getP('W', 'W'),
+        type: "GET",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+                $('#SelectedWeekStartTime').empty();
+                $('#SelectedWeekEndTime').empty();
+                $('#SelectedWeekStartTime').text(data.split('_')[0]);
+                $('#SelectedWeekEndTime').text(data.split('_')[1]);
+                $(".ui-filter-text-week").click();
+                SearchEvent();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                dialogAlert(errorThrown, -1);
+            }
+    });
+}
+
+function pickedFunc_month(m) {
+    $('#SelectedMonthTime').text(m.cal.getP('M', 'M'));
+    $("#hd_month").val(m.cal.getP('M', 'M'));
+    $(".ui-filter-text-month").click();
+    SearchEvent();
+}
+
+function pickedFunc_year(m) {
+    $('#SelectedYearTime').text(m.cal.getP('y', 'yyyy'));
+    $("#hd_year").val(m.cal.getP('y', 'yyyy'));
+    $(".ui-filter-text-year").click();
+    SearchEvent();
+}
+
+function pickedFunc_custom1(m) {
+    $('#SelectedStartTime').text(m.cal.getDateStr());
+}
+
+function pickedFunc_custom2(m) {
+    $('#SelectedEndTime').text(m.cal.getDateStr());
+    $(".ui-filter-text-custom").click();
+    SearchEvent();
+}
+</script>
+<table class="tbTime">
+    <tr>
+        @*报表类型下拉框*@
+        <td>报表类型&nbsp;&nbsp;</td>
+        <td>
+            <div id="queryCondition" class="btn-group">
+                <a class="btn btn-default dropdown-text" data-toggle="dropdown">报表类型</a>
+                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a data-value="day">日</a></li>
+                    <li><a data-value="week">周</a></li>
+                    <li><a data-value="month">月</a></li>
+                    <li><a data-value="year">年</a></li>
+                    <li><a data-value="custom">自定义</a></li>
+                </ul>
+            </div>
+            <input id="hd_dropdowntype" type="hidden" value="" />
+        </td>
+        @*日*@
+        <td class="day" style="padding-left: 10px;display:none;">
+            <div class="ui-filter-day" style="width: 100px;">
+                <div class="ui-filter-text-day">
+                    <strong id="SelectedDayTime">@DateTime.Now.ToString("yyyy-MM-dd")</strong>
+                </div>
+                <div class="ui-filter-list-day">
+                    <div class="ui-search-date-datepicker-content" style="display: block;">
+                        <div class="ui-search-date-datepicker-container first" id="ui_search_date_datepicker_datesearch_day">
+                        </div>
+                        <input id="hd_day" type="hidden" value="" />
+                    </div>
+                </div>
+            </div>
+        </td>
+        @*周*@
+        <td class="week" style="padding-left: 10px;display:none;">
+            <div class="ui-filter-week" style="width: 230px;">
+                <div class="ui-filter-text-week">
+                    <strong id="SelectedWeekTime">@DOVE.Util.Time.GetWeekOfYear(DateTime.Now)</strong>周
+                    (<strong id="SelectedWeekStartTime">@DOVE.Util.Time.WeekRangeStartDate(DateTime.Now.Year, DOVE.Util.Time.GetWeekOfYear(DateTime.Now)).ToString("yyyy-MM-dd")</strong> 至 <strong id="SelectedWeekEndTime">@DOVE.Util.Time.WeekRangeEndDate(DateTime.Now.Year, DOVE.Util.Time.GetWeekOfYear(DateTime.Now)).ToString("yyyy-MM-dd")</strong>)
+                </div>
+                <div class="ui-filter-list-week">
+                    <div class="ui-search-date-datepicker-content" style="display: block;">
+                        <div class="ui-search-date-datepicker-container first" id="ui_search_date_datepicker_datesearch_week">
+                        </div>
+                        <input id="hd_week" type="hidden" value="" />
+                    </div>
+                </div>
+            </div>
+        </td>
+        @*月*@
+        <td class="month" style="padding-left: 10px;display:none;">
+            <div class="ui-filter-month" style="width: 100px;">
+                <div class="ui-filter-text-month">
+                    <strong id="SelectedMonthTime">@DateTime.Now.Month.ToString()</strong>月
+                </div>
+                <div class="ui-filter-list-month">
+                    <div class="ui-search-date-datepicker-content" style="display: block;">
+                        <div class="ui-search-date-datepicker-container first" id="ui_search_date_datepicker_datesearch_month">
+                        </div>
+                        <input id="hd_month" type="hidden" value="" />
+                    </div>
+                </div>
+            </div>
+        </td>
+        @*年*@
+        <td class="year" style="padding-left: 10px;display:none;">
+            <div class="ui-filter-year" style="width: 100px;">
+                <div class="ui-filter-text-year">
+                    <strong id="SelectedYearTime">@DateTime.Now.Year.ToString()</strong>年
+                </div>
+                <div class="ui-filter-list-year">
+                    <div class="ui-search-date-datepicker-content" style="display: block;">
+                        <div class="ui-search-date-datepicker-container first" id="ui_search_date_datepicker_datesearch_year">
+                        </div>
+                        <input id="hd_year" type="hidden" value="" />
+                    </div>
+                </div>
+            </div>
+        </td>
+        @*自定义*@
+        <td class="custom" style="padding-left: 10px;display:none;">
+            <div class="ui-filter-custom" style="width: 200px;">
+                <div class="ui-filter-text-custom">
+                    <strong id="SelectedStartTime">@DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd")</strong> 至 <strong id="SelectedEndTime">@DateTime.Now.ToString("yyyy-MM-dd")</strong>
+                </div>
+                <div class="ui-filter-list-custom">
+                    <div class="ui-search-date-datepicker-content" style="display: block;">
+                        <div class="ui-search-date-datepicker-container first" id="ui_search_date_datepicker_datesearch_custom1">
+                        </div>
+                        <div class="ui-search-date-datepicker-container" id="ui_search_date_datepicker_datesearch_custom2">
+                        </div>
+                        <input id="hd_custom1" type="hidden" value="" />
+                        <input id="hd_custom2" type="hidden" value="" />
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

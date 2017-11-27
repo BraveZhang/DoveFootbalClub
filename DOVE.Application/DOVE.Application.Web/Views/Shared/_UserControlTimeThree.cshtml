@@ -1,0 +1,205 @@
+﻿@*时间控件-多粒度*@
+<script>
+    function InitialTimeControl() {
+    // 日
+    $(".ui-filter-text-day-three").click(function () {
+        if ($(this).next('.ui-filter-list-day-three').is(":hidden")) {
+            $(this).css('border-bottom-color', '#fff');
+            $(".ui-filter-list-day-three").slideDown(10);
+            $(this).addClass("active");
+        } else {
+            $(this).css('border-bottom-color', '#ccc');
+            $(".ui-filter-list-day-three").slideUp(10);
+            $(this).removeClass("active")
+        }
+    });
+    // 周
+    $(".ui-filter-text-week-three").click(function () {
+        if ($(this).next('.ui-filter-list-week-three').is(":hidden")) {
+            $(this).css('border-bottom-color', '#fff');
+            $(".ui-filter-list-week-three").slideDown(10);
+            $(this).addClass("active");
+        } else {
+            $(this).css('border-bottom-color', '#ccc');
+            $(".ui-filter-list-week-three").slideUp(10);
+            $(this).removeClass("active")
+        }
+    });
+    // 月
+    $(".ui-filter-text-month-three").click(function () {
+        if ($(this).next('.ui-filter-list-month-three').is(":hidden")) {
+            $(this).css('border-bottom-color', '#fff');
+            $(".ui-filter-list-month-three").slideDown(10);
+            $(this).addClass("active");
+            WdatePicker({eCont: "ui_search_date_datepicker_datesearch_month1",dateFmt: 'M',startDate: '%M',onpicked: pickedFunc_month1});
+            WdatePicker({eCont: "ui_search_date_datepicker_datesearch_month2",dateFmt: 'M',startDate: '%M',onpicked: pickedFunc_month2});
+        } else {
+            $(this).css('border-bottom-color', '#ccc');
+            $(".ui-filter-list-month-three").slideUp(10);
+            $(this).removeClass("active")
+        }
+    });
+
+    WdatePicker({eCont: 'ui_search_date_datepicker_datesearch_day1',vel: 'hd_day1',onpicked: pickedFunc_day1});
+    WdatePicker({eCont: "ui_search_date_datepicker_datesearch_day2",vel: 'hd_day2',onpicked: pickedFunc_day2});
+    WdatePicker({eCont: "ui_search_date_datepicker_datesearch_week1",isShowWeek: true,firstDayOfWeek: 1,onpicked: pickedFunc_week1});
+    WdatePicker({eCont: "ui_search_date_datepicker_datesearch_week2",isShowWeek: true,firstDayOfWeek: 1,onpicked: pickedFunc_week2});
+
+    //查询条件
+    $("#queryCondition .dropdown-menu li").click(function () {
+        var text = $(this).find('a').html();
+        var value = $(this).find('a').attr('data-value');
+        $("#queryCondition .dropdown-text").html(text).attr('data-value', value)
+        $(".tbTime tr:first > td:gt(1)").each(function (i) {
+            $(".tbTime tr:first > td:gt(1)").eq(i).hide();
+        }); // 先将所有的条件td隐藏
+        switch (value) {
+        case "day": //天
+            $("." + value).show(); // 选什么，显示什么
+            $("#hd_dropdowntype").val(value);
+            $("#hd_day1").val($("#SelectedDayStartTime").text());
+            $("#hd_day2").val($("#SelectedDayEndTime").text());
+            SearchEvent();
+            slideUpfilter(["week", "month"]);
+            break;
+        case "week": //周
+            $("." + value).show(); // 选什么，显示什么
+            $("#hd_dropdowntype").val(value);
+            $("#hd_week1").val('@DateTime.Now.Year' + '_' + $("#SelectedWeekStartTime").text());
+            $("#hd_week2").val('@DateTime.Now.Year' + '_' + $("#SelectedWeekEndTime").text());
+            SearchEvent();
+            slideUpfilter(["day", "month"]);
+            break;
+        case "month": //月
+            $("." + value).show(); // 选什么，显示什么
+            $("#hd_dropdowntype").val(value);
+            $("#hd_month1").val($("#SelectedMonthStartTime").text());
+            $("#hd_month2").val($("#SelectedMonthEndTime").text());
+            SearchEvent();
+            slideUpfilter(["day", "week"]);
+            break;
+        default:
+            break;
+        }
+    });
+
+    // 默认选择“日”
+    $("#queryCondition .dropdown-menu li").eq(0).click();
+    $("#hd_day1").val('@DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd")');
+    $("#hd_day2").val('@DateTime.Now.ToString("yyyy-MM-dd")');
+}
+
+function slideUpfilter(typeArr) {
+    for (var i = 0; i < typeArr.length; i++) {
+        $(".ui-filter-text-" + typeArr[i]+"-three").css('border-bottom-color', '#ccc');
+        $(".ui-filter-list-" + typeArr[i]+"-three").slideUp(10);
+        $(".ui-filter-text-" + typeArr[i]+"-three").removeClass("active");
+    }
+}
+
+function pickedFunc_day1(m) {
+    $('#SelectedDayStartTime').text(m.cal.getDateStr());
+}
+
+function pickedFunc_day2(m) {
+    $('#SelectedDayEndTime').text(m.cal.getDateStr());
+    $(".ui-filter-text-day-three").click();
+    SearchEvent();
+}
+
+function pickedFunc_week1(m) {
+    $('#SelectedWeekStartTime').text(m.cal.getP('W', 'W'));
+    $("#hd_week1").val(m.cal.getP('y', 'yyyy') + '_' + m.cal.getP('W', 'W'));
+}
+
+function pickedFunc_week2(m) {
+    $('#SelectedWeekEndTime').text(m.cal.getP('W', 'W'));
+    $("#hd_week2").val(m.cal.getP('y', 'yyyy') + '_' + m.cal.getP('W', 'W'));
+    $(".ui-filter-text-week-three").click();
+    SearchEvent();
+}
+
+function pickedFunc_month1(m) {
+    $('#SelectedMonthStartTime').text(m.cal.getP('M', 'M'));
+    $("#hd_month1").val(m.cal.getP('M', 'M'));
+}
+
+function pickedFunc_month2(m) {
+    $('#SelectedMonthEndTime').text(m.cal.getP('M', 'M'));
+    $("#hd_month2").val(m.cal.getP('M', 'M'));
+    $(".ui-filter-text-month-three").click();
+    SearchEvent();
+}
+</script>
+<table class="tbTime">
+    <tr>
+        @*报表类型下拉框*@
+        <td>报表类型&nbsp;&nbsp;</td>
+        <td>
+            <div id="queryCondition" class="btn-group">
+                <a class="btn btn-default dropdown-text" data-toggle="dropdown">报表类型</a>
+                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a data-value="day">日</a></li>
+                    <li><a data-value="week">周</a></li>
+                    <li><a data-value="month">月</a></li>
+                </ul>
+            </div>
+            <input id="hd_dropdowntype" type="hidden" value="" />
+        </td>
+        @*日*@
+        <td class="day" style="padding-left: 10px;display:none;">
+            <div class="ui-filter-day-three" style="width: 190px;">
+                <div class="ui-filter-text-day-three">
+                    <strong id="SelectedDayStartTime">@DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd")</strong> 至 <strong id="SelectedDayEndTime">@DateTime.Now.ToString("yyyy-MM-dd")</strong>
+                </div>
+                <div class="ui-filter-list-day-three">
+                    <div class="ui-search-date-datepicker-content" style="display: block;">
+                        <div class="ui-search-date-datepicker-container first" id="ui_search_date_datepicker_datesearch_day1">
+                        </div>
+                        <div class="ui-search-date-datepicker-container" id="ui_search_date_datepicker_datesearch_day2">
+                        </div>
+                        <input id="hd_day1" type="hidden" value="" />
+                        <input id="hd_day2" type="hidden" value="" />
+                    </div>
+                </div>
+            </div>
+        </td>
+        @*周*@
+        <td class="week" style="padding-left: 10px;display:none;">
+            <div class="ui-filter-week-three" style="width: 100px;">
+                <div class="ui-filter-text-week-three">
+                    <strong id="SelectedWeekStartTime">@(DOVE.Util.Time.GetWeekOfYear(DateTime.Now) - 4)</strong>周&nbsp;至&nbsp;<strong id="SelectedWeekEndTime">@DOVE.Util.Time.GetWeekOfYear(DateTime.Now)</strong>周
+                </div>
+                <div class="ui-filter-list-week-three">
+                    <div class="ui-search-date-datepicker-content" style="display: block;">
+                        <div class="ui-search-date-datepicker-container first" id="ui_search_date_datepicker_datesearch_week1">
+                        </div>
+                        <div class="ui-search-date-datepicker-container" id="ui_search_date_datepicker_datesearch_week2">
+                        </div>
+                        <input id="hd_week1" type="hidden" value="" />
+                        <input id="hd_week2" type="hidden" value="" />
+                    </div>
+                </div>
+            </div>
+        </td>
+        @*月*@
+        <td class="month" style="padding-left: 10px;display:none;">
+            <div class="ui-filter-month-three" style="width: 100px;">
+                <div class="ui-filter-text-month-three">
+                    <strong id="SelectedMonthStartTime">@(DateTime.Now.Month-3)</strong>月&nbsp;至&nbsp;<strong id="SelectedMonthEndTime">@DateTime.Now.Month</strong>月
+                </div>
+                <div class="ui-filter-list-month-three">
+                    <div class="ui-search-date-datepicker-content" style="display: block;">
+                        <div class="ui-search-date-datepicker-container first" id="ui_search_date_datepicker_datesearch_month1">
+                        </div>
+                        <div class="ui-search-date-datepicker-container" id="ui_search_date_datepicker_datesearch_month2">
+                        </div>
+                        <input id="hd_month1" type="hidden" value="" />
+                        <input id="hd_month2" type="hidden" value="" />
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

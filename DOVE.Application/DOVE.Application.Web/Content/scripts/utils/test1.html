@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        (function (a, b) {
+            a.lrdate = {
+                init: function (j) {
+                    var l = j[0]._lrdate.dfop;
+                    j.html("");
+                    j.addClass("lr-search-date");
+                    var k = a('<div class="lr-search-date-text" id="lr_search_date_' + l.id + '" ></div>');
+                    var d = a('<div class="lr-search-date-container" id="lr_search_date_container_' + l.id + '"><div class="lr-search-date-arrow"><div class="lr-search-date-inside"></div></div></div>');
+                    var c = a('<div class="lr-search-date-content-btns" id="lr_search_date_content_btns_' + l.id + '"></div>');
+                    var e = a('<div class="lr-search-date-btn-block"><a href="javascript:;" data-value="customDate">自定义</a></div>');
+                    c.append(e);
+                    d.append(c);
+                    var i = a('<div class="lr-search-date-datepicker-content"></div>');
+                    var f = a('<div class="lr-search-date-datepicker-container first" id="lr_search_date_datepicker1_' + l.id + '"  ></div>');
+                    var g = a('<div class="lr-search-date-datepicker-container" id="lr_search_date_datepicker2_' + l.id + '"  ></div>');
+                    var h = a('<div class="lr-search-date-datepicker-btn"><a class="btn btn-primary">确定</a></div>');
+                    i.append(f);
+                    i.append(g);
+                    i.append(h);
+                    d.append(i);
+                    j.append(k);
+                    j.append(d);
+                    WdatePicker({ eCont: "lr_search_date_datepicker1_" + l.id, onpicked: function (m) { l._begindate = m.cal.getDateStr() + " 00:00:00" } });
+                    WdatePicker({ eCont: "lr_search_date_datepicker2_" + l.id, onpicked: function (m) { l._enddate = m.cal.getDateStr() + " 23:59:59" } });
+                    k.on("click", function (q) {
+                        var o = a(this);
+                        var n = o.parents(".lr-search-date");
+                        var p = n[0]._lrdate.dfop;
+                        var m = n.find("#lr_search_date_container_" + p.id);
+                        if (m.is(":hidden")) { m.show() } else { m.hide() }
+                    });
+                    a(document).click(function (n) {
+                        var o = n.target || n.srcElement;
+                        var m = a(o);
+                        if (!m.hasClass("lr-search-date") && m.parents(".lr-search-date").length <= 0) { a(".lr-search-date-container").hide() }
+                    });
+                    e.find("a").on("click", function (p) {
+                        var n = a(this);
+                        var m = n.parents(".lr-search-date");
+                        var o = m[0]._lrdate.dfop;
+                        m.find(".lr-search-date-content-btns a.active").removeClass("active");
+                        a("#lr_search_date_container_" + o.id).addClass("width");
+                        n.addClass("active");
+                        m.find(".lr-search-date-datepicker-content").show()
+                    });
+                    h.find("a").on("click", function () {
+                        var n = a(this).parents(".lr-search-date");
+                        var p = n[0]._lrdate.dfop;
+                        var m = n.find("#lr_search_date_container_" + p.id);
+                        var o = n.find("#lr_search_date_" + p.id); m.hide();
+                        var q = b.formatDate(p._begindate, "yyyy-MM-dd") + "~" + b.formatDate(p._enddate, "yyyy-MM-dd");
+                        o.html(q);
+                        if (!!p.selectfn) { p.selectfn(p._begindate, p._enddate) }
+                    })
+                },
+                monthinit: function (e) {
+                    var f = e[0]._lrdate.dfop;
+                    var d = a("#lr_search_date_content_btns_" + f.id);
+                    var c = a('<div class="lr-search-date-btn-block"></div>');
+                    if (f.premShow) {
+                        c.append('<a href="javascript:;" class="datebtn" data-value="preM">上月</a>')
+                    }
+                    if (f.mShow) {
+                        c.append('<a href="javascript:;" class="datebtn" data-value="currentM">本月</a>')
+                    }
+                    d.prepend(c);
+                    f = null
+                },
+                jinit: function (e) {
+                    var f = e[0]._lrdate.dfop;
+                    var d = a("#lr_search_date_content_btns_" + f.id);
+                    var c = a('<div class="lr-search-date-btn-block"></div>');
+                    if (f.prejShow) { c.append('<a href="javascript:;" class="datebtn" data-value="preJ">上季度</a>') }
+                    if (f.jShow) { c.append('<a href="javascript:;" class="datebtn" data-value="currentJ">本季度</a>') }
+                    d.prepend(c);
+                    f = null
+                },
+                yinit: function (e) {
+                    var f = e[0]._lrdate.dfop;
+                    var d = a("#lr_search_date_content_btns_" + f.id);
+                    var c = a('<div class="lr-search-date-btn-block"></div>');
+                    if (f.ysShow) { c.append('<a href="javascript:;" class="datebtn" data-value="yS">上半年</a>') }
+                    if (f.yxShow) { c.append('<a href="javascript:;" class="datebtn" data-value="yX">下半年</a>') }
+                    if (f.preyShow) { c.append('<a href="javascript:;" class="datebtn" data-value="preY">去年</a>') }
+                    if (f.yShow) { c.append('<a href="javascript:;" class="datebtn" data-value="currentY">今年</a>') }
+                    d.prepend(c);
+                    f = null
+                },
+                custmerinit: function (e) {
+                    var f = e[0]._lrdate.dfop;
+                    var d = a("#lr_search_date_content_btns_" + f.id);
+                    var c = a('<div class="lr-search-date-btn-block"></div>');
+                    for (var g = 0, j = f.dfdata.length; g < j; g++) {
+                        var h = f.dfdata[g];
+                        c.append('<a href="javascript:;" class="datebtn" data-value="' + g + '">' + h.name + "</a>")
+                    }
+                    d.prepend(c);
+                    f = null
+                },
+                bindEvent: function (c) {
+                    c.find(".datebtn").on("click", function () {
+                        var e = a(this);
+                        var d = e.parents(".lr-search-date");
+                        var f = e.attr("data-value");
+                        a.lrdate.select(d, f)
+                    })
+                },
+                select: function (f, n) {
+                    var k = f[0]._lrdate.dfop;
+                    var e = f.find("#lr_search_date_container_" + k.id);
+                    var g = f.find("#lr_search_date_" + k.id);
+                    var c = a("#lr_search_date_content_btns_" + k.id);
+                    c.find(".active").removeClass("active");
+                    var h = c.find('.datebtn[data-value="' + n + '"]').addClass("active");
+                    switch (n) {
+                        case "preM":
+                            var i = b.getPreMonth(); k._begindate = i.begin; k._enddate = i.end;
+                            break;
+                        case "currentM":
+                            var i = b.getMonth(); k._begindate = i.begin; k._enddate = i.end;
+                            break;
+                        case "preJ":
+                            var i = b.getPreQuarter(); k._begindate = i.begin; k._enddate = i.end;
+                            break;
+                        case "currentJ":
+                            var i = b.getCurrentQuarter(); k._begindate = i.begin; k._enddate = i.end;
+                            break;
+                        case "yS":
+                            var i = b.getFirstHalfYear(); k._begindate = i.begin; k._enddate = i.end;
+                            break;
+                        case "yX":
+                            var i = b.getSecondHalfYear(); k._begindate = i.begin; k._enddate = i.end;
+                            break;
+                        case "preY":
+                            var i = b.getPreYear(); k._begindate = i.begin; k._enddate = i.end;
+                            break;
+                        case "currentY":
+                            var i = b.getYear(); k._begindate = i.begin; k._enddate = i.end;
+                            break;
+                        default:
+                            var m = parseInt(n); var j = k.dfdata[m]; k._begindate = j.begin(); k._enddate = j.end();
+                            break
+                    }
+                    e.hide();
+                    var l = b.formatDate(k._begindate, "yyyy-MM-dd") + "~" + b.formatDate(k._enddate, "yyyy-MM-dd");
+                    g.html(l); a("#lr_search_date_container_" + k.id).removeClass("width");
+                    f.find(".lr-search-date-datepicker-content").hide();
+                    if (!!k.selectfn) { k.selectfn(k._begindate, k._enddate) }
+                }
+            };
+            a.fn.lrdate = function (e) {
+                var d = { dfdata: [], mShow: true, premShow: true, jShow: true, prejShow: true, ysShow: true, yxShow: true, preyShow: true, yShow: true, dfvalue: false, selectfn: false };
+                a.extend(d, e || {});
+                var c = a(this);
+                d.id = c.attr("id");
+                if (!d.id) { return false } c[0]._lrdate = { dfop: d };
+                a.lrdate.init(c);
+                a.lrdate.yinit(c);
+                a.lrdate.jinit(c);
+                a.lrdate.monthinit(c);
+                a.lrdate.custmerinit(c);
+                a.lrdate.bindEvent(c);
+                if (d.dfvalue != false) { a.lrdate.select(c, d.dfvalue) } return c
+            }
+        })(jQuery, top.learun);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
