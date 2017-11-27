@@ -1,2 +1,3 @@
 # DoveFootbalClub
 鸽子队足球俱乐部
+该系统仅用于BraveZhang个人研究，不提供任何商业相关操作
