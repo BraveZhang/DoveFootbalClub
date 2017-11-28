@@ -241,9 +241,8 @@ namespace DOVE.Application.Web.Areas.BaseManage.Controllers
         {
             UserEntity userEntity = strUserEntity.ToObject<UserEntity>();
             ModuleFormInstanceEntity moduleFormInstanceEntity = strModuleFormInstanceEntity.ToObject<ModuleFormInstanceEntity>();
-                
 
-            string objectId =  userBLL.SaveForm(keyValue, userEntity);
+            string objectId = userBLL.SaveForm(keyValue, userEntity);
             moduleFormInstanceEntity.ObjectId = objectId;
             moduleFormInstanceBll.SaveEntity(FormInstanceId, moduleFormInstanceEntity);
             return Success("操作成功。");

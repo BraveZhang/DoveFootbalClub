@@ -157,6 +157,7 @@ namespace DOVE.Application.Entity.BaseManage
             this.CreateUserId = OperatorProvider.Provider.Current().UserId;
             this.CreateUserName = OperatorProvider.Provider.Current().UserName;
             this.DeleteMark = 0;
+            this.EnabledMark = 1;
         }
         /// <summary>
         /// 编辑调用

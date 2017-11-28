@@ -126,7 +126,8 @@
                     $("#RoleId").ComboBoxSetValue(data.RoleId)
                     $("#PostId").ComboBoxSetValue(data.PostId)
                     $("#ManagerId").ComboBoxSetValue(data.ManagerId);
-                    $("#Birthday").val(formatDate(data.Birthday, "yyyy-MM-dd"));
+                    //$("#Birthday").val(formatDate(data.Birthday, "yyyy-MM-dd"));
+                    //$("#JoinDate").val(formatDate(data.JoinDate, "yyyy-MM-dd"));
                     $("#Password").val("******").attr('disabled', 'disabled');
                 }
             });
@@ -185,6 +186,42 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="formTitle">姓名</td>
+                    <td class="formValue">
+                        <input id="RealName" type="text" class="form-control" />
+                    </td>
+                    <td class="formTitle">昵称</td>
+                    <td class="formValue">
+                        <input id="NickName" type="text" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">球衣号码</td>
+                    <td class="formValue">
+                        <input id="ClothesNumber" type="text" class="form-control" />
+                    </td>
+                    <td class="formTitle">球衣尺寸</td>
+                    <td class="formValue">
+                        <input id="ClothesSize" type="text" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">性别</td>
+                    <td class="formValue">
+                        <div id="Gender" type="select" class="ui-select">
+                            <ul>
+                                <li data-value="1">男</li>
+                                <li data-value="0">女</li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="formTitle">入队日期</td>
+                    <td class="formValue">
+                        <input id="JoinDate" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                    </td>
+                </tr>
+
+                <tr>
                     <td class="formTitle">岗位</td>
                     <td class="formValue">
                         <div id="DutyId" type="select" class="ui-select"></div>
@@ -205,56 +242,28 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="formTitle">工号</td>
-                    <td class="formValue">
-                        <input id="EnCode" type="text" class="form-control" /></td>
-                    <td class="formTitle">姓名</td>
-                    <td class="formValue">
-                        <input id="RealName" type="text" class="form-control" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="formTitle">性别</td>
-                    <td class="formValue">
-                        <div id="Gender" type="select" class="ui-select">
-                            <ul>
-                                <li data-value="1">男</li>
-                                <li data-value="0">女</li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td class="formTitle">生日</td>
-                    <td class="formValue">
-                        <input id="Birthday" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
-                    </td>
-                </tr>
-                <tr>
                     <td class="formTitle">手机</td>
                     <td class="formValue">
-                        <input id="Mobile" type="text" class="form-control" /></td>
+                        <input id="Mobile" type="text" class="form-control" />
+                    </td>
                     <td class="formTitle">电话</td>
                     <td class="formValue">
-                        <input id="Telephone" type="text" class="form-control" /></td>
-                </tr>
-                <tr>
-                    <td class="formTitle">邮箱</td>
-                    <td class="formValue">
-                        <input id="Email" type="text" class="form-control" /></td>
-
-                    <td class="formTitle">微信</td>
-                    <td class="formValue">
-                        <input id="WeChat" type="text" class="form-control" /></td>
+                        <input id="Telephone" type="text" class="form-control" />
+                    </td>
                 </tr>
                 <tr>
                     <td class="formTitle">QQ</td>
                     <td class="formValue">
-                        <input id="OICQ" type="text" class="form-control" /></td>
-                    <td class="formTitle">MSN</td>
+                        <input id="OICQ" type="text" class="form-control" />
+                    </td>
+                    <td class="formTitle">微信</td>
                     <td class="formValue">
-                        <input id="" type="text" class="form-control" /></td>
+                        <input id="WeChat" type="text" class="form-control" />
+                    </td>
                 </tr>
                 <tr>
-                    <th class="formTitle" valign="top" style="padding-top: 4px;">备注
+                    <th class="formTitle" valign="top" style="padding-top: 4px;">
+                        备注
                     </th>
                     <td class="formValue" colspan="3">
                         <textarea id="Description" class="form-control" style="height: 50px;"></textarea>

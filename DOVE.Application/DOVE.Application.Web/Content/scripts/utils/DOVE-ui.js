@@ -13,7 +13,7 @@
             $(this).removeClass("active")
         }
     });
-    
+
     $(".profile-nav li").click(function () {
         $(".profile-nav li").removeClass("active");
         $(".profile-nav li").removeClass("hover");
@@ -374,6 +374,10 @@ $.fn.GetWebControls = function (keyValue) {
     $(this).find('input,select,textarea,.ui-select').each(function (r) {
         var id = $(this).attr('id');
         var type = $(this).attr('type');
+        // add by zy
+        if ($(this).hasClass("input-wdatepicker")) {
+            type = "datepicker";
+        }
         switch (type) {
             case "checkbox":
                 if ($("#" + id).is(":checked")) {
@@ -393,6 +397,13 @@ $.fn.GetWebControls = function (keyValue) {
                 var value = $("#" + id).attr('data-value');
                 if (value == "") {
                     value = "&nbsp;";
+                }
+                reVal += '"' + id + '"' + ':' + '"' + $.trim(value) + '",'
+                break;
+            case "datepicker":// add by zy 20171128
+                var value = $("#" + id).val();
+                if (value == "") {
+                    value = "9999-12-31 23:59:59";
                 }
                 reVal += '"' + id + '"' + ':' + '"' + $.trim(value) + '",'
                 break;
@@ -424,7 +435,7 @@ $.fn.SetWebControls = function (data) {
         var id = $id.find('#' + key);
         if (id.attr('id')) {
             var type = id.attr('type');
-            if (id.hasClass("input-datepicker")) {
+            if (id.hasClass("input-wdatepicker")) {
                 type = "datepicker";
             }
             var value = $.trim(data[key]).replace(/&nbsp;/g, '');
@@ -443,7 +454,10 @@ $.fn.SetWebControls = function (data) {
                     id.ComboBoxTreeSetValue(value);
                     break;
                 case "datepicker":
-                    id.val(formatDate(value, 'yyyy-MM-dd'));
+                    //if (value == "9999-12-31 23:59:59")
+                    //    id.val("");
+                    //else
+                        id.val(formatDate(value, 'yyyy-MM-dd'));
                     break;
                 default:
                     id.val(value);

@@ -254,8 +254,10 @@ namespace DOVE.Application.Service.BaseManage
                     keyValue = userEntity.UserId;
                     userEntity.Secretkey = Md5Helper.MD5(CommonHelper.CreateNo(), 16).ToLower();
                     userEntity.Password = Md5Helper.MD5(DESEncrypt.Encrypt(Md5Helper.MD5(userEntity.Password, 32).ToLower(), userEntity.Secretkey).ToLower(), 32).ToLower();
+                    if (userEntity.JoinDate.ToDateString() == "9999-12-31")// add by zy 20171128
+                        userEntity.JoinDate = null;
                     db.Insert(userEntity);
-                    
+
                 }
                 #endregion
 

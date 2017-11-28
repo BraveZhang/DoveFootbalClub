@@ -70,6 +70,9 @@ namespace DOVE.Application.Oracle.Mapping.BaseManage
             this.Property(x => x.ModifyDate).HasColumnName("MODIFYDATE");
             this.Property(x => x.ModifyUserId).HasColumnName("MODIFYUSERID");
             this.Property(x => x.ModifyUserName).HasColumnName("MODIFYUSERNAME");
+            this.Property(x => x.ClothesNumber).HasColumnName("CLOTHESNUMBER");
+            this.Property(x => x.ClothesSize).HasColumnName("CLOTHESSIZE");
+            this.Property(x => x.JoinDate).HasColumnName("JOINDATE");
             //主键
             this.HasKey(t => t.UserId);
             #endregion

@@ -221,6 +221,18 @@ namespace DOVE.Application.Entity.BaseManage
         /// 修改用户
         /// </summary>		
         public string ModifyUserName { get; set; }
+        /// <summary>
+        /// 球衣号码
+        /// </summary>		
+        public string ClothesNumber { get; set; }
+        /// <summary>
+        /// 球衣尺寸
+        /// </summary>		
+        public string ClothesSize { get; set; }
+        /// <summary>
+        /// 入队时间
+        /// </summary>		
+        public DateTime? JoinDate { get; set; }
         #endregion
 
         #region 扩展操作

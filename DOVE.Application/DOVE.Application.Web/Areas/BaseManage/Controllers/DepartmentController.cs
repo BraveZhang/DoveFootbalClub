@@ -97,7 +97,7 @@ namespace DOVE.Application.Web.Areas.BaseManage.Controllers
                     hasChildren = departmentdata.Count(t => t.OrganizeId == item.OrganizeId) == 0 ? false : true;
                     if (hasChildren == false)
                     {
-                        continue;
+                        //continue;
                     }
                 }
                 tree.id = item.OrganizeId;

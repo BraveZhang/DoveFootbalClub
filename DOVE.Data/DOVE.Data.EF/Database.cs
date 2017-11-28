@@ -268,6 +268,8 @@ namespace DOVE.Data.EF
                 {
                     if (value.ToString() == "&nbsp;")
                         dbcontext.Entry(entity).Property(item).CurrentValue = null;
+                    if (value.ToString() == "9999-12-31 23:59:59")
+                        dbcontext.Entry(entity).Property(item).CurrentValue = null;
                     dbcontext.Entry(entity).Property(item).IsModified = true;
                 }
             }
