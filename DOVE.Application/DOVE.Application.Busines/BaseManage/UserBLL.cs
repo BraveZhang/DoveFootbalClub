@@ -250,7 +250,7 @@ namespace DOVE.Application.Busines.BaseManage
             DataTable exportTable = service.GetExportList();
             //设置导出格式
             ExcelConfig excelconfig = new ExcelConfig();
-            excelconfig.Title = "测试用户导出";
+            excelconfig.Title = "鸽子队用户导出";
             excelconfig.TitleFont = "微软雅黑";
             excelconfig.TitlePoint = 25;
             excelconfig.FileName = "用户导出.xls";
@@ -261,20 +261,19 @@ namespace DOVE.Application.Busines.BaseManage
             ColumnEntity columnentity = new ColumnEntity();
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "account", ExcelColumn = "账户" });
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "realname", ExcelColumn = "姓名" });
+            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "nickname", ExcelColumn = "昵称" });
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "gender", ExcelColumn = "性别" });
-            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "birthday", ExcelColumn = "生日" });
-            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "mobile", ExcelColumn = "手机", Background = Color.Red });
-            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "telephone", ExcelColumn = "电话", Background = Color.Red });
+            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "mobile", ExcelColumn = "手机" });
+            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "joindate", ExcelColumn = "入队日期" });
+            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "clothesnumber", ExcelColumn = "球衣号码" });
+            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "clothessize", ExcelColumn = "球衣尺寸" });
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "wechat", ExcelColumn = "微信" });
-            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "manager", ExcelColumn = "主管" });
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "organize", ExcelColumn = "公司" });
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "department", ExcelColumn = "部门" });
             excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "description", ExcelColumn = "说明" });
-            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "createdate", ExcelColumn = "创建日期" });
-            excelconfig.ColumnEntity.Add(new ColumnEntity() { Column = "createusername", ExcelColumn = "创建人" });
             //调用导出方法
             ExcelHelper.ExcelDownload(exportTable, excelconfig);
-            //从泛型Lis导出
+            //从泛型List导出
             //TExcelHelper<DepartmentEntity>.ExcelDownload(department.GetList().ToList(), excelconfig);
         }
         #endregion

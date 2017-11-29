@@ -31,6 +31,7 @@
                 { label: '主键', name: 'UserId', hidden: true },
                 { label: '账户', name: 'Account', index: 'Account', width: 100, align: 'left' },
                 { label: '姓名', name: 'RealName', index: 'RealName', width: 100, align: 'left' },
+                { label: '昵称', name: 'NickName', index: 'NickName', width: 100, align: 'left' },
                 {
                     label: '性别', name: 'Gender', index: 'Gender', width: 45, align: 'center',
                     formatter: function (cellvalue, options, rowObject) {
@@ -40,6 +41,14 @@
                     }
                 },
                 { label: '手机', name: 'Mobile', index: 'Mobile', width: 100, align: 'center' },
+                { label: '球衣号码', name: 'ClothesNumber', index: 'ClothesNumber', width: 100, align: 'center' },
+                { label: '球衣尺寸', name: 'ClothesSize', index: 'ClothesSize', width: 100, align: 'center' },
+                {
+                    label: '入队日期', name: 'JoinDate', index: 'JoinDate', width: 100, align: 'center',
+                    formatter: function (cellvalue, options, rowObject) {
+                        return formatDate(cellvalue, 'yyyy-MM-dd');
+                    }
+                },
                 {
                     label: '公司', name: 'OrganizeId', index: 'OrganizeId', width: 200, align: 'left',
                     formatter: function (cellvalue, options, rowObject) {
@@ -52,15 +61,15 @@
                         return top.clientdepartmentData[cellvalue] == null ? "" : top.clientdepartmentData[cellvalue].FullName;
                     }
                 },
-                { label: '岗位', name: 'DutyName', index: 'DutyName', width: 100, align: 'left' },
-                { label: '职位', name: 'PostName', index: 'PostName', width: 100, align: 'left' },
+                //{ label: '岗位', name: 'DutyName', index: 'DutyName', width: 100, align: 'left' },
+                //{ label: '职位', name: 'PostName', index: 'PostName', width: 100, align: 'left' },
                 {
                     label: '角色', name: 'RoleId', index: 'RoleId', width: 100, align: 'left',
                     formatter: function (cellvalue, options, rowObject) {
                         return top.clientroleData[cellvalue] == null ? "" : top.clientroleData[cellvalue].FullName;
                     }
                 },
-                { label: '主管', name: 'Manager', index: 'Manager', width: 100, align: 'left' },
+                //{ label: '主管', name: 'Manager', index: 'Manager', width: 100, align: 'left' },
                 {
                     label: "状态", name: "EnabledMark", index: "EnabledMark", width: 50, align: "center",
                     formatter: function (cellvalue, options, rowObject) {
@@ -74,8 +83,8 @@
                 { label: "备注", name: "Description", index: "Description", width: 200, align: "left" }
             ],
             viewrecords: true,
-            rowNum: 30,
-            rowList: [30, 50, 100],
+            rowNum: 60,
+            rowList: [60, 100, 200],
             pager: "#gridPager",
             sortname: 'Account asc',
             rownumbers: true,
@@ -178,6 +187,7 @@
     function btn_export() {
         location.href = "../../BaseManage/User/ExportUserList";
     }
+
     //禁用
     function btn_disabled(keyValue) {
         if (keyValue == undefined) {

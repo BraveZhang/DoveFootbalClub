@@ -160,9 +160,13 @@ namespace DOVE.Application.Service.BaseManage
             #endregion
             strSql.Append(@"SELECT Account
                                   ,RealName
+                                  ,NickName
                                   ,CASE WHEN Gender=1 THEN '男' ELSE '女' END AS Gender
-                                  ,Birthday
                                   ,Mobile
+                                  ,ClothesNumber
+                                  ,ClothesSize
+                                  ,Birthday
+                                  ,JoinDate
                                   ,Telephone
                                   ,u.Email
                                   ,WeChat
@@ -175,7 +179,8 @@ namespace DOVE.Application.Service.BaseManage
                                   ,u.CreateUserName
                               FROM Base_User u
                               INNER JOIN Base_Department d ON u.DepartmentId=d.DepartmentId
-                              INNER JOIN Base_Organize o ON u.OrganizeId=o.OrganizeId");
+                              INNER JOIN Base_Organize o ON u.OrganizeId=o.OrganizeId
+                              order by Account asc ");
             return this.BaseRepository().FindTable(strSql.ToString());
         }
         /// <summary>
