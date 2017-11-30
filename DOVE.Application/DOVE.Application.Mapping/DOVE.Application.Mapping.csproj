@@ -56,6 +56,8 @@
     <Compile Include="AccountMap.cs" />
     <Compile Include="AuthorizeManage\ModuleFormInstanceMap.cs" />
     <Compile Include="AuthorizeManage\ModuleFormMap.cs" />
+    <Compile Include="DoveManage\T_ActivityMap.cs" />
+    <Compile Include="DoveManage\T_Activity_DetailMap.cs" />
     <Compile Include="PublicInfoManage\ScheduleMap.cs" />
     <Compile Include="ReportManage\RptTempMap.cs" />
     <Compile Include="SystemManage\CodeRuleMap.cs" />

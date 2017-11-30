@@ -47,6 +47,8 @@
     <Compile Include="AuthorizeManage\AuthorizeBLL.cs" />
     <Compile Include="AuthorizeManage\ModuleFormBLL.cs" />
     <Compile Include="AuthorizeManage\ModuleFormInstanceBLL.cs" />
+    <Compile Include="DoveManage\T_ActivityBLL.cs" />
+    <Compile Include="DoveManage\T_Activity_DetailBLL.cs" />
     <Compile Include="PublicInfoManage\ScheduleBLL.cs" />
     <Compile Include="ReportManage\RptTempBLL.cs" />
     <Compile Include="SystemManage\LogBLL.cs" />

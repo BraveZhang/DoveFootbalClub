@@ -61,6 +61,8 @@
     <Compile Include="BaseManage\RoleMap.cs" />
     <Compile Include="BaseManage\UserMap.cs" />
     <Compile Include="BaseManage\UserRelationMap.cs" />
+    <Compile Include="DoveManage\T_ActivityMap.cs" />
+    <Compile Include="DoveManage\T_Activity_DetailMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicInfoManage\EmailAddresseeMap.cs" />
     <Compile Include="PublicInfoManage\EmailCategoryMap.cs" />

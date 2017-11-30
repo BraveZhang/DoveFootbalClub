@@ -59,6 +59,8 @@
     <Compile Include="AuthorizeManage\AuthorizeService.cs" />
     <Compile Include="AuthorizeManage\ModuleFormInstanceService.cs" />
     <Compile Include="AuthorizeManage\ModuleFormService.cs" />
+    <Compile Include="DoveManage\T_ActivityService.cs" />
+    <Compile Include="DoveManage\T_Activity_DetailService.cs" />
     <Compile Include="PublicInfoManage\ScheduleService.cs" />
     <Compile Include="ReportManage\RptTempService.cs" />
     <Compile Include="SystemManage\LogService.cs" />

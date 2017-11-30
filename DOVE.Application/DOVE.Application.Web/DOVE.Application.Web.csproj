@@ -176,6 +176,9 @@
     <Compile Include="Areas\BaseManage\Controllers\UserController.cs" />
     <Compile Include="Areas\BaseManage\Controllers\PostController.cs" />
     <Compile Include="Areas\BaseManage\Controllers\UserGroupController.cs" />
+    <Compile Include="Areas\DoveManage\Controllers\T_Activity_DetailController.cs" />
+    <Compile Include="Areas\DoveManage\DoveManageAreaRegistration.cs" />
+    <Compile Include="Areas\DoveManage\Controllers\T_ActivityController.cs" />
     <Compile Include="Areas\GeneratorManage\Controllers\MultiTableController.cs" />
     <Compile Include="Areas\GeneratorManage\Controllers\SingleTableController.cs" />
     <Compile Include="Areas\GeneratorManage\Controllers\TemplateController.cs" />
@@ -637,6 +640,13 @@
     <Content Include="Views\Shared\_UserControlTime.cshtml" />
     <Content Include="Views\Shared\_UserControlTimeTwo.cshtml" />
     <Content Include="Views\Shared\_UserControlTimeThree.cshtml" />
+    <Content Include="Areas\DoveManage\Views\T_Activity\T_ActivityForm.cshtml" />
+    <Content Include="Areas\DoveManage\Views\T_Activity\T_ActivityIndex.cshtml" />
+    <Content Include="Areas\DoveManage\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\DoveManage\Views\T_Activity_Detail\T_Activity_DetailForm.cshtml" />
+    <Content Include="Areas\DoveManage\Views\T_Activity_Detail\T_Activity_DetailIndex.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

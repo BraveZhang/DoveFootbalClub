@@ -57,6 +57,8 @@
     <Compile Include="BaseManage\IPostService.cs" />
     <Compile Include="BaseManage\IJobService.cs" />
     <Compile Include="BaseManage\IUserGroupService.cs" />
+    <Compile Include="DoveManage\T_ActivityIService.cs" />
+    <Compile Include="DoveManage\T_Activity_DetailIService.cs" />
     <Compile Include="IAccountService.cs" />
     <Compile Include="PublicInfoManage\IScheduleService.cs" />
     <Compile Include="ReportManage\IRptTempService.cs" />

@@ -50,6 +50,8 @@
     <Compile Include="AuthorizeManage\ViewModel\AuthorizeUrlModel.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="BaseManage\UserEntity.cs" />
+    <Compile Include="DoveManage\T_ActivityEntity.cs" />
+    <Compile Include="DoveManage\T_Activity_DetailEntity.cs" />
     <Compile Include="PublicInfoManage\ScheduleEntity.cs" />
     <Compile Include="ReportManage\RptTempEntity.cs" />
     <Compile Include="SystemManage\CodeRuleEntity.cs" />
