@@ -317,6 +317,8 @@
     <Content Include="Content\scripts\plugins\fullcalendar\img\twitter.png" />
     <Content Include="Content\scripts\plugins\fullcalendar\js\fullcalendar.min.js" />
     <Content Include="Content\scripts\plugins\fullcalendar\js\jquery-1.7.2.min.js" />
+    <Content Include="Content\scripts\plugins\plupload\Moxie.swf" />
+    <Content Include="Content\scripts\plugins\plupload\plupload.full.min.js" />
     <Content Include="Content\scripts\plugins\printTable\jquery.jqprint-0.3.js" />
     <Content Include="Content\scripts\plugins\printTable\jquery.printTable.js" />
     <Content Include="Content\scripts\plugins\signet\jquery.zsign.css" />
@@ -471,8 +473,6 @@
     <Content Include="Content\scripts\plugins\pagination\jquery.pagination-1.2.7.js" />
     <Content Include="Content\scripts\plugins\pagination\jquery.pagination-1.2.7.min.js" />
     <Content Include="Content\scripts\plugins\pagination\jquery.pagination.css" />
-    <Content Include="Content\scripts\plugins\signalr\jquery.signalR-2.2.0.js" />
-    <Content Include="Content\scripts\plugins\signalr\jquery.signalR-2.2.0.min.js" />
     <Content Include="Content\scripts\plugins\simditor\js\hotkeys.js" />
     <Content Include="Content\scripts\plugins\simditor\js\hotkeys.min.js" />
     <Content Include="Content\scripts\plugins\simditor\js\module.js" />
@@ -647,6 +647,12 @@
     </Content>
     <Content Include="Areas\DoveManage\Views\T_Activity_Detail\T_Activity_DetailForm.cshtml" />
     <Content Include="Areas\DoveManage\Views\T_Activity_Detail\T_Activity_DetailIndex.cshtml" />
+    <Content Include="Areas\DoveManage\Views\ExcelImport\Index.cshtml" />
+    <Content Include="Areas\DoveManage\Views\ExcelImport\Form.cshtml" />
+    <Content Include="Areas\DoveManage\Views\ExcelImport\SetFieldForm.cshtml" />
+    <Content Include="Areas\DoveManage\Views\ExcelImport\ImportForm.cshtml" />
+    <Content Include="Content\scripts\plugins\plupload\Moxie.xap" />
+    <Content Include="Areas\PublicInfoManage\Views\ResourceFile\UploadifyNewForm.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

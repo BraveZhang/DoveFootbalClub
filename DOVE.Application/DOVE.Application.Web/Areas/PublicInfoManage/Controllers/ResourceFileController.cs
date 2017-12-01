@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
@@ -43,6 +44,16 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
         [HttpGet]
         [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult UploadifyForm()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 上传文件(Plupload)
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult UploadifyNewForm()
         {
             return View();
         }
@@ -421,6 +432,68 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
             if (FileDownHelper.FileExists(filepath))
             {
                 FileDownHelper.DownLoadold(filepath, filename);
+            }
+        }
+
+        /// <summary>
+        /// Plupload测试文件上传
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Upload(string folderId)
+        {
+            try
+            {
+                Thread.Sleep(500);//延迟500毫秒
+                //没有文件上传，直接返回
+                if (Request.Files.Count == 0)
+                {
+                    return HttpNotFound();
+                }
+                //获取文件完整文件名(包含绝对路径)
+                //文件存放路径格式：/Resource/ResourceFile/{userId}{data}/{guid}.{后缀名}
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+                    //file.SaveAs(AppDomain.CurrentDomain.BaseDirectory + "Uploads/" + file.FileName);
+                    string userId = OperatorProvider.Provider.Current().UserId;
+                    string fileGuid = Guid.NewGuid().ToString();
+                    long filesize = file.ContentLength;
+                    string FileEextension = Path.GetExtension(file.FileName);
+                    string uploadDate = DateTime.Now.ToString("yyyyMMdd");
+                    string virtualPath = string.Format("~/Resource/DocumentFile/{0}/{1}/{2}{3}", userId, uploadDate, fileGuid, FileEextension);
+                    string fullFileName = this.Server.MapPath(virtualPath);
+                    //创建文件夹
+                    string path = Path.GetDirectoryName(fullFileName);
+                    Directory.CreateDirectory(path);
+                    if (!System.IO.File.Exists(fullFileName))
+                    {
+                        //保存文件
+                        file.SaveAs(fullFileName);
+                        //文件信息写入数据库
+                        FileInfoEntity fileInfoEntity = new FileInfoEntity();
+                        fileInfoEntity.Create();
+                        fileInfoEntity.FileId = fileGuid;
+                        if (!string.IsNullOrEmpty(folderId))
+                        {
+                            fileInfoEntity.FolderId = folderId;
+                        }
+                        else
+                        {
+                            fileInfoEntity.FolderId = "0";
+                        }
+                        fileInfoEntity.FileName = file.FileName;
+                        fileInfoEntity.FilePath = virtualPath;
+                        fileInfoEntity.FileSize = filesize.ToString();
+                        fileInfoEntity.FileExtensions = FileEextension;
+                        fileInfoEntity.FileType = FileEextension.Replace(".", "");
+                        fileInfoBLL.SaveForm("", fileInfoEntity);
+                    }
+                }
+                return Success("上传成功。");
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
             }
         }
         #endregion

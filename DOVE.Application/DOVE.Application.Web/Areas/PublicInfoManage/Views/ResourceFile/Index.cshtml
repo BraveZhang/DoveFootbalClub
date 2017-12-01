@@ -207,9 +207,10 @@
     //上传文件
     function btn_uploadify() {
         dialogOpen({
-            id: "UploadifyForm",
+            id: "UploadifyNewForm",
             title: '上传文件',
-            url: '/PublicInfoManage/ResourceFile/UploadifyForm?folderId=' + fileId,
+            //url: '/PublicInfoManage/ResourceFile/UploadifyForm?folderId=' + fileId,
+            url: '/PublicInfoManage/ResourceFile/UploadifyNewForm?folderId=' + fileId,
             width: "600px",
             height: "400px",
             btn: null
@@ -358,7 +359,7 @@
                     <li id="allDocument"><i class="fa fa-newspaper-o" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; margin-top: -2px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i>文档</li>
                     <li id="allImage"><i class="fa fa-picture-o" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i>图片</li>
                     <li id="recycledFile"><i class="fa fa-trash-o" style="vertical-align: middle; margin-top: -3px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i>回收站</li>
-                    <div class="divide"></div>
+                    @*<div class="divide"></div>*@
                     <li id="myShare"><i class="fa fa-thumbs-up" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i>我的共享</li>
                     <li id="othersShare"><i class="fa fa-share-alt" style="vertical-align: middle; margin-top: -2px; margin-right: 8px; font-size: 14px; color: #666666; opacity: 0.9; width: 16px;"></i>他人共享</li>
                 </ul>

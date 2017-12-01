@@ -36,6 +36,15 @@ namespace DOVE.Application.Web.Areas.DoveManage.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// 表单页面
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult TestFile()
+        {
+            return View();
+        }
         #endregion
 
         #region 获取数据

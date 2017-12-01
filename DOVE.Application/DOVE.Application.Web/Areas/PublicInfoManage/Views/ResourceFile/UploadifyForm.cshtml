@@ -25,6 +25,9 @@
                 $("#" + file.id).prepend('<div style="float:left;width:50px;margin-right:2px;"><img src="/Content/images/filetype/' + file.type.replace('.', '') + '.png" style="width:40px;height:40px;" /></div>');
                 $('.border').hide();
             },
+            onFallback: function () {
+                alert("您未安装FLASH控件，无法上传！请安装FLASH控件后再试。");
+            },
             onUploadSuccess: function (file) {
                 $("#" + file.id).find('.uploadify-progress').remove();
                 $("#" + file.id).find('.data').html(' 恭喜您，上传成功！');

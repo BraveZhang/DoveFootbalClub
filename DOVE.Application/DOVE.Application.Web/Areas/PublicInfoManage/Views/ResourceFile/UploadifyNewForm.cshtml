@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Plupload上传插件";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<link href="~/Content/scripts/plugins/uploadify/uploadify.css" rel="stylesheet" />
+<link href="~/Content/scripts/plugins/uploadify/uploadify.extension.css" rel="stylesheet" />
+<script src="~/Content/scripts/plugins/plupload/plupload.full.min.js"></script>
+<script>
+    var folderId = request('folderId');
+    $(function () {
+        uploadify();
+    })
+    //上传文件
+    function uploadify() {
+        var uploader = new plupload.Uploader({ //实例化一个plupload上传对象
+            browse_button: 'uploadify',
+            url: '/PublicInfoManage/ResourceFile/Upload?folderId=' + folderId,
+            flash_swf_url: '~/Content/scripts/plugins/plupload/Moxie.swf',
+            silverlight_xap_url: '~/Content/scripts/plugins/plupload/Moxie.xap',
+            filters: {
+                //max_file_size: '614400kb' //最大只能上传600mb的文件
+            }
+        });
+        uploader.init(); //初始化
+
+        //绑定文件添加进队列事件
+        uploader.bind('FilesAdded', function (uploader, files) {
+            $('.border').hide();
+            $('.uploadify-queue').show();
+            for (var i = 0, len = files.length; i < len; i++) {
+                var file_name = files[i].name; //文件名
+                //构造html来更新UI
+                //var html = '<li id="file-' + files[i].id + '"><p class="file-name">' + file_name + '</p><p class="progress"></p></li>';
+                var html = '<div id="' + files[i].id + '" class="uploadify-queue-item"><p class="uploadify-progress"></p><div style="float:left;width:50px;margin-right:2px;"><img src="/Content/images/filetype/' + files[i].type.split('/')[1] + '.png" style="width:40px;height:40px;" /></div><span class="fileName">' + file_name + '</span><span class="data"></span><div class="uploadify-progress"><div class="uploadify-progress-bar"></div></div></div>';
+                $(html).appendTo('.uploadify-queue');
+                uploader.start(); //开始上传
+            }
+        });
+
+        //绑定文件上传进度事件
+        uploader.bind('UploadProgress', function (uploader, file) {
+            $("#" + file.id).find('.uploadify-progress-bar').css('width', file.percent + '%');//控制进度条
+        });
+
+        //绑定队列中的某一个文件上传完成后触发
+        uploader.bind('FileUploaded', function (uploader, file, responseObject) {
+            $("#" + file.id).find('.uploadify-progress').remove();
+            $("#" + file.id).find('.data').html(' 恭喜您，上传成功！');
+            $("#" + file.id).prepend('<a class="succeed" title="成功"><i class="fa fa-check-circle"></i></a>');
+            Loading(false);
+            $.currentIframe().$("#gridTable").trigger("reloadGrid");
+            Loading(false);
+        });
+
+        //绑定队列中的所有文件上传完成后触发
+        uploader.bind('UploadComplete', function (uploader, files) {
+            console.log("UploadComplete");
+        });
+
+        //绑定发生错误后触发
+        uploader.bind('Error', function (uploader, errObject) {
+            $("#" + errObject.file.id).removeClass('uploadify-error');
+            $("#" + errObject.file.id).find('.uploadify-progress').remove();
+            $("#" + errObject.file.id).find('.data').html(' 上传失败！');
+            $("#" + errObject.file.id).prepend('<span class="error" title="失败"><i class="fa fa-exclamation-circle"></i></span>');
+        });
+        ////上传按钮
+        //$('#upload-btn').click(function () {
+        //    uploader.start(); //开始上传
+        //});
+    }
+</script>
+<div style="margin: 10px">
+    <div style="height: 38px;">
+        <div style="float: right; line-height: 26px; color: #337ab7; cursor: pointer; position: relative;">
+            上传必知
+        </div>
+        <input id="uploadify" name="uploadify" type="file" />
+    </div>
+    <div class="border" style="height: 295px; border-radius: 5px;">
+        <div class="drag-tip" style="text-align: center;text-align: center; padding-top: 100px;">
+            <h1 style="color: #666; font-size: 20px; font-family: Microsoft Yahei; padding-bottom: 2px;">试试将电脑里的文件拖拽到此上传</h1>
+            <p style="color: #666; font-size: 12px;">
+                （您的浏览器不支持此拖拽功能）
+            </p>
+        </div>
+    </div>
+    <div id="uploadify-queue" class="uploadify-queue" style="display:none">
+
+    </div>
+</div>

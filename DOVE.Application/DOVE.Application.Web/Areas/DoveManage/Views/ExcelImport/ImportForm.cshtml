@@ -1,0 +1,4227 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name=”renderer” content=”webkit|ie-comp|ie-stand” />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>Form|力软信息|快速开发平台|Learun敏捷开发框架</title>
+    <link href="/Content/font/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/Content/bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="/Content/jquery/plugin/scrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link href="/Content/jquery/plugin/jfGrid/jfgrid.css" rel="stylesheet" />
+
+    <style>
+        html {
+            width: 100%;
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+            color: #000;
+            font-size: 12px;
+            background-color: initial;
+            overflow: hidden
+        }
+
+        ul, li {
+            list-style: none;
+            margin: 0;
+            padding: 0
+        }
+
+        a {
+            color: #000;
+            text-decoration: none
+        }
+
+            a:hover {
+                color: #000;
+                text-decoration: none
+            }
+
+            a:focus {
+                outline: 0;
+                -moz-outline: 0;
+                color: #000;
+                text-decoration: none
+            }
+
+        .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+            background-color: #fff;
+            opacity: 1
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #039cfd;
+            border-color: #039cfd
+        }
+
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #027dcb;
+                border-color: #0277c1
+            }
+
+            .btn-primary:focus, .btn-primary.focus {
+                color: #fff;
+                background-color: #027dcb;
+                border-color: #0277c1
+            }
+
+            .btn-primary:active, .btn-primary.active, .open > .btn-primary.dropdown-toggle {
+                color: #fff;
+                background-color: #027dcb;
+                border-color: #0277c1;
+                background-image: none
+            }
+
+                .btn-primary:active:hover, .btn-primary:active:focus, .btn-primary:active.focus, .btn-primary.active:hover, .btn-primary.active:focus, .btn-primary.active.focus, .open > .btn-primary.dropdown-toggle:hover, .open > .btn-primary.dropdown-toggle:focus, .open > .btn-primary.dropdown-toggle.focus {
+                    color: #fff;
+                    background-color: #0167a8;
+                    border-color: #014e7f
+                }
+
+            .btn-primary.disabled:focus, .btn-primary.disabled.focus, .btn-primary:disabled:focus, .btn-primary:disabled.focus {
+                background-color: #039cfd;
+                border-color: #039cfd
+            }
+
+            .btn-primary.disabled:hover, .btn-primary:disabled:hover {
+                background-color: #039cfd;
+                border-color: #039cfd
+            }
+
+        .btn-default {
+            color: #373a3c;
+            background-color: #fff;
+            border-color: #ccc
+        }
+
+            .btn-default:hover {
+                color: #373a3c;
+                background-color: #e6e6e6;
+                border-color: #adadad
+            }
+
+            .btn-default:focus, .btn-default.focus {
+                color: #373a3c;
+                background-color: #e6e6e6;
+                border-color: #adadad
+            }
+
+            .btn-default:active, .btn-default.active, .open > .btn-default.dropdown-toggle {
+                color: #373a3c;
+                background-color: #e6e6e6;
+                border-color: #adadad;
+                background-image: none
+            }
+
+                .btn-default:active:hover, .btn-default:active:focus, .btn-default:active.focus, .btn-default.active:hover, .btn-default.active:focus, .btn-default.active.focus, .open > .btn-default.dropdown-toggle:hover, .open > .btn-default.dropdown-toggle:focus, .open > .btn-default.dropdown-toggle.focus {
+                    color: #373a3c;
+                    background-color: #d4d4d4;
+                    border-color: #8c8c8c
+                }
+
+            .btn-default.disabled:focus, .btn-default.disabled.focus, .btn-default:disabled:focus, .btn-default:disabled.focus {
+                background-color: #fff;
+                border-color: #ccc
+            }
+
+            .btn-default.disabled:hover, .btn-default:disabled:hover {
+                background-color: #fff;
+                border-color: #ccc
+            }
+
+        .btn-success {
+            color: #fff;
+            background-color: #1bb99a;
+            border-color: #1bb99a
+        }
+
+            .btn-success:hover {
+                color: #fff;
+                background-color: #158c75;
+                border-color: #13846e
+            }
+
+            .btn-success:focus, .btn-success.focus {
+                color: #fff;
+                background-color: #158c75;
+                border-color: #13846e
+            }
+
+            .btn-success:active, .btn-success.active, .open > .btn-success.dropdown-toggle {
+                color: #fff;
+                background-color: #158c75;
+                border-color: #13846e;
+                background-image: none
+            }
+
+                .btn-success:active:hover, .btn-success:active:focus, .btn-success:active.focus, .btn-success.active:hover, .btn-success.active:focus, .btn-success.active.focus, .open > .btn-success.dropdown-toggle:hover, .open > .btn-success.dropdown-toggle:focus, .open > .btn-success.dropdown-toggle.focus {
+                    color: #fff;
+                    background-color: #106d5b;
+                    border-color: #0b4a3d
+                }
+
+            .btn-success.disabled:focus, .btn-success.disabled.focus, .btn-success:disabled:focus, .btn-success:disabled.focus {
+                background-color: #1bb99a;
+                border-color: #1bb99a
+            }
+
+            .btn-success.disabled:hover, .btn-success:disabled:hover {
+                background-color: #1bb99a;
+                border-color: #1bb99a
+            }
+
+        .btn-warning {
+            color: #fff;
+            background-color: #f1b53d;
+            border-color: #f1b53d
+        }
+
+            .btn-warning:hover {
+                color: #fff;
+                background-color: #eaa211;
+                border-color: #e19b10
+            }
+
+            .btn-warning:focus, .btn-warning.focus {
+                color: #fff;
+                background-color: #eaa211;
+                border-color: #e19b10
+            }
+
+            .btn-warning:active, .btn-warning.active, .open > .btn-warning.dropdown-toggle {
+                color: #fff;
+                background-color: #eaa211;
+                border-color: #e19b10;
+                background-image: none
+            }
+
+                .btn-warning:active:hover, .btn-warning:active:focus, .btn-warning:active.focus, .btn-warning.active:hover, .btn-warning.active:focus, .btn-warning.active.focus, .open > .btn-warning.dropdown-toggle:hover, .open > .btn-warning.dropdown-toggle:focus, .open > .btn-warning.dropdown-toggle.focus {
+                    color: #fff;
+                    background-color: #c98b0e;
+                    border-color: #a3700c
+                }
+
+            .btn-warning.disabled:focus, .btn-warning.disabled.focus, .btn-warning:disabled:focus, .btn-warning:disabled.focus {
+                background-color: #f1b53d;
+                border-color: #f1b53d
+            }
+
+            .btn-warning.disabled:hover, .btn-warning:disabled:hover {
+                background-color: #f1b53d;
+                border-color: #f1b53d
+            }
+
+        .btn-danger {
+            color: #fff;
+            background-color: #ff5d48;
+            border-color: #ff5d48
+        }
+
+            .btn-danger:hover {
+                color: #fff;
+                background-color: #ff3015;
+                border-color: #ff270b
+            }
+
+            .btn-danger:focus, .btn-danger.focus {
+                color: #fff;
+                background-color: #ff3015;
+                border-color: #ff270b
+            }
+
+            .btn-danger:active, .btn-danger.active, .open > .btn-danger.dropdown-toggle {
+                color: #fff;
+                background-color: #ff3015;
+                border-color: #ff270b;
+                background-image: none
+            }
+
+                .btn-danger:active:hover, .btn-danger:active:focus, .btn-danger:active.focus, .btn-danger.active:hover, .btn-danger.active:focus, .btn-danger.active.focus, .open > .btn-danger.dropdown-toggle:hover, .open > .btn-danger.dropdown-toggle:focus, .open > .btn-danger.dropdown-toggle.focus {
+                    color: #fff;
+                    background-color: #f01c00;
+                    border-color: #c81700
+                }
+
+            .btn-danger.disabled:focus, .btn-danger.disabled.focus, .btn-danger:disabled:focus, .btn-danger:disabled.focus {
+                background-color: #ff5d48;
+                border-color: #ff5d48
+            }
+
+            .btn-danger.disabled:hover, .btn-danger:disabled:hover {
+                background-color: #ff5d48;
+                border-color: #ff5d48
+            }
+
+        .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+            padding: 0
+        }
+
+        .form-control {
+            color: #000;
+            border-radius: 0;
+            box-shadow: none;
+            font-size: 9pt;
+            height: 28px;
+            padding-top: 0;
+            padding-bottom: 1px;
+            padding-right: 0;
+            padding-left: 5px;
+            resize: none
+        }
+
+            .form-control:focus {
+                border-color: #039cfd;
+                box-shadow: none
+            }
+
+        .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+            pointer-events: none;
+            cursor: not-allowed;
+            filter: alpha(opacity=65);
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            opacity: .65
+        }
+
+        .dropdown-menu a {
+            cursor: pointer
+        }
+
+        .mCSB_inside > .mCSB_container {
+            margin-right: 0
+        }
+
+        .mCSB_container {
+            min-height: 100%
+        }
+
+        .mCS-minimal-dark.mCSB_scrollTools_vertical {
+            width: 10px
+        }
+
+        .mCSB_container_wrapper > .mCSB_container {
+            padding-right: 0;
+            padding-bottom: 0
+        }
+
+        body {
+            background-color: initial
+        }
+
+        .lr-form-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #fff;
+            z-index: 100
+        }
+
+        .lr-form-wrap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding: 15px 30px 0 0
+        }
+
+        .lr-form-item {
+            position: relative;
+            min-height: 38px;
+            padding: 5px 0 5px 100px
+        }
+
+        .lr-form-item-title {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100%;
+            line-height: 38px;
+            text-align: right;
+            padding-right: 10px
+        }
+
+            .lr-form-item-title > font {
+                position: absolute;
+                top: 0;
+                right: 2px;
+                color: red
+            }
+
+        .lr-form-item .checkbox, .lr-form-item .radio {
+            moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+            margin-top: 6px;
+            margin-bottom: initial
+        }
+
+            .lr-form-item .checkbox input[type=checkbox], .lr-form-item .radio input[type=radio] {
+                margin-top: 3px;
+                margin-left: -15px
+            }
+
+        .lr-form-item-grid {
+            padding: 10px 0 10px 40px;
+            z-index: 0
+        }
+
+            .lr-form-item-grid .jfgrid-layout {
+                border: 1px solid #ddd
+            }
+
+        .lr-input-underline {
+            border: 0;
+            border-bottom: 1px solid #ccc
+        }
+
+        .lr-select-underline {
+            border-color: #fff !important;
+            border-bottom: 1px solid #ccc !important
+        }
+
+        .lr-input-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 16px;
+            height: 100%;
+            line-height: 28px;
+            cursor: pointer;
+            overflow: hidden;
+            z-index: 10
+        }
+
+        .lr-input-wdatepicker {
+            background: url(/Content/images/datepicker_icon.png) right 0 no-repeat #FFF
+        }
+
+            .lr-input-wdatepicker.lr-field-error {
+                background: 0
+            }
+
+        .lr-form-btnitem {
+            padding-right: 80px
+        }
+
+        .lr-form-item-btn {
+            position: absolute;
+            top: 4px;
+            right: 0;
+            padding: 4px 8px
+        }
+
+        .lr-form-layout {
+            position: relative;
+            width: 100%;
+            height: 100%
+        }
+
+        .lr-form-layout-top-bottom {
+            padding-top: 44px
+        }
+
+        .lr-form-layout-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 44px;
+            width: 100%;
+            padding: 5px
+        }
+
+        .lr-form-layout-body {
+            position: relative;
+            width: 100%;
+            height: 100%
+        }
+
+        .lr-form-layout-body-title {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            line-height: 29px;
+            background-color: #F5F5F5;
+            border-bottom: 1px solid #ccc;
+            text-align: right;
+            padding-right: 10px;
+            font-weight: bold;
+            color: #676a6c
+        }
+
+        .lr-form-jfgrid-btns {
+            position: absolute;
+            height: 100%;
+            line-height: 24px;
+            top: 0;
+            left: 0;
+            padding-left: 5px
+        }
+
+            .lr-form-jfgrid-btns .btn {
+                padding: 1px 4px
+            }
+
+        .lr-form-bottom-button {
+            moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+            position: absolute;
+            height: 39px;
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            text-align: right;
+            padding: 5px 5px 0 0;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 4px 4px;
+            background-color: #F8f8f8;
+            z-index: 3
+        }
+
+            .lr-form-bottom-button > .btn {
+                padding: 3px 10px
+            }
+
+        .lr-form-area > div {
+            padding-right: 2px
+        }
+
+        .lr-form-tab a {
+            moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+            cursor: pointer !important
+        }
+
+        .sys_spec_text {
+            padding-left: 15px;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            user-select: none
+        }
+
+            .sys_spec_text li {
+                position: relative;
+                outline: 0;
+                display: inline;
+                float: left;
+                height: 46px;
+                position: relative;
+                margin: 10px 10px 0 0;
+                outline: 0
+            }
+
+                .sys_spec_text li a {
+                    cursor: pointer;
+                    vertical-align: middle;
+                    text-align: center;
+                    word-break: keep-all;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    height: 39px;
+                    line-height: 38px;
+                    width: 100px;
+                    text-align: center;
+                    padding: 0;
+                    border: 1px solid #ccc;
+                    border-radius: 3px;
+                    background: #fff;
+                    display: inline-block;
+                    outline: 0
+                }
+
+                    .sys_spec_text li a:hover {
+                        padding: 0;
+                        text-decoration: none
+                    }
+
+                .sys_spec_text li.active a {
+                    color: #ff5d5b;
+                    border: 1px solid #ff5d5b;
+                    padding: 0;
+                    background: url(/Content/images/selected_red.png) right top no-repeat
+                }
+
+        .lr-field-error {
+            border-color: #ff5d48 !important
+        }
+
+        .lr-field-error-info {
+            position: absolute;
+            top: 8px;
+            right: 3px;
+            color: #ff5d48;
+            font-size: 16px;
+            background-color: #fff;
+            cursor: pointer
+        }
+
+        .lr-form-btnitem .lr-field-error-info {
+            right: 83px
+        }
+
+        .lr-form-tabs {
+            position: absolute;
+            width: 100%;
+            height: 44px;
+            top: 0;
+            left: 0;
+            padding: 5px 5px 0 5px
+        }
+
+            .lr-form-tabs li {
+                white-space: nowrap;
+                display: inline-block !important;
+                float: initial;
+                cursor: pointer
+            }
+
+            .lr-form-tabs .nav-tabs {
+                white-space: nowrap
+            }
+
+            .lr-form-tabs .mCS-minimal-dark.mCSB_scrollTools_horizontal {
+                top: 32px
+            }
+
+        .lr-tab-content, .lr-tab-content > div {
+            position: relative;
+            width: 100%;
+            height: 100%
+        }
+
+        .wizard {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+            border: 1px solid #ccc;
+            border-radius: 0;
+            background-clip: padding-box;
+            background-color: #fff;
+            position: relative;
+            overflow: hidden
+        }
+
+            .wizard.wizard-tabbed {
+                background: #fbfbfb
+            }
+
+                .wizard.wizard-tabbed ul li {
+                    padding: 0 30px;
+                    background-color: #fbfbfb
+                }
+
+                    .wizard.wizard-tabbed ul li .chevron {
+                        display: none
+                    }
+
+                        .wizard.wizard-tabbed ul li .chevron:before {
+                            display: none
+                        }
+
+                    .wizard.wizard-tabbed ul li.complete {
+                        background-color: #fbfbfb
+                    }
+
+                    .wizard.wizard-tabbed ul li.active {
+                        background: #fff
+                    }
+
+            .wizard.wizard-wired {
+                padding-top: 10px;
+                display: block;
+                background: #fff;
+                text-align: center;
+                -webkit-box-shadow: none;
+                -moz-box-shadow: none;
+                box-shadow: none;
+                border-bottom: 1px solid #eee
+            }
+
+                .wizard.wizard-wired ul {
+                    display: table;
+                    width: 100%;
+                    position: relative
+                }
+
+                    .wizard.wizard-wired ul li {
+                        display: table-cell;
+                        text-align: center;
+                        background-color: #fff;
+                        width: 20%;
+                        padding: 0;
+                        margin: 0;
+                        -webkit-transition: all 1s ease;
+                        -moz-transition: all 1s ease;
+                        -o-transition: all 1s ease;
+                        transition: all 1s ease
+                    }
+
+                        .wizard.wizard-wired ul li .chevron {
+                            display: none
+                        }
+
+                            .wizard.wizard-wired ul li .chevron:before {
+                                display: none
+                            }
+
+                        .wizard.wizard-wired ul li.complete {
+                            background-color: #fff
+                        }
+
+                            .wizard.wizard-wired ul li.complete .step:before {
+                                font-size: 22px;
+                                line-height: 36px
+                            }
+
+                            .wizard.wizard-wired ul li.complete:hover {
+                                background-color: #fff
+                            }
+
+                        .wizard.wizard-wired ul li.active {
+                            background-color: #fff
+                        }
+
+                        .wizard.wizard-wired ul li .step {
+                            border-width: 2px;
+                            width: 40px;
+                            height: 40px;
+                            line-height: 34px;
+                            font-size: 15px;
+                            z-index: 2;
+                            background-color: #fff
+                        }
+
+                        .wizard.wizard-wired ul li .title {
+                            display: block;
+                            margin-top: 4px;
+                            margin-bottom: 6px;
+                            max-width: 100%;
+                            font-size: 14px;
+                            line-height: 20px;
+                            z-index: 104;
+                            text-align: center;
+                            table-layout: fixed;
+                            -ms-word-wrap: break-word;
+                            word-wrap: break-word
+                        }
+
+                        .wizard.wizard-wired ul li:before {
+                            display: block;
+                            content: "";
+                            width: 100%;
+                            height: 2px !important;
+                            font-size: 0;
+                            overflow: hidden;
+                            background-color: #e5e5e5;
+                            position: relative !important;
+                            top: 25px;
+                            z-index: 1 !important
+                        }
+
+                        .wizard.wizard-wired ul li:first-child:before {
+                            max-width: 51%;
+                            left: 50%
+                        }
+
+                        .wizard.wizard-wired ul li:last-child:before {
+                            max-width: 50%;
+                            width: 50%
+                        }
+
+            .wizard ul {
+                list-style: none outside none;
+                padding: 0;
+                margin: 0;
+                width: 4000px
+            }
+
+                .wizard ul.previous-disabled li.complete {
+                    cursor: default
+                }
+
+                    .wizard ul.previous-disabled li.complete:hover {
+                        background: #f3f3f3;
+                        cursor: default
+                    }
+
+                        .wizard ul.previous-disabled li.complete:hover .chevron:before {
+                            border-left-color: #f3f3f3
+                        }
+
+                .wizard ul li {
+                    float: left;
+                    margin: 0;
+                    padding: 0 20px 0 30px;
+                    line-height: 46px;
+                    position: relative;
+                    background: #f5f5f5;
+                    color: #d0d0d0;
+                    font-size: 16px;
+                    cursor: default;
+                    -webkit-transition: all .218s ease;
+                    -moz-transition: all .218s ease;
+                    -o-transition: all .218s ease;
+                    transition: all .218s ease
+                }
+
+                    .wizard ul li .step {
+                        border: 2px solid #e5e5e5;
+                        color: #ccc;
+                        font-size: 13px;
+                        border-radius: 100%;
+                        position: relative;
+                        z-index: 2;
+                        display: inline-block;
+                        width: 24px;
+                        height: 24px;
+                        line-height: 20px;
+                        text-align: center;
+                        margin-right: 10px
+                    }
+
+                    .wizard ul li .chevron {
+                        border: 24px solid transparent;
+                        border-left: 14px solid #d4d4d4;
+                        border-right: 0;
+                        display: block;
+                        position: absolute;
+                        right: -14px;
+                        top: 0;
+                        z-index: 1
+                    }
+
+                        .wizard ul li .chevron:before {
+                            border: 24px solid transparent;
+                            border-left: 14px solid #f5f5f5;
+                            border-right: 0;
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            right: 1px;
+                            top: -24px;
+                            -webkit-transition: all .218s ease;
+                            -moz-transition: all .218s ease;
+                            -o-transition: all .218s ease;
+                            transition: all .218s ease
+                        }
+
+                    .wizard ul li.complete {
+                        background: #f5f5f5;
+                        color: #444
+                    }
+
+                        .wizard ul li.complete:before {
+                            display: block;
+                            content: "";
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            right: -1px;
+                            height: 2px;
+                            max-height: 2px;
+                            overflow: hidden;
+                            background-color: #449d44;
+                            z-index: 10
+                        }
+
+                        .wizard ul li.complete:hover {
+                            background: #eee;
+                            cursor: pointer
+                        }
+
+                            .wizard ul li.complete:hover .chevron:before {
+                                border-left: 14px solid #eee
+                            }
+
+                        .wizard ul li.complete .chevron:before {
+                            border-left: 14px solid #f5f5f5
+                        }
+
+                        .wizard ul li.complete .step {
+                            color: #449d44;
+                            border-color: #449d44
+                        }
+
+                            .wizard ul li.complete .step:before {
+                                display: block;
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                bottom: 0;
+                                right: 0;
+                                line-height: 20px;
+                                text-align: center;
+                                border-radius: 100%;
+                                content: "";
+                                background-color: #fff;
+                                z-index: 3;
+                                font-family: FontAwesome;
+                                font-size: 12px;
+                                color: #449d44
+                            }
+
+                    .wizard ul li.active {
+                        background: #fff;
+                        color: #262626
+                    }
+
+                        .wizard ul li.active .step {
+                            border-color: #337ab7;
+                            color: #337ab7
+                        }
+
+                        .wizard ul li.active:before {
+                            display: block;
+                            content: "";
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            right: -1px;
+                            height: 2px;
+                            max-height: 2px;
+                            overflow: hidden;
+                            background-color: #337ab7;
+                            z-index: 10
+                        }
+
+                        .wizard ul li.active .chevron:before {
+                            border-left: 14px solid #fff
+                        }
+
+                    .wizard ul li .badge {
+                        margin-right: 8px
+                    }
+
+                    .wizard ul li:first-child {
+                        -webkit-border-radius: 2px 0 0 0;
+                        -webkit-background-clip: padding-box;
+                        -moz-border-radius: 2px 0 0 0;
+                        -moz-background-clip: padding;
+                        border-radius: 2px 0 0 0;
+                        background-clip: padding-box;
+                        padding-left: 20px
+                    }
+
+        .actions {
+            z-index: 1000;
+            position: absolute;
+            right: 0;
+            line-height: 42px;
+            float: right;
+            padding-left: 8px;
+            padding-right: 8px;
+            padding-bottom: 4px;
+            vertical-align: middle;
+            border-left: 1px solid #d4d4d4
+        }
+
+            .actions a {
+                line-height: 45px;
+                font-size: 12px;
+                margin-right: 8px
+            }
+
+            .actions .btn-prev i {
+                margin-right: 5px
+            }
+
+            .actions .btn-next i {
+                margin-left: 5px
+            }
+
+            .actions.actions-footer {
+                margin-top: -10px;
+                position: relative;
+                float: none;
+                text-align: right;
+                border: 0;
+                background-color: #fff;
+                -webkit-box-shadow: 0 0 4px rgba(0,0,0,.3);
+                -moz-box-shadow: 0 0 4px rgba(0,0,0,.3);
+                box-shadow: 0 0 4px rgba(0,0,0,.3)
+            }
+
+        .step-content {
+            border-top: 0;
+            background-clip: padding-box;
+            padding: 0;
+            border: 1px solid #ccc;
+            border-top: 0
+        }
+
+            .step-content .step-pane {
+                display: none
+            }
+
+            .step-content .active {
+                display: block
+            }
+
+                .step-content .active .btn-group .active {
+                    display: inline-block
+                }
+
+        .chart {
+            height: 220px;
+            margin: 5px
+        }
+
+        .chart-sm {
+            height: 100px
+        }
+
+        .chart-lg {
+            height: 250px
+        }
+
+        .chart-xl {
+            height: 350px
+        }
+
+        .widget-body {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            padding: 47px 0 39px 0;
+            border-radius: 0 0 4px 4px
+        }
+
+        .wizard {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 0;
+            border-bottom: 1px solid #eee;
+            width: 100%;
+            height: 47px;
+            overflow: initial
+        }
+
+            .wizard ul li .chevron {
+                top: -1px
+            }
+
+            .wizard ul li.active:before {
+                bottom: -1px;
+                background-color: #3498DB
+            }
+
+            .wizard ul li.complete:before {
+                bottom: -1px;
+                background-color: #1bb99a
+            }
+
+            .wizard ul li.complete .step {
+                color: #1bb99a;
+                border-color: #1bb99a
+            }
+
+                .wizard ul li.complete .step:before {
+                    color: #1bb99a
+                }
+
+            .wizard ul li.active .step {
+                border-color: #3498DB;
+                color: #3498DB
+            }
+
+        .step-content {
+            border: 0;
+            position: relative;
+            height: 100%;
+            width: 100%
+        }
+
+        .step-pane {
+            position: relative;
+            height: 100%;
+            width: 100%
+        }
+
+        .lr-tree {
+            overflow-y: auto
+        }
+
+            .lr-tree ul, .lr-tree li {
+                list-style-type: none;
+                margin: 0;
+                padding: 0
+            }
+
+        .lr-tree-icon, .lr-tree-ec-icon, .lr-tree-node-cb, .lr-tree-node-icon {
+            border: 0 none;
+            height: 18px;
+            margin: 0;
+            padding: 0;
+            margin-top: 3px;
+            vertical-align: top;
+            width: 16px;
+            background-repeat: no-repeat
+        }
+
+        .lr-tree-node-cb {
+            height: 16px;
+            padding: 2px;
+            margin-top: 4.5px;
+            margin-right: 5px
+        }
+
+        ul.lr-tree-node-ct {
+            line-height: 0;
+            zoom: 1
+        }
+
+        .lr-tree-node-expanded > .lr-tree-ec-icon {
+            background-image: url(../../Content/images/learuntree/arrows.gif) !important;
+            background: transparent no-repeat -16px 0
+        }
+
+            .lr-tree-node-expanded > .lr-tree-ec-icon:hover {
+                background: transparent no-repeat -48px 0
+            }
+
+        .lr-tree-node-collapsed > .lr-tree-ec-icon {
+            background-image: url(../../Content/images/learuntree/arrows.gif) !important;
+            background: transparent no-repeat 0 0
+        }
+
+            .lr-tree-node-collapsed > .lr-tree-ec-icon:hover {
+                background: transparent no-repeat -32px 0
+            }
+
+        .lr-tree-node {
+            white-space: nowrap;
+            color: #000
+        }
+
+        .lr-tree-node {
+            color: #000
+        }
+
+            .lr-tree-node i {
+                font-size: 13px;
+                width: 13px;
+                color: #666
+            }
+
+            .lr-tree-node a {
+                text-decoration: none;
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                -khtml-user-select: none;
+                user-select: none;
+                -kthml-user-focus: normal;
+                -moz-user-focus: normal;
+                -moz-outline: 0 none;
+                outline: 0 none
+            }
+
+                .lr-tree-node a span {
+                    text-decoration: none;
+                    padding: 1px 3px 1px 2px
+                }
+
+                .lr-tree-node a:hover {
+                    text-decoration: none
+                }
+
+            .lr-tree-node .lr-tree-selected {
+                background-color: #3498DB !important;
+                color: #fff
+            }
+
+                .lr-tree-node .lr-tree-selected a span {
+                    color: #fff
+                }
+
+                .lr-tree-node .lr-tree-selected i {
+                    color: #fff
+                }
+
+        .lr-tree-node-el {
+            position: relative;
+            line-height: 25px;
+            cursor: default;
+            cursor: pointer
+        }
+
+            .lr-tree-node-el:hover {
+                background-color: #eee
+            }
+
+        .lr-tree-loading {
+            position: absolute;
+            top: 3px;
+            right: 5px;
+            display: none
+        }
+
+            .lr-tree-loading > img {
+                height: 14px;
+                width: 14px
+            }
+
+        .lr-select {
+            position: relative;
+            cursor: pointer;
+            width: 100%;
+            height: 28px;
+            line-height: 26px;
+            border: 1px solid #ccc;
+            background: #fff url(/Content/images/learunselect/icon.png) no-repeat right center;
+            padding-left: 4px
+        }
+
+            .lr-select.lr-select-focus {
+                border: 1px solid #039cfd
+            }
+
+        .lr-select-placeholder {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+            color: #999;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis
+        }
+
+        .lr-select-option {
+            position: absolute;
+            border: 1px solid #dedede;
+            width: 100%;
+            background: #fff;
+            z-index: 1;
+            top: 28px;
+            left: -1px
+        }
+
+        .lr-select-option-content {
+            position: relative;
+            width: 100%;
+            overflow: auto
+        }
+
+        .lr-select-option .lr-selectitem-li {
+            min-height: 26px;
+            line-height: 26px;
+            overflow: hidden;
+            cursor: pointer;
+            padding: 0 5px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis
+        }
+
+            .lr-select-option .lr-selectitem-li:hover {
+                background-color: #eee
+            }
+
+        .lr-selectitem-li.selected {
+            background-color: #3498DB !important;
+            color: #fff
+        }
+
+        .lr-select-option-search {
+            border-top: 1px solid #ccc;
+            position: absolute;
+            border-bottom: 0;
+            left: 0;
+            height: 25px;
+            width: 100%;
+            line-height: 24px
+        }
+
+            .lr-select-option-search > input {
+                color: #000;
+                border-radius: 0;
+                border: 0;
+                box-shadow: none;
+                font-size: 9pt;
+                height: 28px;
+                padding-top: 0;
+                padding-bottom: 1px;
+                padding-right: 0;
+                padding-left: 5px;
+                resize: none;
+                background-color: #fff;
+                background-image: none;
+                height: 24px;
+                line-height: 1.42857143;
+                margin: 0;
+                -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+                -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+                transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+                width: 100%;
+                outline: 0;
+                padding: 0;
+                padding-left: 10px
+            }
+
+            .lr-select-option-search .input-query {
+                position: absolute;
+                right: 4px;
+                top: 0;
+                color: #ccc;
+                font-size: 16px;
+                cursor: default
+            }
+
+        .lr-select-node-cb {
+            border: 0 none;
+            margin: 0;
+            vertical-align: top;
+            width: 16px;
+            height: 16px;
+            background-repeat: no-repeat;
+            padding: 2px;
+            margin-top: 4.5px;
+            margin-right: 5px
+        }
+
+        .lr-formselect {
+            position: relative;
+            width: 100%;
+            height: 28px;
+            line-height: 26px;
+            border: 1px solid #ccc;
+            padding-left: 4px;
+            cursor: pointer;
+            color: #999
+        }
+
+            .lr-formselect.selected {
+                color: #000
+            }
+
+            .lr-formselect > i {
+                position: absolute;
+                top: 8px;
+                right: 2px;
+                font-size: 12px;
+                color: #666
+            }
+
+        .clear-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 40px;
+            background-color: #ccc;
+            text-align: center;
+            display: none
+        }
+
+            .clear-btn:hover {
+                color: #666
+            }
+
+        .lr-formselect:hover > i {
+            display: none
+        }
+
+        .lr-formselect:hover .clear-btn {
+            display: block
+        }
+
+        .lr-isearch {
+            position: relative;
+            width: 100%;
+            height: 100%
+        }
+
+        .lr-isearch-panel {
+            position: absolute;
+            top: 28px;
+            left: 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-top: 0;
+            z-index: 1;
+            background: #fff;
+            display: none
+        }
+
+            .lr-isearch-panel li {
+                min-height: 26px;
+                line-height: 26px;
+                overflow: hidden;
+                cursor: pointer;
+                padding: 0 5px
+            }
+
+                .lr-isearch-panel li:hover {
+                    background-color: #eee
+                }
+
+        .lrUploader-wrap {
+            position: relative;
+            height: 30px;
+            width: 100%;
+            padding-right: 118px
+        }
+
+        .lrUploader-input {
+            position: relative;
+            height: 100%;
+            line-height: 28px;
+            width: 100%;
+            border: 1px solid #ccc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-left: 10px
+        }
+
+        .lrUploader-btn-group {
+            position: absolute;
+            top: 0;
+            right: 0
+        }
+
+        .lrUploader-input-btn {
+            padding: 4px 12px;
+            margin-left: 5px
+        }
+    </style>
+    <script src="/Content/jquery/jquery-1.10.2.min.js"></script>
+    <script src="/Content/jquery/plugin/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/Content/jquery/plugin/jfGrid/jfgrid.min.js"></script>
+    <script src="/Content/jquery/plugin/jqprint/jquery.jqprint-0.3.js"></script>
+    <script src="/Content/datepicker/WdatePicker.js"></script>
+    <!--[if lt IE 9]>
+      <script src="~/Content/bootstrap/html5shiv.min.js"></script>
+      <script src="~/Content/bootstrap/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        function request(d) {
+            for (var c = location.search.slice(1).split("&"), a = 0; a < c.length; a++) {
+                var b = c[a].split("=");
+                if (b[0] == d) if ("undefined" == unescape(b[1])) break;
+                else return unescape(b[1])
+            }
+            return ""
+        };
+    </script>
+</head>
+<body class="Firefox 58.0 lr-uitheme-default">
+    <div id="lr_form_bg" class="lr-form-bg"></div>
+
+    <link href="/Content/webuploader/webuploader.css" rel="stylesheet" />
+    <script src="/Content/webuploader/webuploader.nolog.min.js"></script>
+    <style>
+        .lr-form-layout-body {
+            padding: 0 5px 5px 5px
+        }
+
+        .lr-form-file-queue-wrap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px
+        }
+
+        .lr-form-file-queue {
+            position: relative
+        }
+
+        .lr-form-file-queue {
+            position: relative
+        }
+
+        .lr-form-file-queue-item {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            border-bottom: 1px solid #ddd;
+            padding-left: 60px
+        }
+
+        .lr-file-image {
+            position: absolute;
+            top: 5px;
+            left: 5px
+        }
+
+            .lr-file-image img {
+                width: 40px;
+                height: 40px
+            }
+
+        .lr-file-name {
+            line-height: 50px
+        }
+
+        .lr-msg {
+            position: absolute;
+            top: 0;
+            right: 5px;
+            font-size: 25px;
+            line-height: 50px
+        }
+
+            .lr-msg .fa-check-circle {
+                color: #5cb85c
+            }
+
+            .lr-msg .fa-exclamation-circle {
+                color: #b94a48
+            }
+
+        .lr-msg2 {
+            position: absolute;
+            top: 0;
+            right: 5px;
+            line-height: 50px
+        }
+
+            .lr-msg2 span {
+                color: #333;
+                font-size: 14px;
+                margin-right: 5px
+            }
+
+        .lr-tool-bar {
+            position: absolute;
+            top: 0;
+            right: 35px;
+            font-size: 25px;
+            line-height: 50px;
+            color: #666;
+            cursor: pointer
+        }
+
+            .lr-tool-bar > i {
+                margin-left: 8px
+            }
+
+            .lr-tool-bar .fa-minus-circle {
+                color: #b94a48
+            }
+
+            .lr-tool-bar .fa-cloud-download {
+                color: #3498db
+            }
+
+        .lr-uploader-progress {
+            position: absolute;
+            bottom: 2px;
+            left: 60px;
+            height: 4px;
+            width: 500px;
+            width: calc(100% - 90px)
+        }
+
+        .lr-uploader-progress-bar {
+            position: relative;
+            height: 100%;
+            background-color: #039cfd;
+            border-radius: 4px
+        }
+
+        .lr-form-file-queue-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 30px;
+            line-height: 30px;
+            margin: -15px 0 0 -150px
+        }
+
+            .lr-form-file-queue-bg h1 {
+                color: #666;
+                font-size: 20px;
+                font-family: Microsoft Yahei;
+                padding-bottom: 2px;
+                margin: 0
+            }
+
+        #lr_down_file_btn {
+            position: absolute;
+            right: 5px;
+            background: #fff;
+            border: 1px solid #ddd;
+            color: #333
+        }
+
+            #lr_down_file_btn:hover {
+                color: #337ab7
+            }
+
+        .webuploader-container {
+            position: absolute
+        }
+
+        .webuploader-pick {
+            padding: 8px 15px;
+            background-color: #039cfd
+        }
+
+        .webuploader-pick-hover {
+            background-color: #027dcb
+        }
+    </style>
+
+    <div class="lr-form-layout lr-form-layout-top-bottom">
+        <div class="lr-form-layout-header">
+            <div id="lr_add_file_btn"><i class="fa fa-cloud-upload"></i>上传文件</div>
+            <div class="webuploader-pick" id="lr_down_file_btn"><i class="fa fa-download"></i>下载模板</div>
+        </div>
+        <div class="lr-form-layout-body">
+            <div class="lr-form-file-queue-wrap" id="lr_form_file_queue">
+                <div class="lr-form-file-queue" id="lr_form_file_queue_list">
+
+                </div>
+                <div class="lr-form-file-queue-bg">
+                    <h1>试试将电脑里的文件拖拽到此上传</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var id = request("id");
+        var keyVaule = "";
+        var bootstrap = function (a, c) {
+            var f = {
+                init: function () {
+                    e.bind();
+                    e.initData()
+                },
+                bind: function () {
+                    a("#lr_add_format").on("click",
+                        function () {
+                            currentColRow = null;
+                            c.layerForm({
+                                id: "FormatForm",
+                                title: "添加",
+                                url: top.$.rootUrl + "/LR_SystemModule/CodeRule/FormatForm",
+                                width: 450,
+                                height: 310,
+                                callBack: function (h) {
+                                    return top[h].acceptClick(function (i) {
+                                        a("#girdtable").jfGridSet("addRow", {
+                                            row: i
+                                        })
+                                    })
+                                }
+                            })
+                        });
+                    a("#lr_edit_format").on("click",
+                        function () {
+                            currentColRow = a("#girdtable").jfGridGet("rowdata");
+                            var h = currentColRow ? currentColRow.itemTypeName : "";
+                            if (c.checkrow(h)) {
+                                c.layerForm({
+                                    id: "FormatForm",
+                                    title: "修改",
+                                    url: top.$.rootUrl + "/LR_SystemModule/CodeRule/FormatForm",
+                                    width: 450,
+                                    height: 310,
+                                    callBack: function (i) {
+                                        return top[i].acceptClick(function (j) {
+                                            a("#girdtable").jfGridSet("updateRow", {
+                                                row: j
+                                            })
+                                        })
+                                    }
+                                })
+                            }
+                        });
+                    a("#lr_delete_format").on("click",
+                        function () {
+                            currentColRow = null;
+                            var i = a("#girdtable").jfGridGet("rowdata");
+                            var h = i ? i.itemTypeName : "";
+                            if (c.checkrow(h)) {
+                                c.layerConfirm("是否确认删除该项！",
+                                    function (k, j) {
+                                        if (k) {
+                                            a("#girdtable").jfGridSet("removeRow");
+                                            top.layer.close(j)
+                                        }
+                                    })
+                            }
+                        });
+                    a("#girdtable").jfGrid({
+                        headData: [{
+                            label: "前缀",
+                            name: "itemTypeName",
+                            width: 120,
+                            align: "left"
+                        },
+                        {
+                            label: "格式",
+                            name: "formatStr",
+                            width: 120,
+                            align: "left"
+                        },
+                        {
+                            label: "步长",
+                            name: "stepValue",
+                            width: 100,
+                            align: "left"
+                        },
+                        {
+                            label: "初始值",
+                            name: "initValue",
+                            width: 120,
+                            align: "left"
+                        },
+                        {
+                            label: "说明",
+                            name: "description",
+                            width: 180,
+                            align: "left"
+                        }]
+                    });
+                    a("#F_EnCode").on("blur",
+                        function () {
+                            a.lrExistField(keyValue, "F_EnCode", top.$.rootUrl + "/LR_SystemModule/CodeRule/ExistEnCode")
+                        });
+                    a("#F_FullName").on("blur",
+                        function () {
+                            a.lrExistField(keyValue, "F_FullName", top.$.rootUrl + "/LR_SystemModule/CodeRule/ExistFullName")
+                        })
+                },
+                initData: function () {
+                    if (!!selectedRow) {
+                        keyValue = selectedRow.F_RuleId;
+                        a("#form").lrSetFormData(selectedRow);
+                        var h = JSON.parse(selectedRow.F_RuleFormatJson);
+                        a("#girdtable").jfGridSet("refreshdata", {
+                            rowdatas: h
+                        })
+                    }
+                }
+            };
+            var b = {};
+            var d = function (h) {
+                console.log(h, b);
+                var i = {};
+                i.__RequestVerificationToken = a.lrToken;
+                i.fileId = b[h.id].fileGuid;
+                i.chunks = b[h.id].chunks;
+                i.ext = h.ext;
+                i.templateId = id;
+                c.httpAsyncPost(top.$.rootUrl + "/LR_SystemModule/ExcelImport/ExecuteImportExcel", i,
+                    function (k) {
+                        var j = a("#lr_form_file_queue_list").find("#lr_filequeue_" + h.id);
+                        j.find(".lr-uploader-progress").remove();
+                        if (k.code == c.httpCode.success) {
+                            j.append('<div class="lr-msg2"><span>' + k.data.Success + '</span><span>/</span><span style="color:#b94a48;" >' + k.data.Fail + "</span></div>");
+                            if (k.data.Fail != "0") {
+                                c.download({
+                                    url: top.$.rootUrl + "/LR_SystemModule/ExcelImport/DownImportErrorFile",
+                                    param: {
+                                        fileId: b[h.id].fileGuid,
+                                        fileName: b[h.id].name,
+                                        __RequestVerificationToken: a.lrToken
+                                    },
+                                    method: "POST"
+                                })
+                            }
+                        } else {
+                            j.append('<div class="lr-msg"><i class="fa fa-exclamation-circle"></i></div>')
+                        }
+                    })
+            };
+            var g = function (i) {
+                var j = {};
+                j.__RequestVerificationToken = a.lrToken;
+                j.fileGuid = b[i.id].fileGuid;
+                j.chunks = b[i.id].chunks;
+                c.httpAsyncPost(top.$.rootUrl + "/LR_SystemModule/Annexes/MergeAnnexesFile", j,
+                    function (k) { });
+                var h = a("#lr_form_file_queue_list").find("#lr_filequeue_" + i.id);
+                h.find(".lr-uploader-progress").remove();
+                h.append('<div class="lr-msg"><i class="fa fa-exclamation-circle"></i></div>')
+            };
+            var e = {
+                uploader: null,
+                init: function () {
+                    a("#lr_down_file_btn").on("click",
+                        function () {
+                            c.download({
+                                url: top.$.rootUrl + "/LR_SystemModule/ExcelImport/DownSchemeFile",
+                                param: {
+                                    keyValue: id,
+                                    __RequestVerificationToken: a.lrToken
+                                },
+                                method: "POST"
+                            })
+                        });
+                    if (!WebUploader.Uploader.support()) {
+                        alert("Web Uploader 不支持您的浏览器！如果你使用的是IE浏览器，请尝试升级 flash 播放器");
+                        throw new Error("WebUploader does not support the browser you are using.")
+                    }
+                    e.uploader = WebUploader.create({
+                        auto: true,
+                        swf: top.$.rootUrl + "/Content/webuploader/Uploader.swf",
+                        server: top.$.rootUrl + "/LR_SystemModule/Annexes/UploadAnnexesFileChunk",
+                        pick: "#lr_add_file_btn",
+                        dnd: "#lr_form_file_queue",
+                        paste: "document.body",
+                        disableGlobalDnd: true,
+                        accept: {
+                            extensions: "xls,xlsx"
+                        },
+                        multiple: true,
+                        resize: false,
+                        chunked: true,
+                        chunkRetry: 3,
+                        prepareNextFile: true,
+                        chunkSize: "1048576",
+                        formData: {
+                            __RequestVerificationToken: a.lrToken
+                        }
+                    });
+                    e.uploader.on("fileQueued", e.fileQueued);
+                    e.uploader.on("uploadStart", e.uploadStart);
+                    e.uploader.on("uploadBeforeSend", e.uploadBeforeSend);
+                    e.uploader.on("uploadProgress", e.uploadProgress);
+                    e.uploader.on("uploadSuccess", e.uploadSuccess);
+                    e.uploader.on("uploadError", e.uploadError);
+                    e.uploader.on("uploadComplete", e.uploadComplete);
+                    e.uploader.on("error", e.error);
+                    a("#lr_form_file_queue").mCustomScrollbar({
+                        theme: "minimal-dark"
+                    })
+                },
+                fileQueued: function (i) {
+                    b[i.id] = {
+                        name: i.name
+                    };
+                    a("#lr_form_file_queue .lr-form-file-queue-bg").hide();
+                    var h = a('<div class="lr-form-file-queue-item" id="lr_filequeue_' + i.id + '" ></div>');
+                    h.append('<div class="lr-file-image"><img src="' + top.$.rootUrl + "/Content/images/filetype/" + i.ext + '.png"></div>');
+                    h.append('<span class="lr-file-name">' + i.name + "(" + c.countFileSize(i.size) + ")</span>");
+                    a("#lr_form_file_queue_list").append(h)
+                },
+                uploadStart: function (i) {
+                    var h = a("#lr_form_file_queue_list").find("#lr_filequeue_" + i.id);
+                    h.append('<div class="lr-uploader-progress"><div class="lr-uploader-progress-bar" style="width:0%;"></div></div>')
+                },
+                uploadBeforeSend: function (j, h, i) {
+                    h.chunk = h.chunk || 0;
+                    h.chunks = h.chunks || 1;
+                    b[h.id].fileGuid = b[h.id].fileGuid || WebUploader.Base.guid();
+                    h.fileGuid = b[h.id].fileGuid;
+                    b[h.id].chunks = h.chunks
+                },
+                uploadProgress: function (i, j) {
+                    var h = a("#lr_form_file_queue_list").find("#lr_filequeue_" + i.id);
+                    h.find(".lr-uploader-progress-bar").css("width", (j * 100 + "%"))
+                },
+                uploadSuccess: function (h, i) {
+                    if (i.code == 200) {
+                        d(h)
+                    } else {
+                        g(h)
+                    }
+                },
+                uploadError: function (i, h) {
+                    g(i)
+                },
+                uploadComplete: function (h) { },
+                error: function (h) {
+                    switch (h) {
+                        case "Q_TYPE_DENIED":
+                            c.alert.error("当前文件类型不允许上传");
+                            break
+                    }
+                }
+            };
+            e.init()
+        };
+    </script>
+
+    <script>
+        (function (a, b) {
+            a.lrValidformMessage = function (d, e) {
+                d.addClass("lr-field-error");
+                d.parent().append('<div class="lr-field-error-info" title="' + e + '！"><i class="fa fa-info-circle"></i></div>');
+                var f = d.parent().find(".form-item-title").text() + " " + e;
+                b.alert.error("表单信息输入有误,请检查！</br>" + f);
+                if (d.attr("type") == "lrselect") {
+                    d.on("change",
+                        function () {
+                            c(a(this))
+                        })
+                } else {
+                    if (d.attr("type") == "formselect") {
+                        d.on("change",
+                            function () {
+                                c(a(this))
+                            })
+                    } else {
+                        if (d.hasClass("lr-input-wdatepicker")) {
+                            d.on("change",
+                                function () {
+                                    var g = a(this);
+                                    if (g.val()) {
+                                        c(g)
+                                    }
+                                })
+                        } else {
+                            d.on("input propertychange",
+                                function () {
+                                    var g = a(this);
+                                    if (g.val()) {
+                                        c(g)
+                                    }
+                                })
+                        }
+                    }
+                }
+            };
+            a.fn.lrRemoveValidMessage = function () {
+                c(a(this))
+            };
+            a.fn.lrValidform = function () {
+                var d = true;
+                var e = b.validator;
+                a(this).find("[isvalid=yes]").each(function () {
+                    var f = a(this);
+                    if (f.parent().find(".lr-field-error-info").length > 0) {
+                        d = false;
+                        return true
+                    }
+                    var g = a(this).attr("checkexpession");
+                    var h = e["is" + g];
+                    if (!g || !h) {
+                        return false
+                    }
+                    var i = a(this).attr("errormsg") || "";
+                    var m;
+                    var l = f.attr("type");
+                    if (l == "lrselect") {
+                        m = f.lrselectGet()
+                    } else {
+                        if (l == "formselect") {
+                            m = f.lrformselectGet()
+                        } else {
+                            m = f.val()
+                        }
+                    }
+                    var k = {
+                        code: true,
+                        msg: ""
+                    };
+                    if (g == "LenNum" || g == "LenNumOrNull" || g == "LenStr" || g == "LenStrOrNull") {
+                        var j = f.attr("length");
+                        k = h(m, j)
+                    } else {
+                        k = h(m)
+                    }
+                    if (!k.code) {
+                        d = false;
+                        a.lrValidformMessage(f, i + k.msg)
+                    }
+                });
+                return d
+            };
+            function c(d) {
+                d.removeClass("lr-field-error");
+                d.parent().find(".lr-field-error-info").remove()
+            }
+        })(window.jQuery, top.learun);
+        (function (a, b) {
+            a.fn.lrGetFormData = function (c) {
+                var d = {};
+                a(this).find("input,select,textarea,.lr-select,.lr-formselect,.lrUploader-wrap,.lr-radio,.lr-checkbox").each(function (g) {
+                    var f = a(this).attr("id");
+                    if (!!f) {
+                        var h = a(this).attr("type");
+                        switch (h) {
+                            case "radio":
+                                if (a("#" + f).is(":checked")) {
+                                    var e = a("#" + f).attr("name");
+                                    d[e] = a("#" + f).val()
+                                }
+                                break;
+                            case "checkbox":
+                                if (a("#" + f).is(":checked")) {
+                                    d[f] = 1
+                                } else {
+                                    d[f] = 0
+                                }
+                                break;
+                            case "lrselect":
+                                d[f] = a(this).lrselectGet();
+                                break;
+                            case "formselect":
+                                d[f] = a(this).lrformselectGet();
+                                break;
+                            case "lrGirdSelect":
+                                d[f] = a(this).lrGirdSelectGet();
+                                break;
+                            case "lr-Uploader":
+                                d[f] = a(this).lrUploaderGet();
+                                break;
+                            case "lr-radio":
+                                d[f] = a(this).find("input:checked").val();
+                                break;
+                            default:
+                                var i = a("#" + f).val();
+                                d[f] = a.trim(i);
+                                break
+                        }
+                        d[f] += "";
+                        if (d[f] == "") {
+                            d[f] = "&nbsp;"
+                        }
+                        if (d[f] == "&nbsp;" && !c) {
+                            d[f] = ""
+                        }
+                    }
+                });
+                return d
+            };
+            a.fn.lrSetFormData = function (d) {
+                for (var e in d) {
+                    var h = d[e];
+                    var c = a("#" + e);
+                    if (c.length == 0 && h != null) {
+                        c = a('[name="' + e + '"][value="' + h + '"]');
+                        if (c.length > 0) {
+                            if (!c.is(":checked")) {
+                                c.trigger("click")
+                            }
+                        }
+                    } else {
+                        var g = c.attr("type");
+                        if (c.hasClass("lr-input-wdatepicker")) {
+                            g = "datepicker"
+                        }
+                        switch (g) {
+                            case "checkbox":
+                                var f = 0;
+                                if (c.is(":checked")) {
+                                    f = 1
+                                } else {
+                                    f = 0
+                                }
+                                if (f != parseInt(h)) {
+                                    c.trigger("click")
+                                }
+                                break;
+                            case "lrselect":
+                                c.lrselectSet(h);
+                                break;
+                            case "formselect":
+                                c.lrformselectSet(h);
+                                break;
+                            case "lrGirdSelect":
+                                c.lrGirdSelectSet(h);
+                                break;
+                            case "datepicker":
+                                c.val(b.formatDate(h, "yyyy-MM-dd"));
+                                break;
+                            case "lr-Uploader":
+                                c.lrUploaderSet(h);
+                                break;
+                            case "lr-radio":
+                                if (!c.find('input[value="' + h + '"]').is(":checked")) {
+                                    c.find('input[value="' + h + '"]').trigger("click")
+                                }
+                                break;
+                            default:
+                                c.val(h);
+                                break
+                        }
+                    }
+                }
+            };
+            a.lrSetForm = function (d, c) {
+                b.loading(true, "正在获取数据");
+                b.httpAsyncGet(d,
+                    function (e) {
+                        b.loading(false);
+                        if (e.code == b.httpCode.success) {
+                            c(e.data)
+                        } else {
+                            b.layerClose(window.name);
+                            b.alert.error("表单数据获取失败,请重新获取！");
+                            b.httpErrorLog(e.info)
+                        }
+                    })
+            };
+            a.lrSaveForm = function (f, e, c, d) {
+                e.__RequestVerificationToken = a.lrToken;
+                b.loading(true, "正在保存数据");
+                b.httpAsyncPost(f, e,
+                    function (g) {
+                        b.loading(false);
+                        if (g.code == b.httpCode.success) {
+                            if (!!c) {
+                                c(g)
+                            }
+                            b.alert.success(g.info);
+                            if (!d) {
+                                b.layerClose(window.name)
+                            }
+                        } else {
+                            b.alert.error(g.info);
+                            b.httpErrorLog(g.info)
+                        }
+                    })
+            };
+            a.lrPostForm = function (d, c) {
+                c.__RequestVerificationToken = a.lrToken;
+                b.loading(true, "正在提交数据");
+                b.httpAsyncPost(d, c,
+                    function (e) {
+                        b.loading(false);
+                        if (e.code == b.httpCode.success) {
+                            b.alert.success(e.info)
+                        } else {
+                            b.alert.error(e.info);
+                            b.httpErrorLog(e.info)
+                        }
+                    })
+            };
+            a.fn.lrFormTab = function () {
+                var c = a(this);
+                c.parent().css({
+                    "padding-top": "44px"
+                });
+                c.mCustomScrollbar({
+                    axis: "x",
+                    theme: "minimal-dark"
+                });
+                c.delegate("li", "click", {
+                    $ul: c
+                },
+                    function (h) {
+                        var f = a(this);
+                        if (!f.hasClass("active")) {
+                            var g = f.parent();
+                            var d = h.data.$ul.next();
+                            var i = f.find("a").attr("data-value");
+                            g.find("li.active").removeClass("active");
+                            f.addClass("active");
+                            d.find(".tab-pane.active").removeClass("active");
+                            d.find("#" + i).addClass("active")
+                        }
+                    })
+            };
+            a.fn.lrFormTabEx = function (d) {
+                var c = a(this);
+                c.delegate("li", "click", {
+                    $ul: c
+                },
+                    function (i) {
+                        var g = a(this);
+                        if (!g.hasClass("active")) {
+                            var h = g.parent();
+                            var f = i.data.$ul.next();
+                            var j = g.find("a").attr("data-value");
+                            h.find("li.active").removeClass("active");
+                            g.addClass("active");
+                            f.find(".tab-pane.active").removeClass("active");
+                            f.find("#" + j).addClass("active");
+                            if (!!d) {
+                                d(j)
+                            }
+                        }
+                    })
+            };
+            a.lrExistField = function (f, d, h, g) {
+                var c = a("#" + d);
+                if (!c.val()) {
+                    return false
+                }
+                var e = {
+                    keyValue: f
+                };
+                e[d] = c.val();
+                a.extend(e, g);
+                b.httpAsync("GET", h, e,
+                    function (i) {
+                        if (i == false) {
+                            a.lrValidformMessage(c, "已存在,请重新输入")
+                        }
+                    })
+            };
+            a.fn.lrDataItemSelect = function (d) {
+                var c = {
+                    value: "F_ItemValue",
+                    text: "F_ItemName",
+                    title: "F_ItemName",
+                    maxHeight: 200,
+                    allowSearch: false,
+                    url: top.$.rootUrl + "/LR_SystemModule/DataItem/GetDetailListByParentId",
+                    param: {
+                        itemCode: "",
+                        parentId: "0"
+                    },
+                };
+                d = d || {};
+                if (!d.code) {
+                    return false
+                }
+                c.param.itemCode = d.code;
+                c.param.parentId = d.parentId || "0";
+                c.maxHeight = d.maxHeight || 200;
+                c.allowSearch = d.allowSearch;
+                if (!!d.childId) {
+                    a("#" + d.childId).lrselect({
+                        value: "F_ItemValue",
+                        text: "F_ItemName",
+                        title: "F_ItemName",
+                        maxHeight: c.maxHeight,
+                        allowSearch: c.allowSearch,
+                    });
+                    c.select = function (e) {
+                        if (!e) {
+                            a("#" + d.childId).lrselectRefresh({
+                                url: "",
+                                data: []
+                            })
+                        } else {
+                            a("#" + d.childId).lrselectRefresh({
+                                url: top.$.rootUrl + "/LR_SystemModule/DataItem/GetDetailListByParentId",
+                                param: {
+                                    itemCode: d.code,
+                                    parentId: e.F_ItemDetailId
+                                },
+                            })
+                        }
+                    }
+                }
+                return a(this).lrselect(c)
+            };
+            a.fn.lrCompanySelect = function (d) {
+                var c = {
+                    type: "tree",
+                    maxHeight: 200,
+                    allowSearch: true,
+                    url: top.$.rootUrl + "/LR_OrganizationModule/Company/GetTree",
+                    param: {
+                        parentId: "0"
+                    },
+                };
+                d = d || {};
+                c.param.parentId = d.parentId || "0";
+                c.maxHeight = d.maxHeight || 200;
+                return a(this).lrselect(c)
+            };
+            a.fn.lrDepartmentSelect = function (d) {
+                var c = {
+                    type: "tree",
+                    maxHeight: 200,
+                    allowSearch: true,
+                    url: top.$.rootUrl + "/LR_OrganizationModule/Department/GetTree",
+                    param: {
+                        companyId: "",
+                        parentId: ""
+                    },
+                };
+                d = d || {};
+                c.param.companyId = d.companyId;
+                c.param.parentId = d.parentId;
+                c.maxHeight = d.maxHeight || 200;
+                return a(this).lrselect(c)
+            };
+            a.fn.lrUserSelect = function (c) {
+                if (c == 0) {
+                    a(this).lrformselect({
+                        layerUrl: top.$.rootUrl + "/LR_OrganizationModule/User/SelectOnlyForm",
+                        layerUrlW: 400,
+                        layerUrlH: 300,
+                        dataUrl: top.$.rootUrl + "/LR_OrganizationModule/User/GetListByUserIds"
+                    })
+                } else {
+                    a(this).lrformselect({
+                        layerUrl: top.$.rootUrl + "/LR_OrganizationModule/User/SelectForm",
+                        layerUrlW: 800,
+                        layerUrlH: 520,
+                        dataUrl: top.$.rootUrl + "/LR_OrganizationModule/User/GetListByUserIds"
+                    })
+                }
+            };
+            a.fn.lrAreaSelect = function (g) {
+                var e = {
+                    value: "F_AreaCode",
+                    text: "F_AreaName",
+                    title: "F_AreaName",
+                    maxHeight: 200,
+                    allowSearch: true,
+                    url: top.$.rootUrl + "/LR_SystemModule/Area/Getlist",
+                    param: {
+                        parentId: ""
+                    },
+                };
+                g = g || {};
+                if (!!g.parentId) {
+                    e.param.parentId = g.parentId
+                }
+                e.maxHeight = g.maxHeight || 200;
+                var d = [],
+                    f = 0;
+                var c = a(this);
+                a(this).find("div").each(function () {
+                    var h = a("<div></div>");
+                    var i = a(this);
+                    e.placeholder = i.attr("placeholder");
+                    h.addClass(i.attr("class"));
+                    i.removeAttr("class");
+                    i.removeAttr("placeholder");
+                    h.append(i);
+                    c.append(h);
+                    if (f == 0) {
+                        i.lrselect(e)
+                    } else {
+                        e.url = "";
+                        e.parentId = "";
+                        i.lrselect(e);
+                        d[f - 1].on("change",
+                            function () {
+                                var j = a(this).lrselectGet();
+                                if (j == "") {
+                                    i.lrselectRefresh({
+                                        url: "",
+                                        param: {
+                                            parentId: j
+                                        },
+                                        data: []
+                                    })
+                                } else {
+                                    i.lrselectRefresh({
+                                        url: top.$.rootUrl + "/LR_SystemModule/Area/Getlist",
+                                        param: {
+                                            parentId: j
+                                        },
+                                    })
+                                }
+                            })
+                    }
+                    f++;
+                    d.push(i)
+                })
+            };
+            a.fn.lrDbSelect = function (d) {
+                var c = {
+                    type: "tree",
+                    maxHeight: 200,
+                    allowSearch: true,
+                    url: top.$.rootUrl + "/LR_SystemModule/DatabaseLink/GetTreeList"
+                };
+                d = d || {};
+                c.maxHeight = d.maxHeight || 200;
+                return a(this).lrselect(c)
+            };
+            a.lrGetDataItem = function (d, c) {
+                b.httpAsyncGet(top.$.rootUrl + "/LR_SystemModule/DataItem/GetDetailList?itemCode=" + d,
+                    function (e) {
+                        if (e.code == b.httpCode.success) {
+                            c(e.data)
+                        } else {
+                            b.alert.error("数据字典数据获取失败,请重新获取！");
+                            b.httpErrorLog(e.info)
+                        }
+                    })
+            };
+            a.lrGetDataSource = function (d, c) {
+                b.httpAsyncGet(top.$.rootUrl + "/LR_SystemModule/DataSource/GetDataTable?code=" + d,
+                    function (e) {
+                        if (e.code == b.httpCode.success) {
+                            c(e.data)
+                        } else {
+                            b.alert.error("数据源数据获取失败,请重新获取！");
+                            b.httpErrorLog(e.info)
+                        }
+                    })
+            };
+            a.fn.lrRadioCheckbox = function (e) {
+                var d = {
+                    type: "radio",
+                    dataType: "dataItem",
+                    code: "",
+                    text: "F_ItemName",
+                    value: "F_ItemValue"
+                };
+                a.extend(d, e || {});
+                var c = a(this);
+                c.addClass(d.type);
+                c.addClass("lr-" + d.type);
+                c.attr("type", "lr-" + d.type);
+                var f = c.attr("id");
+                if (d.dataType == "dataItem") {
+                    a.lrGetDataItem(d.code,
+                        function (g) {
+                            a.each(g,
+                                function (i, j) {
+                                    var h = a('<label><input name="' + f + '" value="' + j[d.value] + '"" type="' + d.type + '">' + j[d.text] + "</label>");
+                                    c.append(h)
+                                });
+                            c.find("input").eq(0).trigger("click")
+                        })
+                } else {
+                    a.lrGetDataSource(d.code,
+                        function (g) {
+                            a.each(g,
+                                function (i, j) {
+                                    var h = a('<label><input name="' + f + '" value="' + j[d.value] + '"" type="' + d.type + '">' + j[d.text] + "</label>");
+                                    c.append(h)
+                                });
+                            c.find("input").eq(0).trigger("click")
+                        })
+                }
+            };
+            a.fn.lrMultipleQuery = function (g, f, h) {
+                var c = a(this);
+                var e = c.html();
+                c.addClass("lr-query-wrap");
+                var d = "";
+                d += '<div class="lr-query-btn"><i class="fa fa-search"></i>&nbsp;多条件查询</div>';
+                d += '<div class="lr-query-content">';
+                d += e;
+                d += '<div class="lr-query-arrow"><div class="lr-query-inside"></div></div>';
+                d += '<div class="lr-query-content-bottom">';
+                d += '<a id="lr_btn_queryReset" class="btn btn-default">&nbsp;重&nbsp;&nbsp;置</a>';
+                d += '<a id="lr_btn_querySearch" class="btn btn-primary">&nbsp;查&nbsp;&nbsp;询</a>';
+                d += "</div>";
+                d += "</div>";
+                c.html(d);
+                c.find(".lr-query-formcontent").show();
+                c.find(".lr-query-content").css({
+                    width: h || 400,
+                    height: f || 300
+                });
+                c.find(".lr-query-btn").on("click",
+                    function () {
+                        var i = c.find(".lr-query-content");
+                        if (i.hasClass("active")) {
+                            i.removeClass("active")
+                        } else {
+                            i.addClass("active")
+                        }
+                    });
+                c.find("#lr_btn_querySearch").on("click",
+                    function () {
+                        var i = c.find(".lr-query-content");
+                        var j = i.lrGetFormData();
+                        i.removeClass("active");
+                        g(j)
+                    });
+                c.find("#lr_btn_queryReset").on("click",
+                    function () {
+                        var i = c.find(".lr-query-content");
+                        var k = i.lrGetFormData();
+                        for (var j in k) {
+                            k[j] = ""
+                        }
+                        i.lrSetFormData(k)
+                    });
+                a(document).click(function (j) {
+                    var k = j.target || j.srcElement;
+                    var i = a(k);
+                    if (!i.hasClass("lr-query-wrap") && i.parents(".lr-query-wrap").length <= 0) {
+                        a(".lr-query-content").removeClass("active")
+                    }
+                })
+            }
+        })(jQuery, top.learun);
+        (function (e, f) {
+            var d = function (c, b) {
+                var a;
+                this.$element = e(c);
+                this.options = e.extend({},
+                    e.fn.wizard.defaults, b);
+                this.currentStep = 1;
+                this.numSteps = this.$element.find("li").length;
+                this.$prevBtn = $("#" + this.$element[0].id + "-actions").find("a.btn-prev");
+                this.$nextBtn = $("#" + this.$element[0].id + "-actions").find("a.btn-next");
+                a = this.$nextBtn.children().detach();
+                this.nextText = e.trim(this.$nextBtn.text());
+                this.$nextBtn.append(a);
+                this.$prevBtn.on("click", e.proxy(this.previous, this));
+                this.$nextBtn.on("click", e.proxy(this.next, this));
+                this.$element.on("click", "li.complete", e.proxy(this.stepclicked, this));
+                this.$stepContainer = this.$element.data("target") || "body";
+                this.$stepContainer = e(this.$stepContainer)
+            };
+            d.prototype = {
+                constructor: d,
+                setState: function () {
+                    var w = (this.currentStep > 1);
+                    var x = (this.currentStep === 1);
+                    var a = (this.currentStep === this.numSteps);
+                    this.$prevBtn.attr("disabled", (x === true || w === false));
+                    var q = this.$nextBtn.data();
+                    if (q && q.last) {
+                        this.lastText = q.last;
+                        if (typeof this.lastText !== "undefined") {
+                            var u = (a !== true) ? this.nextText : this.lastText;
+                            var c = this.$nextBtn.children().detach();
+                            this.$nextBtn.text(u).append(c)
+                        }
+                    }
+                    var s = this.$element.find("li");
+                    s.removeClass("active").removeClass("complete");
+                    var v = "li:lt(" + (this.currentStep - 1) + ")";
+                    var p = this.$element.find(v);
+                    p.addClass("complete");
+                    var b = "li:eq(" + (this.currentStep - 1) + ")";
+                    var t = this.$element.find(b);
+                    t.addClass("active");
+                    var r = t.data().target;
+                    this.$stepContainer.find(".step-pane").removeClass("active");
+                    e(r).addClass("active");
+                    this.$element.trigger("changed")
+                },
+                stepclicked: function (i) {
+                    var a = e(i.currentTarget);
+                    var c = this.$element.find("li").index(a);
+                    var b = e.Event("change");
+                    this.$element.trigger(b, {
+                        step: c + 1,
+                        direction: "stepclicked",
+                        currentStep: c + 1
+                    });
+                    if (b.isDefaultPrevented()) {
+                        return
+                    }
+                    this.currentStep = (c + 1);
+                    this.setState()
+                },
+                previous: function () {
+                    var a = (this.currentStep > 1);
+                    if (a) {
+                        var b = e.Event("change");
+                        this.$element.trigger(b, {
+                            step: this.currentStep,
+                            direction: "previous",
+                            currentStep: this.currentStep - 1
+                        });
+                        if (b.isDefaultPrevented()) {
+                            return
+                        }
+                        this.currentStep -= 1;
+                        this.setState()
+                    }
+                },
+                next: function () {
+                    var c = (this.currentStep + 1 <= this.numSteps);
+                    var a = (this.currentStep === this.numSteps);
+                    if (c) {
+                        var b = e.Event("change");
+                        this.$element.trigger(b, {
+                            step: this.currentStep,
+                            direction: "next",
+                            currentStep: this.currentStep + 1
+                        });
+                        if (b.isDefaultPrevented()) {
+                            return
+                        }
+                        this.currentStep += 1;
+                        this.setState()
+                    } else {
+                        if (a) {
+                            this.$element.trigger("finished")
+                        }
+                    }
+                },
+                selectedItem: function (a) {
+                    return {
+                        step: this.currentStep
+                    }
+                }
+            };
+            e.fn.wizard = function (b, h) {
+                var c;
+                var a = this.each(function () {
+                    var l = e(this);
+                    var k = l.data("wizard");
+                    var g = typeof b === "object" && b;
+                    if (!k) {
+                        l.data("wizard", (k = new d(this, g)))
+                    }
+                    if (typeof b === "string") {
+                        c = k[b](h)
+                    }
+                });
+                return (c === f) ? a : c
+            };
+            e.fn.wizard.defaults = {};
+            e.fn.wizard.Constructor = d;
+            e(function () {
+                e("body").on("mousedown.wizard.data-api", ".wizard",
+                    function () {
+                        var a = e(this);
+                        if (a.data("wizard")) {
+                            return
+                        }
+                        a.wizard(a.data())
+                    })
+            })
+        })(window.jQuery);
+        (function (a, b) {
+            a.lrtree = {
+                getItem: function (f, d) {
+                    var c = f.split(".");
+                    var g = d.data;
+                    for (var e = 0; e < c.length; e++) {
+                        if (e == 0) {
+                            g = g[c[e]]
+                        } else {
+                            g = g.ChildNodes[c[e]]
+                        }
+                    }
+                    return g
+                },
+                render: function (d) {
+                    var g = d[0]._lrtree.dfop;
+                    var e = a('<ul class="lr-tree-root" ></ul>');
+                    var f = g.data.length;
+                    for (var h = 0; h < f; h++) {
+                        var c = a.lrtree.renderNode(g.data[h], 0, h, g);
+                        e.append(c)
+                    }
+                    d.append(e);
+                    d.mCustomScrollbar({
+                        theme: "minimal-dark"
+                    });
+                    g = null
+                },
+                renderNode: function (v, p, w, q) {
+                    if (v.shide) {
+                        return ""
+                    }
+                    v._deep = p;
+                    v._path = w;
+                    var u = v.id.replace(/[^\w]/gi, "_");
+                    var x = v.title || v.text;
+                    var g = a('<li class="lr-tree-node"></li>');
+                    var h = a('<div id="' + q.id + "_" + u + '" tpath="' + w + '" title="' + x + '"  dataId="' + q.id + '"  class="lr-tree-node-el" ></div>');
+                    if (v.hasChildren) {
+                        var o = (v.isexpand || q.isAllExpand) ? "lr-tree-node-expanded" : "lr-tree-node-collapsed";
+                        h.addClass(o)
+                    } else {
+                        h.addClass("lr-tree-node-leaf")
+                    }
+                    var i = a('<span class="lr-tree-node-indent"></span>');
+                    if (p == 1) {
+                        i.append('<img class="lr-tree-icon" src="' + q.cbiconpath + 's.gif"/>')
+                    } else {
+                        if (p > 1) {
+                            i.append('<img class="lr-tree-icon" src="' + q.cbiconpath + 's.gif"/>');
+                            for (var r = 1; r < p; r++) {
+                                i.append('<img class="lr-tree-icon" src="' + q.cbiconpath + 's.gif"/>')
+                            }
+                        }
+                    }
+                    h.append(i);
+                    var f = a('<img class="lr-tree-ec-icon" src="' + q.cbiconpath + 's.gif"/>');
+                    h.append(f);
+                    if (v.showcheck) {
+                        if (v.checkstate == null || v.checkstate == undefined) {
+                            v.checkstate = 0
+                        }
+                        var d = a('<img  id="' + q.id + "_" + u + '_cb" + class="lr-tree-node-cb" src="' + q.cbiconpath + q.icons[v.checkstate] + '" />');
+                        h.append(d)
+                    }
+                    if (v.icon != -1) {
+                        if (!!v.icon) {
+                            h.append('<i class="' + v.icon + '"></i>&nbsp;')
+                        } else {
+                            if (v.hasChildren) {
+                                if (v.isexpand || q.isAllExpand) {
+                                    h.append('<i class="fa fa-folder-open" style="width:15px">&nbsp;</i>')
+                                } else {
+                                    h.append('<i class="fa fa-folder" style="width:15px">&nbsp;</i>')
+                                }
+                            } else {
+                                h.append('<i class="fa fa-file-o"></i>&nbsp;')
+                            }
+                        }
+                    }
+                    var n = '<a class="lr-tree-node-anchor" href="javascript:void(0);">';
+                    n += '<span data-value="' + v.id + '" class="lr-tree-node-text" >' + v.text + "</span>";
+                    n += "</a>";
+                    h.append(n);
+                    h.on("click", a.lrtree.nodeClick);
+                    if (!v.complete) {
+                        h.append('<div class="lr-tree-loading"><img class="lr-tree-ec-icon" src="' + q.cbiconpath + 'loading.gif"/></div>')
+                    }
+                    g.append(h);
+                    if (v.hasChildren) {
+                        var m = a('<ul  class="lr-tree-node-ct" >');
+                        if (!v.isexpand && !q.isAllExpand) {
+                            m.css("display", "none")
+                        }
+                        if (v.ChildNodes) {
+                            var t = v.ChildNodes.length;
+                            for (var s = 0; s < t; s++) {
+                                v.ChildNodes[s].parent = v;
+                                var e = a.lrtree.renderNode(v.ChildNodes[s], p + 1, w + "." + s, q);
+                                m.append(e)
+                            }
+                            g.append(m)
+                        }
+                    }
+                    v.render = true;
+                    q = null;
+                    return g
+                },
+                renderNodeAsync: function (d, i, f) {
+                    var e = a('<ul  class="lr-tree-node-ct" >');
+                    if (!i.isexpand && !f.isAllExpand) {
+                        e.css("display", "none")
+                    }
+                    if (i.ChildNodes) {
+                        var h = i.ChildNodes.length;
+                        for (var g = 0; g < h; g++) {
+                            i.ChildNodes[g].parent = i;
+                            var c = a.lrtree.renderNode(i.ChildNodes[g], i._deep + 1, i._path + "." + g, f);
+                            e.append(c)
+                        }
+                        d.parent().append(e)
+                    }
+                    return e
+                },
+                renderToo: function (d) {
+                    var g = d[0]._lrtree.dfop;
+                    var e = d.find(".lr-tree-root");
+                    e.html("");
+                    var f = g.data.length;
+                    for (var h = 0; h < f; h++) {
+                        var c = a.lrtree.renderNode(g.data[h], 0, h, g);
+                        e.append(c)
+                    }
+                    g = null
+                },
+                nodeClick: function (i) {
+                    var j = i.target || i.srcElement;
+                    var f = a(this);
+                    var d = a("#" + f.attr("dataId"));
+                    var h = d[0]._lrtree.dfop;
+                    if (j.tagName == "IMG") {
+                        var c = a(j);
+                        var g = f.next(".lr-tree-node-ct");
+                        if (c.hasClass("lr-tree-ec-icon")) {
+                            if (f.hasClass("lr-tree-node-expanded")) {
+                                g.slideUp(200,
+                                    function () {
+                                        f.removeClass("lr-tree-node-expanded");
+                                        f.addClass("lr-tree-node-collapsed")
+                                    })
+                            } else {
+                                if (f.hasClass("lr-tree-node-collapsed")) {
+                                    var l = f.attr("tpath");
+                                    var k = a.lrtree.getItem(l, h);
+                                    if (!k.complete) {
+                                        if (!k._loading) {
+                                            k._loading = true;
+                                            f.find(".lr-tree-loading").show();
+                                            b.httpAsync("GET", h.url, {
+                                                parentId: k.id
+                                            },
+                                                function (e) {
+                                                    if (!!e) {
+                                                        k.ChildNodes = e;
+                                                        g = a.lrtree.renderNodeAsync(f, k, h);
+                                                        g.slideDown(200,
+                                                            function () {
+                                                                f.removeClass("lr-tree-node-collapsed");
+                                                                f.addClass("lr-tree-node-expanded")
+                                                            });
+                                                        k.complete = true;
+                                                        f.find(".lr-tree-loading").hide()
+                                                    }
+                                                    k._loading = false
+                                                })
+                                        }
+                                    } else {
+                                        g.slideDown(200,
+                                            function () {
+                                                f.removeClass("lr-tree-node-collapsed");
+                                                f.addClass("lr-tree-node-expanded")
+                                            })
+                                    }
+                                }
+                            }
+                        } else {
+                            if (c.hasClass("lr-tree-node-cb")) {
+                                var l = f.attr("tpath");
+                                var k = a.lrtree.getItem(l, h);
+                                if (k.checkstate == 1) {
+                                    k.checkstate = 0
+                                } else {
+                                    k.checkstate = 1
+                                }
+                                c.attr("src", h.cbiconpath + h.icons[k.checkstate]);
+                                a.lrtree.checkChild(a.lrtree.check, k, k.checkstate, h);
+                                a.lrtree.checkParent(a.lrtree.check, k, k.checkstate, h);
+                                if (!!h.nodeCheck) {
+                                    h.nodeCheck(k, f)
+                                }
+                            }
+                        }
+                    } else {
+                        var l = f.attr("tpath");
+                        var k = a.lrtree.getItem(l, h);
+                        h.currentItem = k;
+                        a("#" + h.id).find(".lr-tree-selected").removeClass("lr-tree-selected");
+                        f.addClass("lr-tree-selected");
+                        if (!!h.nodeClick) {
+                            h.nodeClick(k, f)
+                        }
+                    }
+                    return false
+                },
+                check: function (h, n, o, e) {
+                    var m = h.checkstate;
+                    if (o == 1) {
+                        h.checkstate = n
+                    } else {
+                        var d = h.ChildNodes;
+                        var j = d.length;
+                        var c = true;
+                        for (var g = 0; g < j; g++) {
+                            d[g].checkstate = d[g].checkstate || 0;
+                            if ((n == 1 && d[g].checkstate != 1) || n == 0 && d[g].checkstate != 0) {
+                                c = false;
+                                break
+                            }
+                        }
+                        if (c) {
+                            h.checkstate = n
+                        } else {
+                            h.checkstate = 2
+                        }
+                    }
+                    if (h.render && m != h.checkstate) {
+                        var k = h.id.replace(/[^\w]/gi, "_");
+                        var f = a("#" + e.id + "_" + k + "_cb");
+                        if (f.length == 1) {
+                            f.attr("src", e.cbiconpath + e.icons[h.checkstate])
+                        }
+                    }
+                },
+                checkParent: function (d, e, h, c) {
+                    var f = e.parent;
+                    while (f) {
+                        var g = d(f, h, 0, c);
+                        if (g === false) {
+                            break
+                        }
+                        f = f.parent
+                    }
+                },
+                checkChild: function (e, h, j, d) {
+                    if (e(h, j, 1, d) != false) {
+                        if (h.ChildNodes != null && h.ChildNodes.length > 0) {
+                            var c = h.ChildNodes;
+                            for (var f = 0,
+                                g = c.length; f < g; f++) {
+                                a.lrtree.checkChild(e, c[f], j, d)
+                            }
+                        }
+                    }
+                },
+                search: function (d, c) {
+                    var e = false;
+                    a.each(c,
+                        function (g, h) {
+                            var f = false;
+                            if (!b.validator.isNotNull(d).code || h.text.indexOf(d) != -1) {
+                                f = true
+                            }
+                            if (h.hasChildren) {
+                                if (a.lrtree.search(d, h.ChildNodes)) {
+                                    f = true
+                                }
+                            }
+                            if (f) {
+                                e = true;
+                                h.isexpand = true;
+                                h.shide = false
+                            } else {
+                                h.shide = true
+                            }
+                        });
+                    return e
+                },
+                findItem: function (e, f, g) {
+                    var d = null;
+                    c(e, f, g);
+                    function c(h, j, k) {
+                        for (var m = 0,
+                            n = h.length; m < n; m++) {
+                            if (h[m][f] == g) {
+                                d = h[m];
+                                return true
+                            }
+                            if (h[m].hasChildren && h[m].ChildNodes.length > 0) {
+                                if (c(h[m].ChildNodes, j, k)) {
+                                    return true
+                                }
+                            }
+                        }
+                        return false
+                    }
+                    return d
+                },
+                listTotree: function (e, m, g, o, p, d) {
+                    var n = [];
+                    var k = {};
+                    for (var f = 0,
+                        j = e.length; f < j; f++) {
+                        var h = e[f];
+                        k[h[m]] = k[h[m]] || [];
+                        k[h[m]].push(h)
+                    }
+                    c(n, "0");
+                    function c(i, v) {
+                        var u = k[v] || [];
+                        for (var s = 0,
+                            t = u.length; s < t; s++) {
+                            var q = u[s];
+                            var r = {
+                                id: q[g],
+                                text: q[o],
+                                value: q[p],
+                                showcheck: d,
+                                checkstate: false,
+                                hasChildren: false,
+                                isexpand: false,
+                                complete: true,
+                                ChildNodes: []
+                            };
+                            if (c(r.ChildNodes, q[g])) {
+                                r.hasChildren = true;
+                                r.isexpand = true
+                            }
+                            i.push(r)
+                        }
+                        return i.length > 0
+                    }
+                    return n
+                },
+                treeTotree: function (f, g, i, j, d, e) {
+                    var h = [];
+                    c(h, f);
+                    function c(q, n) {
+                        for (var o = 0,
+                            p = n.length; o < p; o++) {
+                            var k = n[o];
+                            var m = {
+                                id: k[g],
+                                text: k[i],
+                                value: k[j],
+                                showcheck: d,
+                                checkstate: false,
+                                hasChildren: false,
+                                isexpand: true,
+                                complete: true,
+                                ChildNodes: []
+                            };
+                            if (k[e].length > 0) {
+                                m.hasChildren = true;
+                                c(m.ChildNodes, k[e])
+                            }
+                            q.push(m)
+                        }
+                    }
+                    return h
+                },
+                addNode: function (e, i, g, h) {
+                    var f = e[0]._lrtree.dfop;
+                    if (!!g) {
+                        f.data.splice(h, 0, i);
+                        var c = a.lrtree.renderNode(i, 0, h, f);
+                        if (e.find(".lr-tree-root>li").length == 0) {
+                            e.find(".lr-tree-root>li").append(c)
+                        } else {
+                            e.find(".lr-tree-root>li").eq(h).before(c)
+                        }
+                    } else {
+                        var d = e.find("#" + f.id + "_" + g);
+                        var j = d.attr("tpath");
+                        var c = a.lrtree.renderNode(i, 0, j + "." + h, f);
+                        if (d.next().children().length == 0) {
+                            d.next().children().append(c)
+                        } else {
+                            d.next().children().eq(h).before(c)
+                        }
+                    }
+                },
+                setValue: function (c) {
+                    var d = c[0]._lrtree.dfop;
+                    if (d.data.length == 0) {
+                        setTimeout(function () {
+                            a.lrtree.setValue(c)
+                        },
+                            100)
+                    } else {
+                        c.find('span[data-value="' + d._value + '"]').trigger("click")
+                    }
+                }
+            };
+            a.fn.lrtree = function (g) {
+                var d = {
+                    icons: ["checkbox_0.png", "checkbox_1.png", "checkbox_2.png"],
+                    method: "GET",
+                    url: false,
+                    param: null,
+                    data: [],
+                    isAllExpand: false,
+                    cbiconpath: "/Content/images/learuntree/",
+                    nodeClick: false,
+                    nodeCheck: false
+                };
+                a.extend(d, g);
+                var c = a(this);
+                d.id = c.attr("id");
+                if (d.id == null || d.id == "") {
+                    d.id = "learuntree" + new Date().getTime();
+                    c.attr("id", d.id)
+                }
+                c.html("");
+                c.addClass("lr-tree");
+                c[0]._lrtree = {
+                    dfop: d
+                };
+                c[0]._lrtree.dfop.backupData = d.data;
+                if (d.url) {
+                    b.httpAsync(d.method, d.url, d.param,
+                        function (h) {
+                            c[0]._lrtree.dfop.data = h || [];
+                            c[0]._lrtree.dfop.backupData = c[0]._lrtree.dfop.data;
+                            a.lrtree.render(c)
+                        })
+                } else {
+                    a.lrtree.render(c)
+                }
+                if (d.showcheck) {
+                    for (var e = 0; e < 3; e++) {
+                        var f = new Image();
+                        f.src = d.cbiconpath + d.icons[e]
+                    }
+                }
+                d = null;
+                return c
+            };
+            a.fn.lrtreeSet = function (i, j) {
+                var c = a(this);
+                var e = c[0]._lrtree.dfop;
+                var f = function (p, m, n) {
+                    for (var o = 0,
+                        q = p.length; o < q; o++) {
+                        if (c.find("#" + e.id + "_" + p[o].id.replace(/-/g, "_")).parent().css("display") != "none") {
+                            (p[o].showcheck == true && (p[o].checkstate == 1 || p[o].checkstate == 2)) && m.push(n(p[o]));
+                            if (!p[o].showcheck || (p[o].showcheck == true && (p[o].checkstate == 1 || p[o].checkstate == 2))) {
+                                if (p[o].ChildNodes != null && p[o].ChildNodes.length > 0) {
+                                    f(p[o].ChildNodes, m, n)
+                                }
+                            }
+                        }
+                    }
+                };
+                var g = function (p, m, n) {
+                    for (var o = 0,
+                        q = p.length; o < q; o++) {
+                        (p[o].showcheck == true && (p[o].checkstate == 1 || p[o].checkstate == 2) && !p[o].hasChildren) && m.push(n(p[o]));
+                        if (!p[o].showcheck || (p[o].showcheck == true && (p[o].checkstate == 1 || p[o].checkstate == 2))) {
+                            if (p[o].ChildNodes != null && p[o].ChildNodes.length > 0) {
+                                g(p[o].ChildNodes, m, n)
+                            }
+                        }
+                    }
+                };
+                var l = function (p, m, n) {
+                    for (var o = 0,
+                        q = p.length; o < q; o++) {
+                        if (p[o].showcheck) {
+                            p[o].checkstate = 0
+                        }
+                        if (p[o].ChildNodes != null && p[o].ChildNodes.length > 0) {
+                            l(p[o].ChildNodes)
+                        }
+                    }
+                };
+                switch (i) {
+                    case "allNoCheck":
+                        c.find(".lr-tree-node-cb").attr("src", e.cbiconpath + "checkbox_0.png");
+                        l(e.data);
+                        break;
+                    case "allCheck":
+                        c.find('.lr-tree-node-cb[src$="checkbox_0.png"]').trigger("click");
+                        break;
+                    case "setCheck":
+                        var h = j;
+                        a.each(h,
+                            function (n, o) {
+                                var m = c.find("#" + e.id + "_" + o.replace(/-/g, "_"));
+                                if (m.next().length == 0) {
+                                    m.find(".lr-tree-node-cb").trigger("click")
+                                }
+                            });
+                        break;
+                    case "setValue":
+                        e._value = j;
+                        a.lrtree.setValue(c);
+                        break;
+                    case "currentItem":
+                        return e.currentItem;
+                        break;
+                    case "getCheckNodesEx":
+                        var d = [];
+                        g(e.data, d,
+                            function (m) {
+                                return m
+                            });
+                        return d;
+                        break;
+                    case "getCheckNodes":
+                        var d = [];
+                        f(e.data, d,
+                            function (m) {
+                                return m
+                            });
+                        return d;
+                        break;
+                    case "getCheckNodeIds":
+                        var d = [];
+                        f(e.data, d,
+                            function (m) {
+                                return m.id
+                            });
+                        return d;
+                        break;
+                    case "getCheckNodeIdsByPath":
+                        var d = [];
+                        var k;
+                        f(e.data, d,
+                            function (m) {
+                                return m.id
+                            });
+                        return d;
+                        break;
+                    case "search":
+                        a.lrtree.search(j.keyword, e.data);
+                        if (b.validator.isNotNull(j.keyword).code) {
+                            e._isSearch = true
+                        } else {
+                            if (e._isSearch) {
+                                e._isSearch = false
+                            }
+                        }
+                        a.lrtree.renderToo(c);
+                        break;
+                    case "refresh":
+                        a.extend(e, j || {});
+                        if (!!e.url) {
+                            b.httpAsync(e.method, e.url, e.param,
+                                function (m) {
+                                    c[0]._lrtree.dfop.data = m || [];
+                                    c[0]._lrtree.dfop.backupData = c[0]._lrtree.dfop.data;
+                                    a.lrtree.renderToo(c);
+                                    e._isSearch = false
+                                })
+                        } else {
+                            c[0]._lrtree.dfop.backupData = c[0]._lrtree.dfop.data;
+                            a.lrtree.renderToo(c);
+                            e._isSearch = false
+                        }
+                        break;
+                    case "addNode":
+                        break;
+                    case "updateNode":
+                        break
+                }
+            }
+        })(jQuery, top.learun);
+        (function (a, b) {
+            a.lrselect = {
+                htmlToData: function (c) {
+                    var e = c[0]._lrselect.dfop;
+                    var d = c.find("ul");
+                    e.data = [];
+                    d.find("li").each(function () {
+                        var f = a(this);
+                        var g = {
+                            id: f.attr("data-value"),
+                            text: f.html()
+                        };
+                        e.data.push(g)
+                    });
+                    d.remove();
+                    d = null;
+                    e = null
+                },
+                initRender: function (h, f) {
+                    var c = a('<div class="lr-select-option" id="learun_select_option_' + h.id + '"></div>');
+                    var d = a('<div class="lr-select-option-content"></div>');
+                    var g = a('<ul id="learun_select_option_content' + h.id + '"></ul>');
+                    d.css("max-height", h.maxHeight + "px");
+                    c.hide();
+                    d.html(g);
+                    c.prepend(d);
+                    if (h.allowSearch) {
+                        var e = a('<div class="lr-select-option-search"><input type="text" placeholder="搜索关键字"><span class="input-query" title="查询"><i class="fa fa-search"></i></span></div>');
+                        c.append(e);
+                        c.css("padding-bottom", "25px");
+                        e.on("click",
+                            function () {
+                                return false
+                            });
+                        e.find("input").on("keypress",
+                            function (p) {
+                                if (event.keyCode == "13") {
+                                    var m = a(this);
+                                    var r = m.val();
+                                    var k = m.parents(".lr-select");
+                                    var o = k[0]._lrselect.dfop;
+                                    if (o.type == "tree" || o.type == "treemultiple") {
+                                        var j = m.parent().prev();
+                                        j.lrtreeSet("search", {
+                                            keyword: r
+                                        })
+                                    } else {
+                                        if (o.type == "default" || o.type == "multiple") {
+                                            console.log(r);
+                                            for (var q = 0,
+                                                s = o.data.length; q < s; q++) {
+                                                var n = o.data[q];
+                                                if (!r || n[o.text].indexOf(r) != -1) {
+                                                    n._lrhide = false
+                                                } else {
+                                                    n._lrhide = true
+                                                }
+                                            }
+                                            a.lrselect.render(o)
+                                        }
+                                    }
+                                }
+                            })
+                    }
+                    f.append(c);
+                    f.append('<div class="lr-select-placeholder" >==' + h.placeholder + "==</div>");
+                    f.attr("type", "lrselect").addClass("lr-select");
+                    if (h.type != "tree") {
+                        d.mCustomScrollbar({
+                            theme: "minimal-dark"
+                        })
+                    }
+                },
+                render: function (c) {
+                    switch (c.type) {
+                        case "default":
+                            a.lrselect.defaultRender(c);
+                            break;
+                        case "tree":
+                        case "treemultiple":
+                            a.lrselect.treeRender(c);
+                            break;
+                        case "gird":
+                            break;
+                        case "multiple":
+                            a.lrselect.multipleRender(c);
+                            break;
+                        default:
+                            break
+                    }
+                    c.isrender = true
+                },
+                defaultRender: function (e) {
+                    var d = a("#learun_select_option_content" + e.id);
+                    d.html("");
+                    if (!!e.placeholder) {
+                        d.append('<li data-value="-1" class="lr-selectitem-li" >==' + e.placeholder + "==</li>")
+                    }
+                    for (var f = 0,
+                        h = e.data.length; f < h; f++) {
+                        var g = e.data[f];
+                        if (!g._lrhide) {
+                            var c = a('<li data-value="' + f + '" class="lr-selectitem-li" >' + g[e.text] + "</li>");
+                            d.append(c)
+                        }
+                    }
+                },
+                multipleRender: function (e) {
+                    var d = a("#learun_select_option_content" + e.id);
+                    d.html("");
+                    if (!!e.placeholder) {
+                        d.append('<li data-value="-1" class="lr-selectitem-li" >==' + e.placeholder + "==</li>")
+                    }
+                    for (var f = 0,
+                        h = e.data.length; f < h; f++) {
+                        var g = e.data[f];
+                        if (!g._lrhide) {
+                            if (!!e.multipleMapValue && e.multipleMapValue[f] != undefined) {
+                                var c = a('<li data-value="' + f + '" class="lr-selectitem-li" ><img class="lr-select-node-cb" src="/Content/images/learuntree/checkbox_1.png">' + g[e.text] + "</li>");
+                                d.append(c)
+                            } else {
+                                var c = a('<li data-value="' + f + '" class="lr-selectitem-li" ><img class="lr-select-node-cb" src="/Content/images/learuntree/checkbox_0.png">' + g[e.text] + "</li>");
+                                d.append(c)
+                            }
+                        }
+                    }
+                },
+                treeRender: function (e) {
+                    var c = a("#learun_select_option_" + e.id);
+                    c.find(".lr-select-option-content").remove();
+                    var d = a('<div class="lr-select-option-content"></div>');
+                    c.prepend(d);
+                    d.css("max-height", e.maxHeight + "px");
+                    e.data.unshift({
+                        id: "-1",
+                        text: "==" + e.placeholder + "==",
+                        value: "-1",
+                        icon: "-1",
+                        parentnodes: "0",
+                        showcheck: false,
+                        isexpand: false,
+                        complete: true,
+                        hasChildren: false,
+                        ChildNodes: []
+                    });
+                    var f = {
+                        data: e.data,
+                        nodeClick: a.lrselect.treeNodeClick
+                    };
+                    if (e.type == "treemultiple") {
+                        f.nodeClick = a.lrselect.treeNodeClick2;
+                        f.nodeCheck = a.lrselect.treeNodeCheck
+                    }
+                    d.lrtree(f)
+                },
+                bindEvent: function (c) {
+                    c.unbind("click");
+                    c.on("click", a.lrselect.click);
+                    a(document).click(function (d) {
+                        a(".lr-select-option").slideUp(150);
+                        a(".lr-select").removeClass("lr-select-focus")
+                    })
+                },
+                click: function (k) {
+                    var h = a(this);
+                    if (h.attr("readonly") == "readonly" || h.attr("disabled") == "disabled") {
+                        return false
+                    }
+                    var j = h[0]._lrselect.dfop;
+                    if (!j.isload) {
+                        return false
+                    }
+                    if (!j.isrender) {
+                        a.lrselect.render(j)
+                    }
+                    var l = k.target || k.srcElement;
+                    var d = a(l);
+                    var g = a("#learun_select_option_" + j.id);
+                    if (g.is(":hidden")) {
+                        a(".lr-select-option").slideUp(150);
+                        a(".lr-select").removeClass("lr-select-focus");
+                        h.addClass("lr-select-focus");
+                        var n = j.width || h.parent().width();
+                        g.css("width", n).show();
+                        g.find(".lr-select-option-search").find("input").select()
+                    } else {
+                        if (j.type != "multiple") {
+                            g.slideUp(150);
+                            h.removeClass("lr-select-focus")
+                        }
+                    }
+                    if (j.type != "multiple") {
+                        if (d.hasClass("lr-selectitem-li")) {
+                            var i = d.attr("data-value");
+                            if (j._index != i) {
+                                var f = h.find(".lr-select-placeholder");
+                                if (i == -1) {
+                                    f.css("color", "#999");
+                                    f.html("==" + j.placeholder + "==")
+                                } else {
+                                    f.css("color", "#000");
+                                    f.html(j.data[i][j.text])
+                                }
+                                d.addClass("selected");
+                                if (j._index != undefined && j._index != null) {
+                                    g.find('.lr-selectitem-li[data-value="' + j._index + '"]').removeClass("selected")
+                                }
+                                j._index = i;
+                                h.trigger("change");
+                                if (!!j.select) {
+                                    j.select(j.data[i])
+                                }
+                            }
+                        }
+                    } else {
+                        if (d.hasClass("lr-selectitem-li") || d.hasClass("lr-select-node-cb")) {
+                            var f = h.find(".lr-select-placeholder");
+                            var c = d.find(".lr-select-node-cb");
+                            var i = d.attr("data-value");
+                            if (d.hasClass("lr-select-node-cb")) {
+                                c = d;
+                                i = d.parent().attr("data-value")
+                            }
+                            j.multipleMapValue = j.multipleMapValue || {};
+                            j.multipleValue = j.multipleValue || [];
+                            j.multipleText = j.multipleText || [];
+                            if (j._index != undefined && j._index != null) {
+                                g.find('.lr-selectitem-li[data-value="' + j._index + '"]').removeClass("selected")
+                            }
+                            if (i == -1) {
+                                f.css("color", "#999");
+                                f.html("==" + j.placeholder + "==");
+                                j.multipleMapValue = {};
+                                j.multipleValue = [];
+                                j.multipleText = [];
+                                g.find('.lr-select-node-cb[src$="checkbox_1.png"]').attr("src", "/Content/images/learuntree/checkbox_0.png");
+                                g.slideUp(150);
+                                h.removeClass("lr-select-focus")
+                            } else {
+                                var m = true;
+                                if (j.multipleMapValue[i] == undefined) {
+                                    f.css("color", "#000");
+                                    j.multipleValue.push(j.data[i][j.value]);
+                                    j.multipleText.push(j.data[i][j.text]);
+                                    j.multipleMapValue[i] = j.multipleText.length - 1;
+                                    f.html(String(j.multipleText));
+                                    c.attr("src", "/Content/images/learuntree/checkbox_1.png")
+                                } else {
+                                    j.multipleText.splice(j.multipleMapValue[i], 1);
+                                    j.multipleValue.splice(j.multipleMapValue[i], 1);
+                                    delete j.multipleMapValue[i];
+                                    if (j.multipleText.length == 0) {
+                                        f.css("color", "#999");
+                                        f.html("==" + j.placeholder + "==")
+                                    } else {
+                                        f.html(String(j.multipleText))
+                                    }
+                                    m = false;
+                                    c.attr("src", "/Content/images/learuntree/checkbox_0.png")
+                                }
+                                h.trigger("change");
+                                if (!!j.select) {
+                                    j.select(j.data[i], m, h)
+                                }
+                            }
+                        }
+                    }
+                    j = null;
+                    k.stopPropagation()
+                },
+                treeNodeClick: function (g, d) {
+                    d.parents(".lr-select-option").slideUp(150);
+                    var e = d.parents(".lr-select");
+                    var f = e[0]._lrselect.dfop;
+                    e.removeClass("lr-select-focus");
+                    f.currtentItem = g;
+                    var c = e.find(".lr-select-placeholder");
+                    c.html(f.currtentItem.text);
+                    if (g.value == "-1") {
+                        c.css("color", "#999")
+                    } else {
+                        c.css("color", "#000")
+                    }
+                    e.trigger("change");
+                    if (!!f.select) {
+                        f.select(f.currtentItem)
+                    }
+                },
+                treeNodeClick2: function (g, d) {
+                    $tree = d.parents(".lr-select-option-content");
+                    var e = d.parents(".lr-select");
+                    var f = e[0]._lrselect.dfop;
+                    e.removeClass("lr-select-focus");
+                    f.currtentItems = [];
+                    if (g.value == "-1") {
+                        d.parents(".lr-select-option").slideUp(150);
+                        $tree.lrtreeSet("allNoCheck");
+                        var c = e.find(".lr-select-placeholder");
+                        c.html(g.text);
+                        c.css("color", "#999");
+                        e.trigger("change");
+                        if (!!f.select) {
+                            f.select([])
+                        }
+                    }
+                },
+                treeNodeCheck: function (j, d) {
+                    $tree = d.parents(".lr-select-option-content");
+                    var e = d.parents(".lr-select");
+                    var c = e.find(".lr-select-placeholder");
+                    e.removeClass("lr-select-focus");
+                    var g = e[0]._lrselect.dfop;
+                    var f = $tree.lrtreeSet("getCheckNodesEx");
+                    g.currtentItems = f;
+                    var n = "";
+                    for (var h = 0,
+                        k = f.length; h < k; h++) {
+                        var m = f[h];
+                        if (n != "") {
+                            n += ","
+                        }
+                        n += m.text
+                    }
+                    if (n == "") {
+                        c.html("==" + g.placeholder + "==");
+                        c.css("color", "#999")
+                    } else {
+                        c.text(n);
+                        c.css("color", "#000")
+                    }
+                    e.trigger("change");
+                    if (!!g.select) {
+                        g.select(g.currtentItems)
+                    }
+                },
+                defaultValue: function (d) {
+                    var e = d[0]._lrselect.dfop;
+                    e.currtentItem = null;
+                    e._index = -1;
+                    var c = d.find(".lr-select-placeholder");
+                    c.css("color", "#999");
+                    c.html("==" + e.placeholder + "==");
+                    d.trigger("change")
+                }
+            };
+            a.fn.lrselect = function (e) {
+                var d = {
+                    placeholder: "请选择",
+                    type: "default",
+                    value: "id",
+                    text: "text",
+                    title: "title",
+                    maxHeight: 200,
+                    width: false,
+                    allowSearch: false,
+                    url: false,
+                    data: false,
+                    param: null,
+                    method: "GET",
+                    select: false,
+                    isload: false,
+                    isrender: false
+                };
+                a.extend(d, e || {});
+                var c = a(this);
+                if (c.length == 0) {
+                    return c
+                }
+                d.id = c.attr("id");
+                if (!d.id) {
+                    return false
+                }
+                if (!!c[0]._lrselect) {
+                    return c
+                }
+                c[0]._lrselect = {
+                    dfop: d
+                };
+                a.lrselect.bindEvent(c);
+                if (!!d.url) {
+                    b.httpAsync(d.method, d.url, d.param,
+                        function (f) {
+                            c[0]._lrselect.dfop.data = f || [];
+                            c[0]._lrselect.dfop.backdata = f || [];
+                            d.isload = true
+                        })
+                } else {
+                    if (!!d.data) {
+                        d.isload = true;
+                        d.backdata = d.data
+                    } else {
+                        a.lrselect.htmlToData(c);
+                        d.isload = true;
+                        d.backdata = d.data
+                    }
+                }
+                a.lrselect.initRender(d, c);
+                return c
+            };
+            a.fn.lrselectRefresh = function (e) {
+                var c = a(this);
+                if (c.length == 0) {
+                    return c
+                }
+                if (!c[0]._lrselect) {
+                    return false
+                }
+                var d = c[0]._lrselect.dfop;
+                if (!d) {
+                    return false
+                }
+                a.extend(d, e || {});
+                d.isload = false;
+                d.isrender = false;
+                if (!!d.url) {
+                    b.httpAsync(d.method, d.url, d.param,
+                        function (f) {
+                            c[0]._lrselect.dfop.data = f || [];
+                            c[0]._lrselect.dfop.backdata = f || [];
+                            d.isload = true
+                        })
+                } else {
+                    if (!!d.data) {
+                        d.isload = true;
+                        d.backdata = d.data
+                    }
+                }
+                a.lrselect.defaultValue(c);
+                if (d._setValue != null && d._setValue != undefined) {
+                    c.lrselectSet(d._setValue)
+                }
+            };
+            a.fn.lrselectGet = function () {
+                var c = a(this);
+                if (c.length == 0) {
+                    return c
+                }
+                var d = c[0]._lrselect.dfop;
+                var g = "";
+                switch (d.type) {
+                    case "default":
+                        if (!!d.data[d._index]) {
+                            g = d.data[d._index][d.value]
+                        }
+                        break;
+                    case "tree":
+                        if (!!d.currtentItem) {
+                            g = d.currtentItem[d.value]
+                        }
+                        break;
+                    case "treemultiple":
+                        if (!!d.currtentItems) {
+                            for (var e = 0,
+                                f = d.currtentItems.length; e < f; e++) {
+                                if (g != "") {
+                                    g += ","
+                                }
+                                g += d.currtentItems[e][d.value]
+                            }
+                        }
+                        break;
+                    case "gird":
+                        break;
+                    case "multiple":
+                        d.multipleValue = d.multipleValue || [];
+                        return String(d.multipleValue);
+                        break;
+                    default:
+                        break
+                }
+                return g
+            };
+            a.fn.lrselectSet = function (f) {
+                var c = a(this);
+                if (c.length == 0) {
+                    return c
+                }
+                f = f + "";
+                if (f == "" || f == undefined || f == null) {
+                    a.lrselect.defaultValue(c);
+                    return c
+                }
+                var e = c[0]._lrselect.dfop;
+                e._setValue = null;
+                if (!e) {
+                    return c
+                }
+                function d(m) {
+                    if (m.isload == false) {
+                        setTimeout(function () {
+                            d(m)
+                        },
+                            100)
+                    } else {
+                        if (m.isload == true) {
+                            var j;
+                            switch (m.type) {
+                                case "default":
+                                    for (var n = 0,
+                                        o = m.data.length; n < o; n++) {
+                                        if (m.data[n][m.value] == f) {
+                                            m._index = n;
+                                            j = m.data[n];
+                                            break
+                                        }
+                                    }
+                                    break;
+                                case "tree":
+                                    j = a.lrtree.findItem(m.data, m.value, f);
+                                    m.currtentItem = j;
+                                    break;
+                                case "treemultiple":
+                                    a.lrselect.render(m);
+                                    c.find(".lr-select-option-content").lrtreeSet("setCheck", f.split(","));
+                                    return false;
+                                    break;
+                                case "gird":
+                                    break;
+                                case "multiple":
+                                    m.multipleMapValue = {};
+                                    m.multipleValue = [];
+                                    m.multipleText = [];
+                                    if (m.isrender) {
+                                        c.find('.lr-select-node-cb[src$="checkbox_1.png"]').attr("src", "/Content/images/learuntree/checkbox_0.png")
+                                    }
+                                    var k = f.split(",");
+                                    for (var n = 0,
+                                        o = m.data.length; n < o; n++) {
+                                        var h = a.inArray(m.data[n][m.value], k);
+                                        if (h != -1) {
+                                            m.multipleMapValue[n] = h;
+                                            m.multipleValue.push(m.data[n][m.value]);
+                                            m.multipleText.push(m.data[n][m.text]);
+                                            if (m.isrender) {
+                                                c.find('[data-value="' + n + '"] .lr-select-node-cb').attr("src", "/Content/images/learuntree/checkbox_1.png")
+                                            }
+                                            if (!!m.select) {
+                                                m.select(m.data[n], true, c)
+                                            }
+                                        }
+                                    }
+                                    j = m.multipleText;
+                                    break;
+                                default:
+                                    break
+                            }
+                            if (!!j) {
+                                if (m.type == "multiple") {
+                                    var g = c.find(".lr-select-placeholder");
+                                    if (m.multipleText.length > 0) {
+                                        g.css("color", "#000")
+                                    } else {
+                                        g.css("color", "#999")
+                                    }
+                                    g.html(String(m.multipleText));
+                                    c.trigger("change")
+                                } else {
+                                    var g = c.find(".lr-select-placeholder");
+                                    g.html(j[m.text]);
+                                    g.css("color", "#000");
+                                    c.trigger("change");
+                                    if (!!m.select) {
+                                        m.select(j)
+                                    }
+                                }
+                            } else {
+                                m._setValue = f
+                            }
+                        }
+                    }
+                }
+                d(e);
+                return c
+            }
+        })(jQuery, top.learun);
+        (function (a, b) {
+            a.lrformselect = {
+                init: function (d) {
+                    var e = d[0]._lrformselect.dfop;
+                    d.addClass("lr-formselect");
+                    d.attr("type", "formselect");
+                    var c = a("<span>" + e.placeholder + '</span><i class="fa ' + e.icon + '"></i><div class="clear-btn" >清空</div>');
+                    d.on("click", a.lrformselect.click);
+                    d.html(c)
+                },
+                click: function (h) {
+                    var d = a(this);
+                    var g = d[0]._lrformselect.dfop;
+                    var i = h.target || h.srcElement;
+                    var c = a(i);
+                    if (c.hasClass("clear-btn")) {
+                        g._itemValue = {
+                            value: "",
+                            text: g.placeholder
+                        };
+                        d.removeClass("selected");
+                        d.find("span").text(g._itemValue.text);
+                        if (!!g.select) {
+                            g.select(g._itemValue)
+                        }
+                    } else {
+                        var j = g._itemValue ? g._itemValue.value : "";
+                        var f = g.layerUrl;
+                        if (f.indexOf("?") != -1) {
+                            f += "&dfopid=" + g.id
+                        } else {
+                            f += "?dfopid=" + g.id
+                        }
+                        f += "&selectValue=" + j;
+                        f += "&selectText=" + encodeURI(encodeURI(d.find("span").text()));
+                        b.layerForm({
+                            id: g.id,
+                            title: g.placeholder,
+                            url: f,
+                            width: g.layerUrlW,
+                            height: g.layerUrlH,
+                            maxmin: true,
+                            callBack: function (e) {
+                                return top[e].acceptClick(a.lrformselect.callback)
+                            }
+                        })
+                    }
+                },
+                callback: function (f, e, g) {
+                    var c = a("#" + e);
+                    var d = c[0]._lrformselect.dfop;
+                    top["lr_selectform_" + e] = {
+                        _obj: g
+                    };
+                    d._itemValue = d._itemValue || {};
+                    if (d._itemValue.value != f.value) {
+                        if (!!d.select) {
+                            d.select(f)
+                        }
+                        c.trigger("change")
+                    }
+                    if (f.value == "") {
+                        f.text = d.placeholder
+                    } else {
+                        c.addClass("selected")
+                    }
+                    c.find("span").text(f.text);
+                    d._itemValue = f
+                }
+            };
+            a.fn.lrformselect = function (e) {
+                var d = {
+                    placeholder: "请选择",
+                    icon: "fa-plus",
+                    layerUrl: false,
+                    layerParam: false,
+                    layerUrlW: 600,
+                    layerUrlH: 400,
+                    dataUrl: null,
+                    select: false,
+                };
+                a.extend(d, e || {});
+                var c = a(this);
+                d.id = c.attr("id");
+                if (!d.id) {
+                    return false
+                }
+                if (!!c[0]._lrformselect) {
+                    return c
+                }
+                c[0]._lrformselect = {
+                    dfop: d
+                };
+                a.lrformselect.init(c);
+                return c
+            };
+            a.fn.lrformselectRefresh = function (e) {
+                var c = a(this);
+                var d = c[0]._lrformselect.dfop;
+                a.extend(d, e || {});
+                d._itemValue = null;
+                c.find("span").text(d.placeholder)
+            };
+            a.fn.lrformselectGet = function () {
+                var c = a(this);
+                var d = c[0]._lrformselect.dfop;
+                return d._itemValue ? d._itemValue.value : ""
+            };
+            a.fn.lrformselectSet = function (e) {
+                var c = a(this);
+                var d = c[0]._lrformselect.dfop;
+                if (e == "") {
+                    d._itemValue = {
+                        value: "",
+                        text: ""
+                    };
+                    c.removeClass("selected");
+                    c.find("span").text(d.placeholder);
+                    return false
+                }
+                d._itemValue = {
+                    value: e
+                };
+                b.httpAsync("GET", d.dataUrl, {
+                    keyValue: e
+                },
+                    function (f) {
+                        if (!!f && f != "") {
+                            d._itemValue.text = f;
+                            c.addClass("selected");
+                            c.find("span").text(f)
+                        }
+                    })
+            };
+            a.lrGirdSelect = {
+                init: function (d) {
+                    var e = d[0]._lrGirdSelect.dfop;
+                    d.addClass("lr-formselect");
+                    d.attr("type", "lrGirdSelect");
+                    var c = a("<span>" + e.placeholder + '</span><i class="fa ' + e.icon + '"></i><div class="clear-btn" >清空</div>');
+                    d.on("click", a.lrGirdSelect.click);
+                    d.html(c);
+                    b.httpAsync("GET", e.url, e.param,
+                        function (f) {
+                            e._loaded = true;
+                            e._data = f || []
+                        });
+                    top.lrGirdSelect = top.lrGirdSelect || {};
+                    top.lrGirdSelect[e.id] = e
+                },
+                click: function (g) {
+                    var d = a(this);
+                    var f = d[0]._lrGirdSelect.dfop;
+                    var h = g.target || g.srcElement;
+                    var c = a(h);
+                    if (c.hasClass("clear-btn")) {
+                        f._itemValue = {
+                            value: "",
+                            text: f.placeholder
+                        };
+                        d.removeClass("selected");
+                        d.find("span").text(f._itemValue.text);
+                        if (!!f.select) {
+                            f.select(f._itemValue)
+                        }
+                    } else {
+                        var i = f._itemValue ? f._itemValue.value : "";
+                        b.layerForm({
+                            id: f.id,
+                            title: f.placeholder,
+                            url: top.$.rootUrl + "/Utility/GirdSelectIndex?dfopid=" + f.id,
+                            width: f.width,
+                            height: f.height,
+                            maxmin: true,
+                            callBack: function (e) {
+                                return top[e].acceptClick(a.lrGirdSelect.callback)
+                            }
+                        })
+                    }
+                },
+                callback: function (f, e) {
+                    var c = a("#" + e);
+                    var d = c[0]._lrGirdSelect.dfop;
+                    d._itemValue = d._itemValue || {};
+                    if (d._itemValue[d.value] != f.value) {
+                        if (!!d.select) {
+                            d.select(f)
+                        }
+                        c.trigger("change")
+                    }
+                    if (!f) {
+                        f.text = d.placeholder
+                    } else {
+                        c.addClass("selected")
+                    }
+                    c.find("span").text(f[d.text]);
+                    d._itemValue = f
+                }
+            };
+            a.fn.lrGirdSelect = function (e) {
+                var d = {
+                    placeholder: "请选择",
+                    icon: "fa-plus",
+                    url: "",
+                    selectWord: "",
+                    headData: [],
+                    value: "",
+                    text: "",
+                    width: 600,
+                    height: 400,
+                    select: false,
+                    param: {},
+                    _loaded: false
+                };
+                a.extend(d, e || {});
+                var c = a(this);
+                d.id = c.attr("id");
+                if (!d.id) {
+                    return false
+                }
+                if (!!c[0]._lrGirdSelect) {
+                    return c
+                }
+                c[0]._lrGirdSelect = {
+                    dfop: d
+                };
+                a.lrGirdSelect.init(c);
+                return c
+            };
+            a.fn.lrGirdSelectGet = function () {
+                var c = a(this);
+                var d = c[0]._lrGirdSelect.dfop;
+                d._itemValue = d._itemValue || {};
+                var e = d._itemValue[d.value] || "";
+                return e
+            };
+            a.fn.lrGirdSelectSet = function (f) {
+                var c = a(this);
+                var d = c[0]._lrGirdSelect.dfop;
+                function e(g) {
+                    if (d._loaded) {
+                        a.each(d._data,
+                            function (h, i) {
+                                if (i[d.value] == g) {
+                                    if (!!d.select) {
+                                        d.select(i)
+                                    }
+                                    c.trigger("change");
+                                    c.addClass("selected");
+                                    c.find("span").text(i[d.text]);
+                                    d._itemValue = i;
+                                    return false
+                                }
+                            })
+                    } else {
+                        setTimeout(function () {
+                            e(g)
+                        },
+                            100)
+                    }
+                }
+                e(f)
+            }
+        })(window.jQuery, top.learun);
+        (function (a, b) {
+            a.lrisearch = {
+                init: function (c) {
+                    var d = c[0]._lrisearch.dfop;
+                    c.parent().append('<div class="lr-isearch-panel"  style="max-height:' + d.maxHeight + 'px;" ><ul id="lrisearch_' + d.id + '" ></ul></div>')
+                },
+                bind: function (c) {
+                    c.on("input propertychange",
+                        function () {
+                            var d = a(this);
+                            a.lrisearch.triggerSearch(c)
+                        })
+                },
+                triggerSearch: function (c) {
+                    var f = c[0]._lrisearch.dfop;
+                    var d = a("#lrisearch_" + f.id);
+                    d.parent().hide();
+                    var e = c.val();
+                    if (e) {
+                        if (!f._isload) {
+                            f._isSearchneed = true
+                        } else {
+                            f._first = true;
+                            f._value = e;
+                            f._begin = 0;
+                            f._end = 100 > f.data.length ? f.data.length : 100;
+                            if (f._isSearched) {
+                                f._isSearched = false;
+                                setTimeout(function () {
+                                    a.lrisearch.search(c)
+                                })
+                            }
+                        }
+                    } else {
+                        f._isSearchneed = false;
+                        d.html("")
+                    }
+                },
+                search: function (c) {
+                    var g = c[0]._lrisearch.dfop;
+                    var k = g._value;
+                    var e = g._begin;
+                    var h = g._end;
+                    var f = g.data;
+                    for (var j = e; j < h; j++) {
+                        var d = f[j];
+                        if (item[g.text].indexOf(k) != -1) {
+                            a.lrisearch.renderNone(c, item[g.text])
+                        }
+                    }
+                    if (h < f.length) {
+                        g._begin = h;
+                        g._end = h + 100;
+                        if (g._end > f.length) {
+                            g._end = f.length
+                        }
+                        setTimeout(function () {
+                            a.lrisearch.search(c)
+                        })
+                    } else {
+                        g._isSearched = true
+                    }
+                },
+                renderNone: function (c, f) {
+                    var e = c[0]._lrisearch.dfop;
+                    var d = a("#lrisearch_" + e.id);
+                    if (e._first) {
+                        e._first = false;
+                        d.html("");
+                        d.parent().show()
+                    }
+                    d.append("<li>" + f + "</li>")
+                }
+            };
+            a.fn.lrisearch = function (e) {
+                var d = {
+                    maxHeight: 200,
+                    text: "text",
+                    method: "GET",
+                    url: "",
+                    data: [],
+                    param: null,
+                    _isload: false,
+                    _isSearched: false,
+                    _first: false,
+                    _isSearchneed: false
+                };
+                a.extend(d, e || {});
+                var c = a(this);
+                d.id = c.attr("id");
+                if (!d.id) {
+                    return false
+                }
+                c[0]._lrisearch = {
+                    dfop: d
+                };
+                a.lrisearch.init(c);
+                if (!!d.url) {
+                    b.httpAsync(d.method, d.url, d.param,
+                        function (f) {
+                            c[0]._lrisearch.dfop.data = f || [];
+                            d.isload = true;
+                            if (d._isSearchneed) {
+                                a.lrisearch.triggerSearch(c)
+                            }
+                        })
+                } else {
+                    d.isload = true
+                }
+                return c
+            }
+        })(jQuery, top.learun);
+        (function (a, b) {
+            a.lrUploader = {
+                init: function (c) {
+                    var d = c[0]._lrUploader.dfop;
+                    a.lrUploader.initRender(c, d)
+                },
+                initRender: function (e, h) {
+                    e.attr("type", "lr-Uploader").addClass("lrUploader-wrap");
+                    var g = a('<div class="lrUploader-input" ></div>');
+                    var c = a('<div class="lrUploader-btn-group"></div>');
+                    var f = a('<a id="lrUploader_uploadBtn_' + h.id + '" class="btn btn-success lrUploader-input-btn">上传</a>');
+                    var d = a('<a id="lrUploader_downBtn_' + h.id + '" class="btn btn-danger lrUploader-input-btn">下载</a>');
+                    e.append(g);
+                    c.append(f);
+                    c.append(d);
+                    e.append(c);
+                    f.on("click", a.lrUploader.openUploadForm);
+                    d.on("click", a.lrUploader.openDownForm)
+                },
+                openUploadForm: function () {
+                    var c = a(this);
+                    var d = c.parents(".lrUploader-wrap");
+                    var e = d[0]._lrUploader.dfop;
+                    b.layerForm({
+                        id: e.id,
+                        title: e.placeholder,
+                        url: top.$.rootUrl + "/LR_SystemModule/Annexes/UploadForm?keyVaule=" + e.value + "&extensions=" + e.extensions,
+                        width: 600,
+                        height: 400,
+                        maxmin: true,
+                        btn: null,
+                        end: function () {
+                            b.httpAsyncGet(top.$.rootUrl + "/LR_SystemModule/Annexes/GetFileNames?folderId=" + e.value,
+                                function (f) {
+                                    if (f.code == b.httpCode.success) {
+                                        a("#" + e.id).find(".lrUploader-input").text(f.info)
+                                    }
+                                })
+                        }
+                    })
+                },
+                openDownForm: function () {
+                    var c = a(this);
+                    var d = c.parents(".lrUploader-wrap");
+                    var e = d[0]._lrUploader.dfop;
+                    b.layerForm({
+                        id: e.id,
+                        title: e.placeholder,
+                        url: top.$.rootUrl + "/LR_SystemModule/Annexes/DownForm?keyVaule=" + e.value,
+                        width: 600,
+                        height: 400,
+                        maxmin: true,
+                        btn: null
+                    })
+                }
+            };
+            a.fn.lrUploader = function (e) {
+                var c = a(this);
+                if (!!c[0]._lrUploader) {
+                    return c
+                }
+                var d = {
+                    placeholder: "上传附件",
+                    isUpload: true,
+                    isDown: true,
+                    extensions: ""
+                };
+                a.extend(d, e || {});
+                d.id = c.attr("id");
+                d.value = b.newGuid();
+                c[0]._lrUploader = {
+                    dfop: d
+                };
+                a.lrUploader.init(c)
+            };
+            a.fn.lrUploaderSet = function (e) {
+                var c = a(this);
+                var d = c[0]._lrUploader.dfop;
+                d.value = e;
+                b.httpAsyncGet(top.$.rootUrl + "/LR_SystemModule/Annexes/GetFileNames?folderId=" + d.value,
+                    function (f) {
+                        if (f.code == b.httpCode.success) {
+                            a("#" + d.id).find(".lrUploader-input").text(f.info)
+                        }
+                    })
+            };
+            a.fn.lrUploaderGet = function () {
+                var c = a(this);
+                var d = c[0]._lrUploader.dfop;
+                return d.value
+            }
+        })(jQuery, top.learun);
+    </script>
+    <script>
+        $.lrToken = $('<input name="__RequestVerificationToken" type="hidden" value="4a8vYFtg34yerC09507MFevQ16Lvkyn4RxDOga6TZguuPI8lpmu1FssMLKkotXZScL9G9Zsj_tijHgi9Cj0exK8MCbITx8FsyStgk14zWOM1" />').val();
+        $(function () {
+            if (!!window.bootstrap) {
+                bootstrap(jQuery, top.learun);
+            }
+            $('#lr_form_bg').fadeOut();
+        });
+    </script>
+</body>
+</html>
