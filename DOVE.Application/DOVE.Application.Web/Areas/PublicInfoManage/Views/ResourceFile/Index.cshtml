@@ -2,7 +2,6 @@
     ViewBag.Title = "文件管理";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
-
 <script>
     $(function () {
         InitialPage();
@@ -48,8 +47,8 @@
             m_strSize = ToDecimal(FactSize / 1024.00 / 1024.00 / 1024.00) + " GB";
         return m_strSize;
     }
-    //保留两位小数    
-    //功能：将浮点数四舍五入，取小数点后2位   
+    //保留两位小数
+    //功能：将浮点数四舍五入，取小数点后2位
     function ToDecimal(x) {
         var f = parseFloat(x);
         if (isNaN(f)) {
@@ -60,11 +59,19 @@
     }
     //加载表格
     var fileId = "";
+    var _url = "";
     function GetGrid() {
         var $gridTable = $("#gridTable");
+        var queryJson = {
+            folderId: "",
+            type: "",
+            keyword: $("#txt_Keyword").val()
+        }
+        _url = "../../PublicInfoManage/ResourceFile/GetListJson";
         $gridTable.jqGrid({
-            url: "../../PublicInfoManage/ResourceFile/GetListJson",
+            url: _url,
             datatype: "json",
+            postData: { queryJson: JSON.stringify(queryJson) },
             height: $(window).height() - 141.5,
             autowidth: true,
             colModel: [
@@ -97,20 +104,39 @@
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
+            sortname: 'CreateDate',
+            sortorder: 'desc',
             ondblClickRow: function (id) {
                 var rowData = $gridTable.getRowData(id);
                 if (rowData.FileType == "folder") {
                     fileId = rowData.FileId;
+                    //$gridTable.jqGrid('setGridParam', {
+                    //    postData: { folderId: fileId },
+                    //}).trigger('reloadGrid');
+                    var queryJson = {
+                        folderId: fileId,
+                        type: $("#hidtype").val(),
+                        keyword: $("#txt_Keyword").val()
+                    }
                     $gridTable.jqGrid('setGridParam', {
-                        postData: { folderId: fileId },
+                        postData: { queryJson: JSON.stringify(queryJson) }
                     }).trigger('reloadGrid');
                     $(".crumb-path").append('<span class="path-item add" data-fileId=' + rowData.FileId + ' data-folderId=' + rowData.FolderId + '>' + rowData.FileName + '</span>');
                     $(".crumb-path .back").show();
                     $(".crumb-path span.add").unbind('click');
                     $(".crumb-path span.add").click(function () {
                         $(this).nextAll().remove();
+                        //$gridTable.jqGrid('setGridParam', {
+                        //    postData: { folderId: $(this).attr('data-fileId') },
+                        //}).trigger('reloadGrid');
+                        var queryJson = {
+                            folderId: $(this).attr('data-fileId'),
+                            type: $("#hidtype").val(),
+                            keyword: $("#txt_Keyword").val()
+                        }
                         $gridTable.jqGrid('setGridParam', {
-                            postData: { folderId: $(this).attr('data-fileId') },
+                            url: _url,
+                            postData: { queryJson: JSON.stringify(queryJson) }
                         }).trigger('reloadGrid');
                     });
                 }
@@ -124,13 +150,23 @@
                 if (folderId == 0) {
                     $(".crumb-path .back").hide();
                 }
+                var queryJson = {
+                    folderId: folderId,
+                    type: $("#hidtype").val(),
+                    keyword: $("#txt_Keyword").val()
+                }
                 $gridTable.jqGrid('setGridParam', {
-                    postData: { folderId: folderId },
+                    postData: { queryJson: JSON.stringify(queryJson) }
                 }).trigger('reloadGrid');
                 $(".crumb-path span:last").remove()
             } else {
+                var queryJson = {
+                    folderId: 0,
+                    type: $("#hidtype").val(),
+                    keyword: $("#txt_Keyword").val()
+                }
                 $gridTable.jqGrid('setGridParam', {
-                    postData: { folderId: 0 },
+                    postData: { queryJson: JSON.stringify(queryJson) }
                 }).trigger('reloadGrid');
                 $(".crumb-path .back").hide();
                 $(".crumb-path .add").remove()
@@ -152,7 +188,6 @@
             $("#lr-emptyRecycled").hide();
             $(".crumb-path .back").hide();
             $(".crumb-path .add").remove();
-            var _url = "";
             var id = $(this).attr('id');
             switch (id) {
                 case "allFile":
@@ -198,9 +233,33 @@
                 default:
                     break;
             }
+
+            //$gridTable.jqGrid('setGridParam', {
+            //    url: _url,
+            //    postData: { folderId: "" },
+            //}).trigger('reloadGrid');
+            $("#hidtype").val(id);
+            var queryJson = {
+                folderId: "",
+                type: id,
+                keyword: $("#txt_Keyword").val()
+            }
             $gridTable.jqGrid('setGridParam', {
                 url: _url,
-                postData: { folderId: "" },
+                postData: { queryJson: JSON.stringify(queryJson) }
+            }).trigger('reloadGrid');
+        });
+
+        //查询按钮事件
+        $("#btn_Search").click(function () {
+            var queryJson = {
+                folderId: "",
+                type: $("#hidtype").val(),
+                keyword: $("#txt_Keyword").val()
+            }
+            $gridTable.jqGrid('setGridParam', {
+                url: _url,
+                postData: { queryJson: JSON.stringify(queryJson) }
             }).trigger('reloadGrid');
         });
     }
@@ -375,6 +434,7 @@
                             <tr>
                                 <td>
                                     <input id="txt_Keyword" type="text" class="form-control" placeholder="搜索我的文件" style="width: 200px;" />
+                                    <input id="hidtype" value="allFile" hidden="hidden">
                                 </td>
                                 <td style="padding-left: 5px;">
                                     <a id="btn_Search" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查询</a>

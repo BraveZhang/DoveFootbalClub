@@ -261,3 +261,4 @@ paket-files/
 __pycache__/
 *.pyc
 /DOVE.Application/DOVE.Application.Web/Resource/DocumentFile/System/20171201
+/DOVE.Application/DOVE.Application.Web/Resource/DocumentFile/System/20171204

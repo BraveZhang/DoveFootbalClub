@@ -2,6 +2,7 @@
 using DOVE.Application.IService.PublicInfoManage;
 using DOVE.Data;
 using DOVE.Data.Repository;
+using DOVE.Util;
 using DOVE.Util.Extension;
 using System;
 using System.Collections.Generic;
@@ -23,10 +24,10 @@ namespace DOVE.Application.Service.PublicInfoManage
         /// <summary>
         /// 所有文件（夹）列表
         /// </summary>
-        /// <param name="folderId">文件夹Id</param>
+        /// <param name="queryJson">postData</param>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetList(string folderId, string userId)
+        public IEnumerable<FileInfoEntity> GetList(string queryJson, string userId)
         {
             var strSql = new StringBuilder();
             strSql.Append(@"SELECT  *
@@ -37,6 +38,7 @@ namespace DOVE.Application.Service.PublicInfoManage
                                                 'folder' AS FileType ,
                                                 CreateUserId,
                                                 ModifyDate,
+                                                CreateDate,
                                                 IsShare 
                                       FROM      Base_FileFolder  where DeleteMark = 0
                                       UNION
@@ -46,22 +48,30 @@ namespace DOVE.Application.Service.PublicInfoManage
                                                 FileSize ,
                                                 FileType ,
                                                 CreateUserId,
-                                                ModifyDate,
+                                                ModifyDate,CreateDate,
                                                 IsShare
                                       FROM      Base_FileInfo where DeleteMark = 0
                                     ) t WHERE CreateUserId = " + DbParameters.CreateDbParmCharacter() + "userId");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "userId", userId));
-            if (!folderId.IsEmpty())
+            var queryParam = queryJson.ToJObject();
+            //查询条件
+            if (!queryParam["keyword"].IsEmpty())
+            {
+                strSql.Append(" AND FileName like " + DbParameters.CreateDbParmCharacter() + "fileName");
+                parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "fileName", '%' + queryParam["keyword"].ToString() + '%'));
+            }
+            if (!queryParam["folderId"].IsEmpty())
             {
                 strSql.Append(" AND FolderId = " + DbParameters.CreateDbParmCharacter() + "folderId");
-                parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "folderId", folderId));
+                parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "folderId", queryParam["folderId"].ToString()));
             }
             else
             {
                 strSql.Append(" AND FolderId = '0'");
             }
-            strSql.Append(" ORDER BY ModifyDate ASC");
+            //strSql.Append(" ORDER BY ModifyDate asc");
+            strSql.Append(" ORDER BY CreateDate desc");
             return this.BaseRepository().FindList(strSql.ToString(), parameter.ToArray());
         }
         /// <summary>
@@ -78,7 +88,7 @@ namespace DOVE.Application.Service.PublicInfoManage
                                     FileSize ,
                                     FileType ,
                                     CreateUserId ,
-                                    ModifyDate,
+                                    ModifyDate,CreateDate,
                                     IsShare
                             FROM    Base_FileInfo
                             WHERE   DeleteMark = 0
@@ -87,7 +97,8 @@ namespace DOVE.Application.Service.PublicInfoManage
                                     AND CreateUserId = " + DbParameters.CreateDbParmCharacter() + "userId");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "userId", userId));
-            strSql.Append(" ORDER BY ModifyDate ASC");
+            //strSql.Append(" ORDER BY ModifyDate ASC");
+            strSql.Append(" ORDER BY CreateDate DESC");
             return this.BaseRepository().FindList(strSql.ToString(), parameter.ToArray());
         }
         /// <summary>
@@ -104,7 +115,7 @@ namespace DOVE.Application.Service.PublicInfoManage
                                     FileSize ,
                                     FileType ,
                                     CreateUserId ,
-                                    ModifyDate,
+                                    ModifyDate,CreateDate,
                                     IsShare
                             FROM    Base_FileInfo
                             WHERE   DeleteMark = 0
@@ -112,7 +123,8 @@ namespace DOVE.Application.Service.PublicInfoManage
                                     AND CreateUserId = " + DbParameters.CreateDbParmCharacter() + "userId");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "userId", userId));
-            strSql.Append(" ORDER BY ModifyDate ASC");
+            //strSql.Append(" ORDER BY ModifyDate ASC");
+            strSql.Append(" ORDER BY CreateDate DESC");
             return this.BaseRepository().FindList(strSql.ToString(), parameter.ToArray());
         }
         /// <summary>
@@ -129,7 +141,7 @@ namespace DOVE.Application.Service.PublicInfoManage
                                                 FolderName AS FileName ,
                                                 '' AS FileSize ,
                                                 'folder' AS FileType ,
-                                                CreateUserId,
+                                                CreateUserId,CreateDate,
                                                 ModifyDate
                                       FROM      Base_FileFolder  where DeleteMark = 1
                                       UNION
@@ -138,13 +150,13 @@ namespace DOVE.Application.Service.PublicInfoManage
                                                 FileName ,
                                                 FileSize ,
                                                 FileType ,
-                                                CreateUserId,
+                                                CreateUserId,CreateDate,
                                                 ModifyDate
                                       FROM      Base_FileInfo where DeleteMark = 1
                                     ) t WHERE CreateUserId = " + DbParameters.CreateDbParmCharacter() + "userId");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "userId", userId));
-            strSql.Append(" ORDER BY ModifyDate DESC");
+            strSql.Append(" ORDER BY CreateDate DESC");
             return this.BaseRepository().FindList(strSql.ToString(), parameter.ToArray());
         }
         /// <summary>
@@ -161,7 +173,7 @@ namespace DOVE.Application.Service.PublicInfoManage
                                                 FolderName AS FileName ,
                                                 '' AS FileSize ,
                                                 'folder' AS FileType ,
-                                                CreateUserId,
+                                                CreateUserId,CreateDate,
                                                 ModifyDate
                                       FROM      Base_FileFolder  WHERE DeleteMark = 0 AND IsShare = 1
                                       UNION
@@ -170,13 +182,13 @@ namespace DOVE.Application.Service.PublicInfoManage
                                                 FileName ,
                                                 FileSize ,
                                                 FileType ,
-                                                CreateUserId,
+                                                CreateUserId,CreateDate,
                                                 ModifyDate
                                       FROM      Base_FileInfo WHERE DeleteMark = 0 AND IsShare = 1
                                     ) t WHERE CreateUserId = " + DbParameters.CreateDbParmCharacter() + "userId");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "userId", userId));
-            strSql.Append(" ORDER BY ModifyDate DESC");
+            strSql.Append(" ORDER BY CreateDate DESC");
             return this.BaseRepository().FindList(strSql.ToString(), parameter.ToArray());
         }
         /// <summary>
@@ -194,7 +206,7 @@ namespace DOVE.Application.Service.PublicInfoManage
                                                 '' AS FileSize ,
                                                 'folder' AS FileType ,
                                                 CreateUserId,
-                                                CreateUserName,
+                                                CreateUserName,CreateDate,
                                                 ShareTime AS ModifyDate
                                       FROM      Base_FileFolder  WHERE DeleteMark = 0 AND IsShare = 1
                                       UNION
@@ -204,13 +216,13 @@ namespace DOVE.Application.Service.PublicInfoManage
                                                 FileSize ,
                                                 FileType ,
                                                 CreateUserId,
-                                                CreateUserName,
+                                                CreateUserName,CreateDate,
                                                 ShareTime AS ModifyDate
                                       FROM      Base_FileInfo WHERE DeleteMark = 0 AND IsShare = 1
                                     ) t WHERE CreateUserId != " + DbParameters.CreateDbParmCharacter() + "userId");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "userId", userId));
-            strSql.Append(" ORDER BY ModifyDate DESC");
+            strSql.Append(" ORDER BY CreateDate DESC");
             return this.BaseRepository().FindList(strSql.ToString(), parameter.ToArray());
         }
         /// <summary>

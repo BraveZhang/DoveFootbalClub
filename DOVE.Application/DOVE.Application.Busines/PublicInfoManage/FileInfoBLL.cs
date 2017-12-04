@@ -21,12 +21,12 @@ namespace DOVE.Application.Busines.PublicInfoManage
         /// <summary>
         /// 所有文件（夹）列表
         /// </summary>
-        /// <param name="folderId">文件夹Id</param>
+        /// <param name="queryJson">queryJson</param>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetList(string folderId, string userId)
+        public IEnumerable<FileInfoEntity> GetList(string queryJson, string userId)
         {
-            return service.GetList(folderId, userId);
+            return service.GetList(queryJson, userId);
         }
         /// <summary>
         /// 文档列表

@@ -457,7 +457,7 @@ $.fn.SetWebControls = function (data) {
                     //if (value == "9999-12-31 23:59:59")
                     //    id.val("");
                     //else
-                        id.val(formatDate(value, 'yyyy-MM-dd'));
+                    id.val(formatDate(value, 'yyyy-MM-dd'));
                     break;
                 default:
                     id.val(value);
@@ -966,7 +966,7 @@ changeUrlParam = function (url, key, value) {
     return newUrl;
 }
 $.currentIframe = function () {
-    if ($.isbrowsername() == "Chrome" || $.isbrowsername() == "FF") {
+    if ($.isbrowsername() == "Chrome" || $.isbrowsername() == "FF" || $.isbrowsername() == "Edge") {
         return top.frames[tabiframeId()].contentWindow;
     }
     else {
@@ -982,8 +982,11 @@ $.isbrowsername = function () {
     if (userAgent.indexOf("Firefox") > -1) {
         return "FF";
     } //判断是否Firefox浏览器
+    if (userAgent.indexOf("Edge") > -1) {
+        return "Edge";
+    } //判断是否Firefox浏览器
     if (userAgent.indexOf("Chrome") > -1) {
-        if (window.navigator.webkitPersistentStorage.toString().indexOf('DeprecatedStorageQuota') > -1) {
+        if (window.navigator.webkitPersistentStorage != null && window.navigator.webkitPersistentStorage.toString().indexOf('DeprecatedStorageQuota') > -1) {
             return "Chrome";
         } else {
             return "360";

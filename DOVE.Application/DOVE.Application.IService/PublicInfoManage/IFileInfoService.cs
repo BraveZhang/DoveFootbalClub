@@ -16,10 +16,10 @@ namespace DOVE.Application.IService.PublicInfoManage
         /// <summary>
         /// 所有文件（夹）列表
         /// </summary>
-        /// <param name="folderId">文件夹Id</param>
+        /// <param name="queryJson">postData</param>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        IEnumerable<FileInfoEntity> GetList(string folderId, string userId);
+        IEnumerable<FileInfoEntity> GetList(string queryJson, string userId);
         /// <summary>
         /// 文档列表
         /// </summary>

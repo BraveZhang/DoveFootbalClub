@@ -122,13 +122,13 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
         /// <summary>
         /// 所有文件（夹）列表
         /// </summary>
-        /// <param name="folderId">文件夹Id</param>
+        /// <param name="queryJson">参数</param>
         /// <returns>返回列表Json</returns>
         [HttpGet]
-        public ActionResult GetListJson(string folderId)
+        public ActionResult GetListJson(string queryJson)
         {
             string userId = OperatorProvider.Provider.Current().UserId;
-            var data = fileInfoBLL.GetList(folderId, userId);
+            var data = fileInfoBLL.GetList(queryJson, userId);
             return ToJsonResult(data);
         }
         /// <summary>

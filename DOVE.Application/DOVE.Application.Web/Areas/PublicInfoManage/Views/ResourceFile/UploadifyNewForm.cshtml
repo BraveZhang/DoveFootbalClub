@@ -31,7 +31,7 @@
                 var file_name = files[i].name; //文件名
                 //构造html来更新UI
                 //var html = '<li id="file-' + files[i].id + '"><p class="file-name">' + file_name + '</p><p class="progress"></p></li>';
-                var html = '<div id="' + files[i].id + '" class="uploadify-queue-item"><p class="uploadify-progress"></p><div style="float:left;width:50px;margin-right:2px;"><img src="/Content/images/filetype/' + files[i].type.split('/')[1] + '.png" style="width:40px;height:40px;" /></div><span class="fileName">' + file_name + '</span><span class="data"></span><div class="uploadify-progress"><div class="uploadify-progress-bar"></div></div></div>';
+                var html = '<div id="' + files[i].id + '" class="uploadify-queue-item"><p class="uploadify-progress"></p><div style="float:left;width:50px;margin-right:2px;"><img src="/Content/images/filetype/' + file_name.split('.')[1] + '.png" style="width:40px;height:40px;" /></div><span class="fileName">' + file_name + '</span><span class="data"></span><div class="uploadify-progress"><div class="uploadify-progress-bar"></div></div></div>';
                 $(html).appendTo('.uploadify-queue');
                 uploader.start(); //开始上传
             }
@@ -75,7 +75,15 @@
         <div style="float: right; line-height: 26px; color: #337ab7; cursor: pointer; position: relative;">
             上传必知
         </div>
-        <input id="uploadify" name="uploadify" type="file" />
+        <div id="uploadify" class="uploadify" style="height: 30px; width: 90px;">
+            <input id="uploadify" name="uploadify" type="file" style="display:none" />
+            <div id="uploadify-button" class="uploadify-button " style="height: 30px;line-height: 30px;width: 90px;">
+                <i style="opacity: 0.6;" class="fa fa-cloud-upload"></i>&nbsp;
+                <span class="uploadify-button-text">添加文件</span>
+            </div>
+        </div>
+        <div id="uploadify-queue" class="uploadify-queue" style="display:none">
+        </div>
     </div>
     <div class="border" style="height: 295px; border-radius: 5px;">
         <div class="drag-tip" style="text-align: center;text-align: center; padding-top: 100px;">
@@ -84,8 +92,5 @@
                 （您的浏览器不支持此拖拽功能）
             </p>
         </div>
-    </div>
-    <div id="uploadify-queue" class="uploadify-queue" style="display:none">
-
     </div>
 </div>
