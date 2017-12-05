@@ -653,6 +653,7 @@
     <Content Include="Areas\DoveManage\Views\ExcelImport\ImportForm.cshtml" />
     <Content Include="Content\scripts\plugins\plupload\Moxie.xap" />
     <Content Include="Areas\PublicInfoManage\Views\ResourceFile\UploadifyNewForm.cshtml" />
+    <Content Include="Areas\PublicInfoManage\Views\ResourceFile\UploadifyActivityForm.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -31,6 +31,15 @@ namespace DOVE.Application.Busines.DoveManage
             return service.GetPageList(pagination, queryJson);
         }
         /// <summary>
+        /// 获取详情列表
+        /// </summary>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        public DataTable GetDetailList(string queryJson)
+        {
+            return service.GetDetailList(queryJson);
+        }
+        /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="queryJson">查询参数</param>

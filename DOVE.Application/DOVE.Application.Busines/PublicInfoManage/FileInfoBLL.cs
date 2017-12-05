@@ -33,45 +33,45 @@ namespace DOVE.Application.Busines.PublicInfoManage
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetDocumentList(string userId)
+        public IEnumerable<FileInfoEntity> GetDocumentList(string queryJson, string userId)
         {
-            return service.GetDocumentList(userId);
+            return service.GetDocumentList(queryJson, userId);
         }
         /// <summary>
         /// 图片列表
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetImageList(string userId)
+        public IEnumerable<FileInfoEntity> GetImageList(string queryJson, string userId)
         {
-            return service.GetImageList(userId);
+            return service.GetImageList(queryJson, userId);
         }
         /// <summary>
         /// 回收站文件（夹）列表
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetRecycledList(string userId)
+        public IEnumerable<FileInfoEntity> GetRecycledList(string queryJson, string userId)
         {
-            return service.GetRecycledList(userId);
+            return service.GetRecycledList(queryJson, userId);
         }
         /// <summary>
         /// 我的文件（夹）共享列表
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetMyShareList(string userId)
+        public IEnumerable<FileInfoEntity> GetMyShareList(string queryJson, string userId)
         {
-            return service.GetMyShareList(userId);
+            return service.GetMyShareList(queryJson, userId);
         }
         /// <summary>
         /// 他人文件（夹）共享列表
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetOthersShareList(string userId)
+        public IEnumerable<FileInfoEntity> GetOthersShareList(string queryJson, string userId)
         {
-            return service.GetOthersShareList(userId);
+            return service.GetOthersShareList(queryJson,userId);
         }
         /// <summary>
         /// 文件信息实体

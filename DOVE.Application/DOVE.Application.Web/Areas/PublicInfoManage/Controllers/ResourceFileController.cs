@@ -1,10 +1,16 @@
-﻿using DOVE.Application.Busines.PublicInfoManage;
+﻿using DOVE.Application.Busines.BaseManage;
+using DOVE.Application.Busines.DoveManage;
+using DOVE.Application.Busines.PublicInfoManage;
 using DOVE.Application.Code;
+using DOVE.Application.Entity.DoveManage;
 using DOVE.Application.Entity.PublicInfoManage;
 using DOVE.Util;
+using DOVE.Util.Offices;
 using DOVE.Util.WebControl;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -25,7 +31,9 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
     {
         private FileFolderBLL fileFolderBLL = new FileFolderBLL();
         private FileInfoBLL fileInfoBLL = new FileInfoBLL();
-
+        private T_ActivityBLL t_activityBLL = new T_ActivityBLL();
+        private T_Activity_DetailBLL t_activity_detailBLL = new T_Activity_DetailBLL();
+        private UserBLL userBLL = new UserBLL();
         #region 视图功能
         /// <summary>
         /// 文件管理
@@ -54,6 +62,16 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
         [HttpGet]
         [HandlerAuthorize(PermissionMode.Enforce)]
         public ActionResult UploadifyNewForm()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 上传文件(活动页面上传)
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [HandlerAuthorize(PermissionMode.Enforce)]
+        public ActionResult UploadifyActivityForm()
         {
             return View();
         }
@@ -136,10 +154,10 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
         /// </summary>
         /// <returns>返回列表Json</returns>
         [HttpGet]
-        public ActionResult GetDocumentListJson()
+        public ActionResult GetDocumentListJson(string queryJson)
         {
             string userId = OperatorProvider.Provider.Current().UserId;
-            var data = fileInfoBLL.GetDocumentList(userId);
+            var data = fileInfoBLL.GetDocumentList(queryJson, userId);
             return ToJsonResult(data);
         }
         /// <summary>
@@ -147,10 +165,10 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
         /// </summary>
         /// <returns>返回列表Json</returns>
         [HttpGet]
-        public ActionResult GetImageListJson()
+        public ActionResult GetImageListJson(string queryJson)
         {
             string userId = OperatorProvider.Provider.Current().UserId;
-            var data = fileInfoBLL.GetImageList(userId);
+            var data = fileInfoBLL.GetImageList(queryJson, userId);
             return ToJsonResult(data);
         }
         /// <summary>
@@ -158,10 +176,10 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
         /// </summary>
         /// <returns>返回列表Json</returns>
         [HttpGet]
-        public ActionResult GetRecycledListJson()
+        public ActionResult GetRecycledListJson(string queryJson)
         {
             string userId = OperatorProvider.Provider.Current().UserId;
-            var data = fileInfoBLL.GetRecycledList(userId);
+            var data = fileInfoBLL.GetRecycledList(queryJson, userId);
             return ToJsonResult(data);
         }
         /// <summary>
@@ -169,10 +187,10 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
         /// </summary>
         /// <returns>返回列表Json</returns>
         [HttpGet]
-        public ActionResult GetMyShareListJson()
+        public ActionResult GetMyShareListJson(string queryJson)
         {
             string userId = OperatorProvider.Provider.Current().UserId;
-            var data = fileInfoBLL.GetMyShareList(userId);
+            var data = fileInfoBLL.GetMyShareList(queryJson, userId);
             return ToJsonResult(data);
         }
         /// <summary>
@@ -180,10 +198,10 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
         /// </summary>
         /// <returns>返回列表Json</returns>
         [HttpGet]
-        public ActionResult GetOthersShareListJson()
+        public ActionResult GetOthersShareListJson(string queryJson)
         {
             string userId = OperatorProvider.Provider.Current().UserId;
-            var data = fileInfoBLL.GetOthersShareList(userId);
+            var data = fileInfoBLL.GetOthersShareList(queryJson, userId);
             return ToJsonResult(data);
         }
         /// <summary>
@@ -487,6 +505,130 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
                         fileInfoEntity.FileExtensions = FileEextension;
                         fileInfoEntity.FileType = FileEextension.Replace(".", "");
                         fileInfoBLL.SaveForm("", fileInfoEntity);
+                    }
+                }
+                return Success("上传成功。");
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 活动页面-多活动上传
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ActivitiesUpload(string folderId)
+        {
+            try
+            {
+                Thread.Sleep(500);//延迟500毫秒
+                //没有文件上传，直接返回
+                if (Request.Files.Count == 0)
+                {
+                    return HttpNotFound();
+                }
+                //获取文件完整文件名(包含绝对路径)
+                //文件存放路径格式：/Resource/ResourceFile/{userId}{data}/{guid}.{后缀名}
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+                    //file.SaveAs(AppDomain.CurrentDomain.BaseDirectory + "Uploads/" + file.FileName);
+                    string userId = OperatorProvider.Provider.Current().UserId;
+                    string fileGuid = Guid.NewGuid().ToString();
+                    long filesize = file.ContentLength;
+                    string FileEextension = Path.GetExtension(file.FileName);
+                    string uploadDate = DateTime.Now.ToString("yyyyMMdd");
+                    string virtualPath = string.Format("~/Resource/DocumentFile/{0}/{1}/{2}{3}", userId, uploadDate, fileGuid, FileEextension);
+                    string fullFileName = this.Server.MapPath(virtualPath);
+                    //创建文件夹
+                    string path = Path.GetDirectoryName(fullFileName);
+                    Directory.CreateDirectory(path);
+                    if (!System.IO.File.Exists(fullFileName))
+                    {
+                        //保存文件
+                        file.SaveAs(fullFileName);
+                        //文件信息写入数据库
+                        FileInfoEntity fileInfoEntity = new FileInfoEntity();
+                        fileInfoEntity.Create();
+                        fileInfoEntity.FileId = fileGuid;
+                        if (!string.IsNullOrEmpty(folderId))
+                        {
+                            fileInfoEntity.FolderId = folderId;
+                        }
+                        else
+                        {
+                            fileInfoEntity.FolderId = "0";
+                        }
+                        fileInfoEntity.FileName = file.FileName;
+                        fileInfoEntity.FilePath = virtualPath;
+                        fileInfoEntity.FileSize = filesize.ToString();
+                        fileInfoEntity.FileExtensions = FileEextension;
+                        fileInfoEntity.FileType = FileEextension.Replace(".", "");
+                        fileInfoBLL.SaveForm("", fileInfoEntity);
+                    }
+                    // 读取活动模板文件
+                    DataTable dtActivities = ExcelHelper.ExcelImport(fullFileName);
+                    if (dtActivities != null && dtActivities.Rows.Count > 0)
+                    {
+                        // 循环每次的活动列，进行活动插入，如果该列不是时间格式，则跳过
+                        for (int j = 0; j < dtActivities.Columns.Count; j++)
+                        {
+                            DateTime dateTime = DateTime.MinValue;
+                            IFormatProvider ifp = new CultureInfo("zh-CN", true);
+                            bool result = DateTime.TryParseExact(dtActivities.Columns[j].ToString(), "yyyyMMdd", ifp, DateTimeStyles.None, out dateTime);
+                            if (!result) continue;
+                            //// 查询数据库中是否存在该活动编号
+                            //List<T_ActivityEntity> activityEntityList = t_activityBLL.GetList("where activitycode='" + dtActivities.Columns[j].ToString() + "'").ToList();
+                            //if (activityEntityList != null && activityEntityList.ToList().Count > 0)
+                            //{
+                            //    if (activityEntityList.ToList().Count > 1)
+                            //        return Error("活动编号有多个！");
+                            //    t_activityBLL.GetEntity(activityEntityList.ToList().First().Activityid);
+                            //}
+                            // 初始化活动主表
+                            T_ActivityEntity activityModel = new T_ActivityEntity();
+                            activityModel.Create();
+                            activityModel.Activityname = dtActivities.Columns[j].ToString() + "搞起！";
+                            activityModel.Activitycode = dtActivities.Columns[j].ToString();
+                            activityModel.Activitystarttime = dateTime;
+                            activityModel.Activityendtime = dateTime;
+                            activityModel.Signupstarttime = dateTime.AddDays(-1);
+                            activityModel.Signupendtime = dateTime.AddHours(-1);
+                            activityModel.Deletemark = 0;
+                            activityModel.Enabledmark = 1;
+
+                            t_activityBLL.SaveForm("", activityModel);
+
+                            int n = 1;
+                            // 循环每一行数据，根据行列坐标获取单元格值进行数据插入操作
+                            for (int k = 0; k < dtActivities.Rows.Count; k++)
+                            {
+                                if (dtActivities.Rows[k][j].ToString() == "●")
+                                {
+                                    T_Activity_DetailEntity activityDetailModel = new T_Activity_DetailEntity();
+                                    activityDetailModel.Create();
+                                    activityDetailModel.Activityid = activityModel.Activityid;
+                                    // 匹配数据库中的用户
+                                    string usercode = dtActivities.Rows[k]["序号"].ToString();
+                                    string username = dtActivities.Rows[k]["姓名"].ToString();
+                                    string usernickname = dtActivities.Rows[k]["昵称"].ToString();
+                                    var userList = userBLL.GetList().Where(ele => ele.Account == usercode || ele.RealName == username || ele.NickName == usernickname).ToList();
+                                    if (userList != null && userList.Count > 0)
+                                    {
+                                        activityDetailModel.Userid = userList.FirstOrDefault().UserId;
+                                    }
+                                    activityDetailModel.Time = dateTime;
+                                    activityDetailModel.Sortcode = n;
+                                    activityDetailModel.Deletemark = 0;
+                                    activityDetailModel.Enabledmark = 1;
+
+                                    t_activity_detailBLL.SaveForm("", activityDetailModel);
+                                    n++;
+                                }
+                            }
+                        }
                     }
                 }
                 return Success("上传成功。");

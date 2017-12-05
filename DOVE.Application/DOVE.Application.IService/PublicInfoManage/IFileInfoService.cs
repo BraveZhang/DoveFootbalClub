@@ -25,31 +25,31 @@ namespace DOVE.Application.IService.PublicInfoManage
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        IEnumerable<FileInfoEntity> GetDocumentList(string userId);
+        IEnumerable<FileInfoEntity> GetDocumentList(string queryJson, string userId);
         /// <summary>
         /// 图片列表
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        IEnumerable<FileInfoEntity> GetImageList(string userId);
+        IEnumerable<FileInfoEntity> GetImageList(string queryJson, string userId);
         /// <summary>
         /// 回收站文件（夹）列表
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        IEnumerable<FileInfoEntity> GetRecycledList(string userId);
+        IEnumerable<FileInfoEntity> GetRecycledList(string queryJson, string userId);
         /// <summary>
         /// 我的文件（夹）共享列表
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        IEnumerable<FileInfoEntity> GetMyShareList(string userId);
+        IEnumerable<FileInfoEntity> GetMyShareList(string queryJson, string userId);
         /// <summary>
         /// 他人文件（夹）共享列表
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        IEnumerable<FileInfoEntity> GetOthersShareList(string userId);
+        IEnumerable<FileInfoEntity> GetOthersShareList(string queryJson, string userId);
         /// <summary>
         /// 文件信息实体
         /// </summary>

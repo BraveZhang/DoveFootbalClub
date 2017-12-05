@@ -70,6 +70,17 @@ namespace DOVE.Application.Web.Areas.DoveManage.Controllers
             return ToJsonResult(jsonData);
         }
         /// <summary>
+        /// 获取详情列表
+        /// </summary>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回列表Json</returns>
+        [HttpGet]
+        public ActionResult GetDetailListJson(string queryJson)
+        {
+            var data = t_activitybll.GetDetailList(queryJson);
+            return ToJsonResult(data);
+        }
+        /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="queryJson">查询参数</param>

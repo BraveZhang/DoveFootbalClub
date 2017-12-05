@@ -23,6 +23,13 @@ namespace DOVE.Application.IService.DoveManage
         /// <returns>返回分页列表</returns>
         DataTable GetPageList(Pagination pagination, string queryJson);
         /// <summary>
+        /// 获取详情列表
+        /// </summary>
+        /// <param name="pagination">分页</param>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        DataTable GetDetailList(string queryJson);
+        /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="queryJson">查询参数</param>

@@ -472,7 +472,7 @@ namespace DOVE.Util.Offices
             {
                 IRow row = sheet.GetRow(i);
                 DataRow dataRow = dt.NewRow();
-
+                if (row == null) break;// add by zy 20171205 防止异常
                 for (int j = row.FirstCellNum; j < cellCount; j++)
                 {
                     if (row.GetCell(j) != null)

@@ -77,9 +77,10 @@ namespace DOVE.Application.Service.PublicInfoManage
         /// <summary>
         /// 文档列表
         /// </summary>
+        /// <param name="queryJson">postData</param> 
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetDocumentList(string userId)
+        public IEnumerable<FileInfoEntity> GetDocumentList(string queryJson, string userId)
         {
             var strSql = new StringBuilder();
             strSql.Append(@"SELECT  FileId ,
@@ -97,6 +98,13 @@ namespace DOVE.Application.Service.PublicInfoManage
                                     AND CreateUserId = " + DbParameters.CreateDbParmCharacter() + "userId");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "userId", userId));
+            var queryParam = queryJson.ToJObject();
+            //查询条件
+            if (!queryParam["keyword"].IsEmpty())
+            {
+                strSql.Append(" AND FileName like " + DbParameters.CreateDbParmCharacter() + "fileName");
+                parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "fileName", '%' + queryParam["keyword"].ToString() + '%'));
+            }
             //strSql.Append(" ORDER BY ModifyDate ASC");
             strSql.Append(" ORDER BY CreateDate DESC");
             return this.BaseRepository().FindList(strSql.ToString(), parameter.ToArray());
@@ -104,9 +112,10 @@ namespace DOVE.Application.Service.PublicInfoManage
         /// <summary>
         /// 图片列表
         /// </summary>
+        /// <param name="queryJson">postData</param> 
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetImageList(string userId)
+        public IEnumerable<FileInfoEntity> GetImageList(string queryJson, string userId)
         {
             var strSql = new StringBuilder();
             strSql.Append(@"SELECT  FileId ,
@@ -123,6 +132,13 @@ namespace DOVE.Application.Service.PublicInfoManage
                                     AND CreateUserId = " + DbParameters.CreateDbParmCharacter() + "userId");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "userId", userId));
+            var queryParam = queryJson.ToJObject();
+            //查询条件
+            if (!queryParam["keyword"].IsEmpty())
+            {
+                strSql.Append(" AND FileName like " + DbParameters.CreateDbParmCharacter() + "fileName");
+                parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "fileName", '%' + queryParam["keyword"].ToString() + '%'));
+            }
             //strSql.Append(" ORDER BY ModifyDate ASC");
             strSql.Append(" ORDER BY CreateDate DESC");
             return this.BaseRepository().FindList(strSql.ToString(), parameter.ToArray());
@@ -130,9 +146,10 @@ namespace DOVE.Application.Service.PublicInfoManage
         /// <summary>
         /// 回收站文件（夹）列表
         /// </summary>
+        /// <param name="queryJson">postData</param> 
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetRecycledList(string userId)
+        public IEnumerable<FileInfoEntity> GetRecycledList(string queryJson, string userId)
         {
             var strSql = new StringBuilder();
             strSql.Append(@"SELECT  *
@@ -156,15 +173,23 @@ namespace DOVE.Application.Service.PublicInfoManage
                                     ) t WHERE CreateUserId = " + DbParameters.CreateDbParmCharacter() + "userId");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "userId", userId));
+            var queryParam = queryJson.ToJObject();
+            //查询条件
+            if (!queryParam["keyword"].IsEmpty())
+            {
+                strSql.Append(" AND FileName like " + DbParameters.CreateDbParmCharacter() + "fileName");
+                parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "fileName", '%' + queryParam["keyword"].ToString() + '%'));
+            }
             strSql.Append(" ORDER BY CreateDate DESC");
             return this.BaseRepository().FindList(strSql.ToString(), parameter.ToArray());
         }
         /// <summary>
         /// 我的文件（夹）共享列表
         /// </summary>
+        /// <param name="queryJson">postData</param> 
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetMyShareList(string userId)
+        public IEnumerable<FileInfoEntity> GetMyShareList(string queryJson, string userId)
         {
             var strSql = new StringBuilder();
             strSql.Append(@"SELECT  *
@@ -188,15 +213,23 @@ namespace DOVE.Application.Service.PublicInfoManage
                                     ) t WHERE CreateUserId = " + DbParameters.CreateDbParmCharacter() + "userId");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "userId", userId));
+            var queryParam = queryJson.ToJObject();
+            //查询条件
+            if (!queryParam["keyword"].IsEmpty())
+            {
+                strSql.Append(" AND FileName like " + DbParameters.CreateDbParmCharacter() + "fileName");
+                parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "fileName", '%' + queryParam["keyword"].ToString() + '%'));
+            }
             strSql.Append(" ORDER BY CreateDate DESC");
             return this.BaseRepository().FindList(strSql.ToString(), parameter.ToArray());
         }
         /// <summary>
         /// 他人文件（夹）共享列表
         /// </summary>
+        /// <param name="queryJson">postData</param> 
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public IEnumerable<FileInfoEntity> GetOthersShareList(string userId)
+        public IEnumerable<FileInfoEntity> GetOthersShareList(string queryJson, string userId)
         {
             var strSql = new StringBuilder();
             strSql.Append(@"SELECT  *
@@ -222,6 +255,13 @@ namespace DOVE.Application.Service.PublicInfoManage
                                     ) t WHERE CreateUserId != " + DbParameters.CreateDbParmCharacter() + "userId");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "userId", userId));
+            var queryParam = queryJson.ToJObject();
+            //查询条件
+            if (!queryParam["keyword"].IsEmpty())
+            {
+                strSql.Append(" AND FileName like " + DbParameters.CreateDbParmCharacter() + "fileName");
+                parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "fileName", '%' + queryParam["keyword"].ToString() + '%'));
+            }
             strSql.Append(" ORDER BY CreateDate DESC");
             return this.BaseRepository().FindList(strSql.ToString(), parameter.ToArray());
         }

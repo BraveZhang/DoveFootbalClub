@@ -31,8 +31,8 @@ namespace DOVE.Application.Service.DoveManage
         /// <returns>返回分页列表</returns>
         public DataTable GetPageList(Pagination pagination, string queryJson)
         {
-           try
-           {
+            try
+            {
                 var strSql = new StringBuilder();
                 strSql.Append(@"SELECT w.* from T_Activity w WHERE 1 = 1 ");
                 var parameter = new List<DbParameter>();
@@ -44,11 +44,47 @@ namespace DOVE.Application.Service.DoveManage
                     parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "EndTime", (queryParam["EndTime"].ToString() + " 23:59:59").ToDate()));
                 }
                 return this.BaseRepository().FindTable(strSql.ToString(), parameter.ToArray(), pagination);
-           }    
-           catch     
-           {     
+            }
+            catch
+            {
                 throw;
-           }     
+            }
+        }
+        /// <summary>
+        /// 获取详情列表
+        /// </summary>
+        /// <param name="queryJson">查询参数</param>
+        /// <returns>返回分页列表</returns>
+        public DataTable GetDetailList(string queryJson)
+        {
+            try
+            {
+                var strSql = new StringBuilder();
+                strSql.Append(@"SELECT u.account, u.realname, u.nickname, d.description, d.time
+                                     from T_Activity w
+                                     left join t_activity_detail d
+                                       on w.activityid = d.activityid
+                                      and d.enabledmark = 1
+                                      and d.deletemark = 0
+                                     left join base_user u
+                                       on u.userid = d.userid
+                                      and u.enabledmark = 1
+                                      and u.deletemark = 0
+                                    WHERE 1 = 1  ");
+                var parameter = new List<DbParameter>();
+                var queryParam = queryJson.ToJObject();
+                if (!queryParam["activityid"].IsEmpty())
+                {
+                    strSql.Append(" AND d.activityid = " + DbParameters.CreateDbParmCharacter() + "Activityid");
+                    parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "Activityid", queryParam["activityid"].ToString()));
+                }
+                strSql.Append(" order by d.time desc");
+                return this.BaseRepository().FindTable(strSql.ToString(), parameter.ToArray());
+            }
+            catch
+            {
+                throw;
+            }
         }
         /// <summary>
         /// 获取列表
