@@ -123,6 +123,8 @@ namespace DOVE.Application.Entity.DoveManage
         {
             this.Activityid = Guid.NewGuid().ToString();
             this.Createdate = DateTime.Now;
+            this.Enabledmark = 1;// add by zy 20171206
+            this.Deletemark = 0;// add by zy 20171206
             this.Createuserid = OperatorProvider.Provider.Current().UserId;
             this.Createusername = OperatorProvider.Provider.Current().UserName;
         }

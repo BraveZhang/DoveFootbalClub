@@ -122,14 +122,16 @@ namespace DOVE.Application.Web.Areas.DoveManage.Controllers
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
-        /// <param name="entity">实体对象</param>
+        /// <param name="strActivityEntity">实体对象字符串</param>
+        /// <param name="strUserIds">参与者id字符串</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AjaxOnly]
-        public ActionResult SaveForm(string keyValue, T_ActivityEntity entity)
+        public ActionResult SaveForm(string keyValue, string strActivityEntity, string strUserIds)
         {
-            t_activitybll.SaveForm(keyValue, entity);
+            T_ActivityEntity entity = strActivityEntity.ToObject<T_ActivityEntity>();
+            t_activitybll.SaveForm(keyValue, entity, strUserIds);
             return Success("操作成功。");
         }
         #endregion

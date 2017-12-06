@@ -31,19 +31,20 @@
             postData: { queryJson: JSON.stringify(queryJson) },
             datatype: "json",
             colModel: [
-                { label: '活动ID', name: 'activityid', index: 'activityid', width: 100, align: 'left',sortable: true  },
-                { label: '用户ID', name: 'userid', index: 'userid', width: 100, align: 'left',sortable: true  },
-                { label: '报名时间', name: 'time', index: 'time', width: 100, align: 'left',sortable: true  },
-                { label: '备注', name: 'description', index: 'description', width: 100, align: 'left',sortable: true  },
-                { label: '队别', name: 'teamname', index: 'teamname', width: 100, align: 'left',sortable: true  },
-                { label: '排序码', name: 'sortcode', index: 'sortcode', width: 100, align: 'left',sortable: true  },
+                { label: '活动详情ID', name: 'activitydetailid', index: 'activitydetailid', width: 270, align: 'left', sortable: true },
+                { label: '活动ID', name: 'activityid', index: 'activityid', width: 270, align: 'left', sortable: true },
+                { label: '用户ID', name: 'userid', index: 'userid', width: 270, align: 'left', sortable: true },
+                { label: '报名时间', name: 'time', index: 'time', width: 150, align: 'left', sortable: true },
+                { label: '备注', name: 'description', index: 'description', width: 200, align: 'left', sortable: true },
+                { label: '队别', name: 'teamname', index: 'teamname', width: 60, align: 'left', sortable: true },
+                { label: '排序码', name: 'sortcode', index: 'sortcode', width: 50, align: 'center', sortable: true }
             ],
             viewrecords: true,
-            rowNum: 30,
-            rowList: [30, 50, 100],
+            rowNum: 100,
+            rowList: [100, 200, 500],
             pager: "#gridPager",
-            sortname: '',
-            sortorder: 'desc',
+            sortname: 'time,sortcode',
+            sortorder: 'asc',
             rownumbers: true,
             shrinkToFit: false,
             gridview: true,
@@ -62,8 +63,8 @@
             id: 'Form',
             title: '添加活动信息明细表',
             url: '/DoveManage/T_Activity_Detail/T_Activity_DetailForm',
-            width: 'px',
-            height: 'px',
+            width: '700px',
+            height: '500px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -71,14 +72,14 @@
     }
     //编辑
     function btn_edit() {
-        var keyValue = jqGridRowValue('#gridTable', 'Activitydetailid');
+        var keyValue = $("#gridTable").jqGridRowValue("activitydetailid");
         if (checkedRow(keyValue)) {
             dialogOpen({
                 id: 'Form',
                 title: '编辑活动信息明细表',
                 url: '/DoveManage/T_Activity_Detail/T_Activity_DetailForm?keyValue=' + keyValue,
-                width: 'px',
-                height: 'px',
+                width: '700px',
+                height: '500px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
@@ -87,7 +88,7 @@
     }
     //删除
     function btn_delete() {
-        var keyValue = jqGridRowValue('#gridTable', 'Activitydetailid');
+        var keyValue = $("#gridTable").jqGridRowValue("activitydetailid");
         if (keyValue) {
             $.RemoveForm({
                 url: '../../DoveManage/T_Activity_Detail/RemoveForm',
@@ -103,42 +104,42 @@
     //打印
     function btn_print() {
         dialogOpen({
-             id: "PrintPageDialog",
-             title: '打印当前页',
-             url: '/Utility/PrintPage',
-             width: "1200px",
-             height: "500px",
-             callBack: function (iframeId) {
+            id: "PrintPageDialog",
+            title: '打印当前页',
+            url: '/Utility/PrintPage',
+            width: "1200px",
+            height: "500px",
+            callBack: function (iframeId) {
                 top.frames[iframeId].SubmitPrint();
-             }, btn: ['打印', '关闭']
+            }, btn: ['打印', '关闭']
         });
     }
     //要打印数据源，子页面调用的函数
-    function PrintDataSource () {
+    function PrintDataSource() {
         var $printArea = $('.printArea');
         return $printArea;
     }
     //导出
     function btn_export() {
         dialogOpen({
-             id: "ExcelIExportDialog",
-             title: '导出报表',
-             url: '/Utility/ExcelExportForm?gridId=gridTable&filename=报表导出' + formatDate(new Date(), 'yyyy-mm-dd'),
-             width: "500px",
-             height: "380px",
-             callBack: function (iframeId) {
+            id: "ExcelIExportDialog",
+            title: '导出报表',
+            url: '/Utility/ExcelExportForm?gridId=gridTable&filename=报表导出' + formatDate(new Date(), 'yyyy-mm-dd'),
+            width: "500px",
+            height: "380px",
+            callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
-             }, btn: ['导出Excel', '关闭']
+            }, btn: ['导出Excel', '关闭']
         });
     }
     //查询表格函数
     function SearchEvent() {
         var queryJson = $(".title-search").GetWebControls();
-             $("#gridTable").jqGrid('setGridParam', {
-             url: "../../DoveManage/T_Activity_Detail/GetPageListJson",
-             postData: { queryJson: JSON.stringify(queryJson) },
-             page: 1
-             }).trigger('reloadGrid');
+        $("#gridTable").jqGrid('setGridParam', {
+            url: "../../DoveManage/T_Activity_Detail/GetPageListJson",
+            postData: { queryJson: JSON.stringify(queryJson) },
+            page: 1
+        }).trigger('reloadGrid');
     }
 </script>
 <div class="titlePanel">
@@ -149,6 +150,9 @@
     <div class="toolbar">
         <div class="btn-group">
             <a id="lr-replace" class="btn btn-default" onclick="reload()"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
+            <a id="lr-add" class="btn btn-default" onclick="btn_add()"><i class="fa fa-plus"></i>&nbsp;新增</a>
+            <a id="lr-edit" class="btn btn-default" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+            <a id="lr-delete" class="btn btn-default" onclick="btn_delete()"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
             <a id="lr-print" class="btn btn-default" onclick="btn_print()"><i class="fa fa-print"></i>打印</a>
             <a id="lr-export" class="btn btn-default" onclick="btn_export()"><i class="fa fa-sign-out"></i>导出</a>
         </div>

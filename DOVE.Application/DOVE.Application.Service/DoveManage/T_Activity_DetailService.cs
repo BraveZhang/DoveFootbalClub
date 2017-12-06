@@ -43,6 +43,7 @@ namespace DOVE.Application.Service.DoveManage
                     parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "StartTime", (queryParam["StartTime"].ToString() + " 00:00:00").ToDate()));
                     parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "EndTime", (queryParam["EndTime"].ToString() + " 23:59:59").ToDate()));
                 }
+                strSql.Append(" or w.Time is null");// 为了活动页面新增的时候没有填时间而加，后续会完善不需要这个to do
                 return this.BaseRepository().FindTable(strSql.ToString(), parameter.ToArray(), pagination);
            }    
            catch     

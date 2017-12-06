@@ -7,6 +7,9 @@ using DOVE.Application.Entity.PublicInfoManage;
 using DOVE.Util;
 using DOVE.Util.Offices;
 using DOVE.Util.WebControl;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -534,7 +537,6 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
                     var file = Request.Files[i];
-                    //file.SaveAs(AppDomain.CurrentDomain.BaseDirectory + "Uploads/" + file.FileName);
                     string userId = OperatorProvider.Provider.Current().UserId;
                     string fileGuid = Guid.NewGuid().ToString();
                     long filesize = file.ContentLength;
@@ -599,7 +601,7 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
                             activityModel.Deletemark = 0;
                             activityModel.Enabledmark = 1;
 
-                            t_activityBLL.SaveForm("", activityModel);
+                            t_activityBLL.SaveForm("", activityModel, "");
 
                             int n = 1;
                             // 循环每一行数据，根据行列坐标获取单元格值进行数据插入操作
@@ -630,6 +632,160 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
                             }
                         }
                     }
+                }
+                return Success("上传成功。");
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 活动页面-小立报名上传
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult XiaoLiUpload(string folderId)
+        {
+            try
+            {
+                Thread.Sleep(500);//延迟500毫秒
+                //没有文件上传，直接返回
+                if (Request.Files.Count == 0)
+                {
+                    return HttpNotFound();
+                }
+                //获取文件完整文件名(包含绝对路径)
+                //文件存放路径格式：/Resource/ResourceFile/{userId}{data}/{guid}.{后缀名}
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    #region 文件保存
+                    var file = Request.Files[i];
+                    string userId = OperatorProvider.Provider.Current().UserId;
+                    string fileGuid = Guid.NewGuid().ToString();
+                    long filesize = file.ContentLength;
+                    string FileEextension = Path.GetExtension(file.FileName);
+                    string uploadDate = DateTime.Now.ToString("yyyyMMdd");
+                    string virtualPath = string.Format("~/Resource/DocumentFile/{0}/{1}/{2}{3}", userId, uploadDate, fileGuid, FileEextension);
+                    string fullFileName = this.Server.MapPath(virtualPath);
+                    //创建文件夹
+                    string path = Path.GetDirectoryName(fullFileName);
+                    Directory.CreateDirectory(path);
+                    if (!System.IO.File.Exists(fullFileName))
+                    {
+                        //保存文件
+                        file.SaveAs(fullFileName);
+                        //文件信息写入数据库
+                        FileInfoEntity fileInfoEntity = new FileInfoEntity();
+                        fileInfoEntity.Create();
+                        fileInfoEntity.FileId = fileGuid;
+                        if (!string.IsNullOrEmpty(folderId))
+                        {
+                            fileInfoEntity.FolderId = folderId;
+                        }
+                        else
+                        {
+                            fileInfoEntity.FolderId = "0";
+                        }
+                        fileInfoEntity.FileName = file.FileName;
+                        fileInfoEntity.FilePath = virtualPath;
+                        fileInfoEntity.FileSize = filesize.ToString();
+                        fileInfoEntity.FileExtensions = FileEextension;
+                        fileInfoEntity.FileType = FileEextension.Replace(".", "");
+                        fileInfoBLL.SaveForm("", fileInfoEntity);
+                    }
+                    #endregion
+
+                    #region 读取小立报名活动Excel
+                    DataTable dt = new DataTable();
+                    string sheetName = "";
+                    ISheet sheet = null;
+                    using (FileStream fileStream = new FileStream(fullFileName, FileMode.Open, FileAccess.Read))
+                    {
+                        if (fullFileName.IndexOf(".xlsx") == -1)//2003
+                        {
+                            HSSFWorkbook hssfworkbook = new HSSFWorkbook(fileStream);
+                            sheet = hssfworkbook.GetSheetAt(0);
+                        }
+                        else//2007
+                        {
+                            XSSFWorkbook xssfworkbook = new XSSFWorkbook(fileStream);
+                            sheet = xssfworkbook.GetSheetAt(0);
+                        }
+                    }
+
+                    System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
+
+                    IRow headerRow = sheet.GetRow(0);
+                    // 检查SheetName格式
+                    sheetName = sheet.SheetName;
+                    DateTime dateTime = DateTime.MinValue;
+                    IFormatProvider ifp = new CultureInfo("zh-CN", true);
+                    if (!DateTime.TryParseExact(sheetName, "yyyyMMdd", ifp, DateTimeStyles.None, out dateTime))
+                        return Error("导入Excel的Sheet名称格式不正确！");
+
+                    // 填充datatable
+                    int cellCount = headerRow.LastCellNum;
+
+                    for (int j = 0; j < cellCount; j++)
+                    {
+                        ICell cell = headerRow.GetCell(j);
+                        dt.Columns.Add(cell.ToString());
+                    }
+
+                    for (int k = (sheet.FirstRowNum + 1); k <= sheet.LastRowNum; k++)
+                    {
+                        IRow row = sheet.GetRow(k);
+                        DataRow dataRow = dt.NewRow();
+                        if (row == null) break;// add by zy 20171205 防止异常
+                        for (int m = row.FirstCellNum; m < cellCount; m++)
+                        {
+                            if (row.GetCell(m) != null)
+                                dataRow[m] = row.GetCell(m).ToString();
+                        }
+
+                        dt.Rows.Add(dataRow);
+                    }
+                    #endregion
+
+                    #region 插入活动
+                    // 初始化活动主表
+                    T_ActivityEntity activityModel = new T_ActivityEntity();
+                    activityModel.Create();
+                    activityModel.Activityname = "";
+                    activityModel.Activitycode = sheetName;
+                    activityModel.Deletemark = 0;
+                    activityModel.Enabledmark = 1;
+
+                    t_activityBLL.SaveForm("", activityModel, "");
+
+                    int n = 1;
+                    // 循环每一行数据，根据行列坐标获取单元格值进行数据插入操作
+                    for (int k = 0; k < dt.Rows.Count; k++)
+                    {
+                        string wechat = dt.Rows[k]["微信"].ToString();
+                        string username = dt.Rows[k]["姓名"].ToString();
+                        var userList = userBLL.GetList().Where(ele => ele.WeChat == wechat || ele.RealName == username).ToList();
+                        if (userList != null && userList.Count == 0)
+                        {
+                            return Error("用户信息不存在：" + wechat + " " + username);
+                        }
+                        T_Activity_DetailEntity activityDetailModel = new T_Activity_DetailEntity();
+                        activityDetailModel.Create();
+                        activityDetailModel.Activityid = activityModel.Activityid;
+                        activityDetailModel.Userid = userList.FirstOrDefault().UserId;
+                        activityDetailModel.Time = DateTime.Parse(dt.Rows[k]["报名时间"].ToString());
+                        activityDetailModel.Description = dt.Rows[k]["备注"].ToString();
+                        activityDetailModel.Teamname= dt.Rows[k]["队别"].ToString();
+                        activityDetailModel.Sortcode = n;
+                        activityDetailModel.Deletemark = 0;
+                        activityDetailModel.Enabledmark = 1;
+
+                        t_activity_detailBLL.SaveForm("", activityDetailModel);
+                        n++;
+
+                    }
+                    #endregion
                 }
                 return Success("上传成功。");
             }

@@ -4,18 +4,68 @@
 }
 <script>
     var keyValue = request('keyValue');
+    var OrganizeId = "b6a2b3c0-59b3-4535-b6e1-815e65b3512e";//鸽子队机构ID，不要修改
     $(function () {
         initControl();
     });
     //初始化控件
     function initControl() {
+        //加载发起人
+        $("#Initiator").ComboBox({
+            url: "../../BaseManage/User/GetListJsonByOrganizeId?organizeId=" + OrganizeId,
+            id: "UserId",
+            text: "RealName",
+            title: "Account",
+            height: "200px",
+            description: "==请选择==",
+            allowSearch: true
+        });
+        //加载鸽子列表
+        $.SetForm({
+            url: "../../BaseManage/User/GetListJsonByOrganizeId?organizeId=" + OrganizeId,
+            param: { keyValue: keyValue },
+            success: function (data) {
+                $.each(data, function (i) {
+                    var label = data[i].RealName;
+                    var name = data[i].UserId;
+                    $(".sys_spec_text").append("<li data-value='" + name + "' title='" + label + "'><a>" + label + "</a><i></i></li>");
+                });
+                //$(".sys_spec_text li").addClass("active");
+                $(".sys_spec_text li").click(function () {
+                    if (!!$(this).hasClass("active")) {
+                        $(this).removeClass("active");
+                        $(this).addClass
+                    } else {
+                        $(this).addClass("active").siblings("li");
+                    }
+                });
+            }
+        })
         //获取表单
         if (!!keyValue) {
+            //赋值活动主表信息
             $.SetForm({
                 url: "../../DoveManage/T_Activity/GetFormJson",
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data);
+                    $("#Activitystarttime").val(formatDate(data.Activitystarttime, 'yyyy-MM-dd hh:mm:ss'));
+                    $("#Activityendtime").val(formatDate(data.Activityendtime, 'yyyy-MM-dd hh:mm:ss'));
+                    $("#Signupstarttime").val(formatDate(data.Signupstarttime, 'yyyy-MM-dd hh:mm:ss'));
+                    $("#Signupendtime").val(formatDate(data.Signupendtime, 'yyyy-MM-dd hh:mm:ss'));
+                }
+            })
+            //赋值并选中参与活动的鸽子
+            var postData = $("#form1").GetWebControls(keyValue);
+            postData["activityid"] = keyValue;
+            $.SetForm({
+                url: "../../DoveManage/T_Activity/GetDetailListJson",
+                param: { queryJson: JSON.stringify(postData) },
+                success: function (data) {
+                    $.each(data, function (i) {
+                        var h = $(".sys_spec_text li[data-value='" + data[i].userid + "']");
+                        h.addClass("active").siblings("li");
+                    });
                 }
             })
         }
@@ -26,9 +76,16 @@
             return false;
         }
         var postData = $("#form1").GetWebControls(keyValue);
+        //获取选中的鸽子
+        var check_lis = $(".sys_spec_text li[class='active']");
+        var ids = [];
+        $.each(check_lis, function (i) {
+            ids.push(check_lis[i].attributes["data-value"].value);
+        });
+        //提交
         $.SaveForm({
             url: "../../DoveManage/T_Activity/SaveForm?keyValue=" + keyValue,
-            param: postData,
+            param: { "keyValue": keyValue, strActivityEntity: JSON.stringify(postData), strUserIds: JSON.stringify(ids) },
             loading: "正在保存数据...",
             success: function () {
                 $.currentIframe().$("#gridTable").trigger("reloadGrid");
@@ -36,68 +93,80 @@
         })
     }
 </script>
-<div style="margin-top: 20px; margin-right: 30px;">
-    <table class="form">
-        <tr>
-            <td class="formTitle">活动名称</td>
-            <td class="formValue">
-                <input id="Activityname" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
-            </td>
-        </tr>
-        <tr>
-            <td class="formTitle">活动编号</td>
-            <td class="formValue">
-                <input id="Activitycode" type="text" class="form-control"  />
-            </td>
-        </tr>
-        <tr>
-            <td class="formTitle">活动地点</td>
-            <td class="formValue" colspan='3'>
-                <input id="Address" type="text" class="form-control"  />
-            </td>
-        </tr>
-        <tr>
-            <td class="formTitle">活动内容</td>
-            <td class="formValue">
-                <input id="Content" type="text" class="form-control"  />
-            </td>
-        </tr>
-        <tr>
-            <td class="formTitle">活动开始时间</td>
-            <td class="formValue">
-                <input id="Activitystarttime" type="text" class="form-control input-datepicker" isvalid="yes" checkexpession="NotNull"/>
-            </td>
-        </tr>
-        <tr>
-            <td class="formTitle">活动结束时间</td>
-            <td class="formValue">
-                <input id="Activityendtime" type="text" class="form-control input-datepicker" isvalid="yes" checkexpession="NotNull"/>
-            </td>
-        </tr>
-        <tr>
-            <td class="formTitle">发起人ID</td>
-            <td class="formValue">
-                <input id="Initiator" type="text" class="form-control"  />
-            </td>
-        </tr>
-        <tr>
-            <td class="formTitle">备注</td>
-            <td class="formValue">
-                <input id="Description" type="text" class="form-control"  />
-            </td>
-        </tr>
-        <tr>
-            <td class="formTitle">报名开始时间</td>
-            <td class="formValue">
-                <input id="Signupstarttime" type="text" class="form-control"  />
-            </td>
-        </tr>
-        <tr>
-            <td class="formTitle">报名截止时间</td>
-            <td class="formValue">
-                <input id="Signupendtime" type="text" class="form-control"  />
-            </td>
-        </tr>
-       
-    </table>
+<div style="margin-left: 10px; margin-right: 10px;">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#BaseInfo" data-toggle="tab">基本信息</a></li>
+        <li><a href="#ExpandInfo" data-toggle="tab">活动成员</a></li>
+    </ul>
+    <div class="tab-content" style="padding-top: 15px;">
+        <div id="BaseInfo" class="tab-pane active" style=" padding-right: 30px;">
+            <table class="form">
+                <tr>
+                    <td class="formTitle">活动名称</td>
+                    <td class="formValue">
+                        <input id="Activityname" type="text" class="form-control" isvalid="yes" checkexpession="NotNull" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">活动编号</td>
+                    <td class="formValue">
+                        <input id="Activitycode" type="text" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">活动地点</td>
+                    <td class="formValue" colspan='1'>
+                        <input id="Address" type="text" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">活动内容</td>
+                    <td class="formValue">
+                        <textarea id="Content" class="form-control" style="height: 50px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">发起人</td>
+                    <td class="formValue">
+                        <div id="Initiator" type="select" class="ui-select"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">活动开始时间</td>
+                    <td class="formValue">
+                        <input id="Activitystarttime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" isvalid="yes" checkexpession="NotNull" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">活动结束时间</td>
+                    <td class="formValue">
+                        <input id="Activityendtime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" isvalid="yes" checkexpession="NotNull" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">报名开始时间</td>
+                    <td class="formValue">
+                        <input id="Signupstarttime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">报名截止时间</td>
+                    <td class="formValue">
+                        <input id="Signupendtime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">备注</td>
+                    <td class="formValue">
+                        <input id="Description" type="text" class="form-control" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="ExpandInfo" class="tab-pane ">
+            <div>
+                <ul class="sys_spec_text"></ul>
+            </div>
+        </div>
+    </div>
 </div>

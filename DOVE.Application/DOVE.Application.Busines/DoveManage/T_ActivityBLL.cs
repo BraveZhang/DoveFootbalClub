@@ -80,12 +80,13 @@ namespace DOVE.Application.Busines.DoveManage
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
+        /// <param name="strUserIds">参与者id字符串</param>
         /// <returns></returns>
-        public void SaveForm(string keyValue, T_ActivityEntity entity)
+        public void SaveForm(string keyValue, T_ActivityEntity entity, string strUserIds)
         {
             try
             {
-                service.SaveForm(keyValue, entity);
+                service.SaveForm(keyValue, entity, strUserIds);
             }
             catch (Exception)
             {

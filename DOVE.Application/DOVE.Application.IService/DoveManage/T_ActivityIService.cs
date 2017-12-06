@@ -54,8 +54,9 @@ namespace DOVE.Application.IService.DoveManage
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
+        /// <param name="strUserIds">参与者id字符串</param>
         /// <returns></returns>
-        void SaveForm(string keyValue, T_ActivityEntity entity);
+        void SaveForm(string keyValue, T_ActivityEntity entity,string strUserIds);
         #endregion
     }
 }

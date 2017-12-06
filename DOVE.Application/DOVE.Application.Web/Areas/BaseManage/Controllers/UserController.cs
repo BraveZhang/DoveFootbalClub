@@ -163,6 +163,17 @@ namespace DOVE.Application.Web.Areas.BaseManage.Controllers
         /// <summary>
         /// 用户列表
         /// </summary>
+        /// <param name="organizeId">机构Id</param>
+        /// <returns>返回用户列表Json</returns>
+        [HttpGet]
+        public ActionResult GetListJsonByOrganizeId(string organizeId)
+        {
+            var data = userCache.GetListByOrganizeId(organizeId);
+            return Content(data.ToJson());
+        }
+        /// <summary>
+        /// 用户列表
+        /// </summary>
         /// <param name="pagination">分页参数</param>
         /// <param name="queryJson">查询参数</param>
         /// <returns>返回分页列表Json</returns>

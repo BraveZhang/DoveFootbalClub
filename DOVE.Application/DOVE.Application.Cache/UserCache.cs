@@ -53,6 +53,20 @@ namespace DOVE.Application.Cache
             }
             return data;
         }
+        /// <summary>
+        /// 用户列表
+        /// </summary>
+        /// <param name="departmentId">部门Id</param>
+        /// <returns></returns>
+        public IEnumerable<UserEntity> GetListByOrganizeId(string organizeId)
+        {
+            var data = this.GetList();
+            if (!string.IsNullOrEmpty(organizeId))
+            {
+                data = data.Where(t => t.OrganizeId == organizeId);
+            }
+            return data;
+        }
         public Dictionary<string,appUserInfoModel> GetListToApp()
         {
             Dictionary<string, appUserInfoModel> data = new Dictionary<string,appUserInfoModel>();

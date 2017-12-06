@@ -158,7 +158,8 @@ $.fn.ComboBox = function (options) {
     //操作搜索事件
     if (options.allowSearch) {
         $option.find('.ui-select-option-search').find('input').bind("keypress", function (e) {
-            if (event.keyCode == "13") {
+            var key = window.event ? e.keyCode : e.which;// modify by zy 20171206
+            if (key == "13") {
                 var value = $(this).val();
                 loadComboBoxView($(this)[0].options.data, value, $(this)[0].options);
             }

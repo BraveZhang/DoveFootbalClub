@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Common;
 using System.Data;
+using System;
 
 namespace DOVE.Application.Service.DoveManage
 {
@@ -20,7 +21,7 @@ namespace DOVE.Application.Service.DoveManage
     /// 日 期：2017-11-30 15:59
     /// 描 述：活动信息表
     /// </summary>
-    public class T_ActivityService : RepositoryFactory<T_ActivityEntity>, T_ActivityIService
+    public class T_ActivityService : RepositoryFactory, T_ActivityIService
     {
         #region 获取数据
         /// <summary>
@@ -34,7 +35,13 @@ namespace DOVE.Application.Service.DoveManage
             try
             {
                 var strSql = new StringBuilder();
-                strSql.Append(@"SELECT w.* from T_Activity w WHERE 1 = 1 ");
+                strSql.Append(@"SELECT w.*,u.realname initiatorname
+                                  from T_Activity w
+                                  left join base_user u
+                                    on u.userid = w.initiator
+                                   and u.enabledmark = 1
+                                   and u.deletemark = 0
+                                 WHERE 1 = 1 ");
                 var parameter = new List<DbParameter>();
                 var queryParam = queryJson.ToJObject();
                 if (!queryParam["StartTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
@@ -60,7 +67,7 @@ namespace DOVE.Application.Service.DoveManage
             try
             {
                 var strSql = new StringBuilder();
-                strSql.Append(@"SELECT u.account, u.realname, u.nickname, d.description, d.time
+                strSql.Append(@"SELECT u.account, u.userid,u.realname, u.nickname, d.description, d.time
                                      from T_Activity w
                                      left join t_activity_detail d
                                        on w.activityid = d.activityid
@@ -93,7 +100,7 @@ namespace DOVE.Application.Service.DoveManage
         /// <returns>返回列表</returns>
         public IEnumerable<T_ActivityEntity> GetList(string queryJson)
         {
-            return this.BaseRepository().IQueryable().ToList();
+            return this.BaseRepository().IQueryable<T_ActivityEntity>().ToList();
         }
         /// <summary>
         /// 获取实体
@@ -102,7 +109,7 @@ namespace DOVE.Application.Service.DoveManage
         /// <returns></returns>
         public T_ActivityEntity GetEntity(string keyValue)
         {
-            return this.BaseRepository().FindEntity(keyValue);
+            return this.BaseRepository().FindEntity<T_ActivityEntity>(keyValue);
         }
         #endregion
 
@@ -113,25 +120,60 @@ namespace DOVE.Application.Service.DoveManage
         /// <param name="keyValue">主键</param>
         public void RemoveForm(string keyValue)
         {
-            this.BaseRepository().Delete(keyValue);
+            this.BaseRepository().Delete<T_ActivityEntity>(keyValue);
         }
         /// <summary>
         /// 保存表单（新增、修改）
         /// </summary>
         /// <param name="keyValue">主键值</param>
         /// <param name="entity">实体对象</param>
+        /// <param name="strUserIds">参与者id字符串</param>
         /// <returns></returns>
-        public void SaveForm(string keyValue, T_ActivityEntity entity)
+        public void SaveForm(string keyValue, T_ActivityEntity entity, string strUserIds)
         {
-            if (!string.IsNullOrEmpty(keyValue))
+            IRepository db = new RepositoryFactory().BaseRepository().BeginTrans();
+            try
             {
-                entity.Modify(keyValue);
-                this.BaseRepository().Update(entity);
+                if (!string.IsNullOrEmpty(keyValue))
+                {
+                    entity.Modify(keyValue);
+                    db.Update(entity);
+                }
+                else
+                {
+                    entity.Create();
+
+                    db.Insert(entity);
+
+                    //只有新建活动的时候才判断参与鸽子并插入详情表中去，因为界面选中的要素不全，修改活动也加上下列逻辑的话容易导致详情其他的信息丢失！
+                    if (!string.IsNullOrEmpty(strUserIds) && strUserIds.ToList<string>().Count > 0)
+                    {
+                        db.Delete<T_Activity_DetailEntity>(t => t.Activityid.Equals(entity.Activityid));
+
+                        List<string> userIdList = strUserIds.ToList<string>();
+                        int n = 1;
+                        foreach (var item in userIdList)
+                        {
+                            T_Activity_DetailEntity activityDetailModel = new T_Activity_DetailEntity();
+                            activityDetailModel.Create();
+                            activityDetailModel.Activityid = entity.Activityid;
+                            activityDetailModel.Userid = item;
+                            activityDetailModel.Sortcode = n;
+                            activityDetailModel.Deletemark = 0;
+                            activityDetailModel.Enabledmark = 1;
+
+                            db.Insert(activityDetailModel);
+                            n++;
+                        }
+                    }
+                }
+
+                db.Commit();
             }
-            else
+            catch (Exception)
             {
-                entity.Create();
-                this.BaseRepository().Insert(entity);
+                db.Rollback();
+                throw;
             }
         }
         #endregion
