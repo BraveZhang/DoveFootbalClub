@@ -58,8 +58,8 @@ namespace DOVE.Application.Service.DoveManage
                                                 on t.activityid = w.activityid
                                               left join base_user u
                                                 on u.userid = w.userid
-                                             where 1 = 1
-                                             order by t.activitycode desc, w.sortcode asc)
+                                             where 1 = 1 {0}
+                                             order by t.activitycode desc, w.sortcode desc)
                                      where 1 = 1 ", innerstrSql);
                 return this.BaseRepository().FindTable(strSql.ToString(), parameter.ToArray(), pagination);
             }

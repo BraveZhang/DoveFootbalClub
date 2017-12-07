@@ -25,21 +25,21 @@
         var queryJson = $(".title-search").GetWebControls();
         var $gridTable = $('#gridTable');
         $gridTable.jqGrid({
-            autowidth: false,
+            autowidth: true,
             height: $(window).height() - 136.5,
             url: "../../DoveManage/T_Activity_Detail/GetPageListJson",
             postData: { queryJson: JSON.stringify(queryJson) },
             datatype: "json",
             colModel: [
                 { label: '活动详情ID', name: 'activitydetailid', index: 'activitydetailid', width: 0, align: 'left', sortable: true, hidden: true },
-                { label: '活动ID', name: 'activityid', index: 'activityid', width: 270, align: 'left', sortable: true, hidden: true },
-                { label: '用户ID', name: 'userid', index: 'userid', width: 270, align: 'left', sortable: true, hidden: true },
-                { label: '活动编号', name: 'activitycode', index: 'activitycode', width: 100, align: 'left', sortable: true, hidden: true },
-                { label: '参与者', name: 'realname', index: 'realname', width: 100, align: 'left', sortable: true, hidden: true },
+                { label: '活动ID', name: 'activityid', index: 'activityid', width: 0, align: 'left', sortable: true, hidden: true },
+                { label: '用户ID', name: 'userid', index: 'userid', width: 0, align: 'left', sortable: true, hidden: true },
+                { label: '活动编号', name: 'activitycode', index: 'activitycode', width: 80, align: 'left', sortable: true },
+                { label: '参与者', name: 'realname', index: 'realname', width: 80, align: 'left', sortable: true },
                 { label: '报名时间', name: 'time', index: 'time', width: 150, align: 'left', sortable: true },
                 { label: '备注', name: 'description', index: 'description', width: 200, align: 'left', sortable: true },
-                { label: '队别', name: 'teamname', index: 'teamname', width: 60, align: 'left', sortable: true },
-                { label: '排序码', name: 'sortcode', index: 'sortcode', width: 50, align: 'center', sortable: true }
+                { label: '报名顺序', name: 'sortcode', index: 'sortcode', width: 60, align: 'center', sortable: true },
+                { label: '队别', name: 'teamname', index: 'teamname', width: 60, align: 'left', sortable: true }
             ],
             viewrecords: true,
             rowNum: 100,
@@ -65,8 +65,8 @@
             id: 'Form',
             title: '添加活动信息明细表',
             url: '/DoveManage/T_Activity_Detail/T_Activity_DetailForm',
-            width: '700px',
-            height: '500px',
+            width: '400px',
+            height: '300px',
             callBack: function (iframeId) {
                 top.frames[iframeId].AcceptClick();
             }
@@ -80,8 +80,8 @@
                 id: 'Form',
                 title: '编辑活动信息明细表',
                 url: '/DoveManage/T_Activity_Detail/T_Activity_DetailForm?keyValue=' + keyValue,
-                width: '700px',
-                height: '500px',
+                width: '400px',
+                height: '300px',
                 callBack: function (iframeId) {
                     top.frames[iframeId].AcceptClick();
                 }
