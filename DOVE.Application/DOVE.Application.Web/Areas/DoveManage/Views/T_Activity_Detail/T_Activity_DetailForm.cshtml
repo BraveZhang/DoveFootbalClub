@@ -16,6 +16,7 @@
                 param: { keyValue: keyValue },
                 success: function (data) {
                     $("#form1").SetWebControls(data);
+                    $("#Time").val(formatDate(data.Time, 'yyyy-MM-dd hh:mm:ss'));
                 }
             })
         }
@@ -38,6 +39,29 @@
 </script>
 <div style="margin-top: 20px; margin-right: 30px;">
     <table class="form">
-       
+        <tr>
+            <td class="formTitle">备注</td>
+            <td class="formValue">
+                <textarea id="Description" class="form-control" style="height: 50px;"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">报名时间</td>
+            <td class="formValue">
+                <input id="Time" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" isvalid="yes" checkexpession="NotNull" />
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">队别</td>
+            <td class="formValue">
+                <input id="Teamname" type="text" class="form-control" />
+            </td>
+        </tr>
+        <tr>
+            <td class="formTitle">排序码</td>
+            <td class="formValue">
+                <input id="Sortcode" type="text" class="form-control" />
+            </td>
+        </tr>
     </table>
 </div>

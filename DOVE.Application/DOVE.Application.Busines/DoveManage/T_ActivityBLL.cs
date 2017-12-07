@@ -1,10 +1,12 @@
 using DOVE.Application.Entity.DoveManage;
 using DOVE.Application.IService.DoveManage;
+using DOVE.Application.Service.BaseManage;
 using DOVE.Application.Service.DoveManage;
 using DOVE.Util.WebControl;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace DOVE.Application.Busines.DoveManage
 {
@@ -87,6 +89,42 @@ namespace DOVE.Application.Busines.DoveManage
             try
             {
                 service.SaveForm(keyValue, entity, strUserIds);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 小立报名导入
+        /// </summary>
+        /// <param name="keyValue">主键值</param>
+        /// <param name="entity">实体对象</param>
+        /// <param name="strUserIds">参与者id字符串</param>
+        /// <returns></returns>
+        public void XiaoLiSaveForm(DataTable dt, string sheetName)
+        {
+            try
+            {
+                service.XiaoliSaveForm(dt, sheetName);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 多活动考勤Excel导入
+        /// </summary>
+        /// <param name="dt">表格数据</param>
+        /// <returns></returns>
+        public void ActivitiesSaveForm(DataTable dt)
+        {
+            try
+            {
+                service.ActivitiesSaveForm(dt);
             }
             catch (Exception)
             {

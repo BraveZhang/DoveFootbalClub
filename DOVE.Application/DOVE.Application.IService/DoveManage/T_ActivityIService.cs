@@ -56,7 +56,22 @@ namespace DOVE.Application.IService.DoveManage
         /// <param name="entity">实体对象</param>
         /// <param name="strUserIds">参与者id字符串</param>
         /// <returns></returns>
-        void SaveForm(string keyValue, T_ActivityEntity entity,string strUserIds);
+        void SaveForm(string keyValue, T_ActivityEntity entity, string strUserIds);
+        /// <summary>
+        /// 小立活动Excel导入保存
+        /// </summary>
+        /// <param name="dt">数据dt</param>
+        /// <param name="sheetName">sheetName</param>
+        /// <returns></returns>
+        void XiaoliSaveForm(DataTable dt, string sheetName);
+
+        /// <summary>
+        /// 多活动Excel导入保存
+        /// </summary>
+        /// <param name="dt">数据dt</param>
+        /// <param name="sheetName">sheetName</param>
+        /// <returns></returns>
+        void ActivitiesSaveForm(DataTable dt);
         #endregion
     }
 }

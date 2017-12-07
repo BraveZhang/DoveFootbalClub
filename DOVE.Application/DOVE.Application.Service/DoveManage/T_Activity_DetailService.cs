@@ -31,25 +31,42 @@ namespace DOVE.Application.Service.DoveManage
         /// <returns>返回分页列表</returns>
         public DataTable GetPageList(Pagination pagination, string queryJson)
         {
-           try
-           {
+            try
+            {
                 var strSql = new StringBuilder();
-                strSql.Append(@"SELECT w.* from T_Activity_Detail w WHERE 1 = 1 ");
+                var innerstrSql = new StringBuilder();
                 var parameter = new List<DbParameter>();
                 var queryParam = queryJson.ToJObject();
                 if (!queryParam["StartTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
                 {
-                    strSql.Append(" AND w.Time Between " + DbParameters.CreateDbParmCharacter() + "StartTime AND " + DbParameters.CreateDbParmCharacter() + "EndTime ");
+                    innerstrSql.Append(" AND w.Time Between " + DbParameters.CreateDbParmCharacter() + "StartTime AND " + DbParameters.CreateDbParmCharacter() + "EndTime ");
                     parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "StartTime", (queryParam["StartTime"].ToString() + " 00:00:00").ToDate()));
                     parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "EndTime", (queryParam["EndTime"].ToString() + " 23:59:59").ToDate()));
                 }
-                strSql.Append(" or w.Time is null");// 为了活动页面新增的时候没有填时间而加，后续会完善不需要这个to do
+                strSql.AppendFormat(@"select *
+                                      from (select w.activitydetailid,
+                                                   w.activityid,
+                                                   w.userid,
+                                                   w.time,
+                                                   w.description,
+                                                   w.teamname,
+                                                   w.sortcode,
+                                                   u.realname,
+                                                   t.activitycode
+                                              from t_activity_detail w
+                                              left join t_activity t
+                                                on t.activityid = w.activityid
+                                              left join base_user u
+                                                on u.userid = w.userid
+                                             where 1 = 1
+                                             order by t.activitycode desc, w.sortcode asc)
+                                     where 1 = 1 ", innerstrSql);
                 return this.BaseRepository().FindTable(strSql.ToString(), parameter.ToArray(), pagination);
-           }    
-           catch     
-           {     
+            }
+            catch
+            {
                 throw;
-           }     
+            }
         }
         /// <summary>
         /// 获取列表

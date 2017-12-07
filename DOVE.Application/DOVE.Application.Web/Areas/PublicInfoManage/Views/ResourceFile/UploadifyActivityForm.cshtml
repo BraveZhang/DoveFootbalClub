@@ -48,7 +48,7 @@
         uploader.bind('FileUploaded', function (uploader, file, responseObject) {
             var result = JSON.parse(responseObject.response)
             var info = "";
-            if (result.errorcode == 3) {
+            if (result.type == 3) {
                 info = result.message;
                 $("#" + file.id).removeClass('uploadify-error');
                 $("#" + file.id).find('.uploadify-progress').remove();
@@ -60,8 +60,8 @@
                 $("#" + file.id).prepend('<a class="succeed" title="成功"><i class="fa fa-check-circle"></i></a>');
                 Loading(false);
                 $.currentIframe().$("#gridTable").trigger("reloadGrid");
-                Loading(false);
             }
+            Loading(false);
         });
 
         //绑定队列中的所有文件上传完成后触发

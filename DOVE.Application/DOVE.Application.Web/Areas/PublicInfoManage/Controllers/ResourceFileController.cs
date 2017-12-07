@@ -536,6 +536,7 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
                 //文件存放路径格式：/Resource/ResourceFile/{userId}{data}/{guid}.{后缀名}
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
+                    #region 文件保存
                     var file = Request.Files[i];
                     string userId = OperatorProvider.Provider.Current().UserId;
                     string fileGuid = Guid.NewGuid().ToString();
@@ -570,68 +571,13 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
                         fileInfoEntity.FileType = FileEextension.Replace(".", "");
                         fileInfoBLL.SaveForm("", fileInfoEntity);
                     }
-                    // 读取活动模板文件
+                    #endregion
+
+                    #region 读取活动模板文件
                     DataTable dtActivities = ExcelHelper.ExcelImport(fullFileName);
-                    if (dtActivities != null && dtActivities.Rows.Count > 0)
-                    {
-                        // 循环每次的活动列，进行活动插入，如果该列不是时间格式，则跳过
-                        for (int j = 0; j < dtActivities.Columns.Count; j++)
-                        {
-                            DateTime dateTime = DateTime.MinValue;
-                            IFormatProvider ifp = new CultureInfo("zh-CN", true);
-                            bool result = DateTime.TryParseExact(dtActivities.Columns[j].ToString(), "yyyyMMdd", ifp, DateTimeStyles.None, out dateTime);
-                            if (!result) continue;
-                            //// 查询数据库中是否存在该活动编号
-                            //List<T_ActivityEntity> activityEntityList = t_activityBLL.GetList("where activitycode='" + dtActivities.Columns[j].ToString() + "'").ToList();
-                            //if (activityEntityList != null && activityEntityList.ToList().Count > 0)
-                            //{
-                            //    if (activityEntityList.ToList().Count > 1)
-                            //        return Error("活动编号有多个！");
-                            //    t_activityBLL.GetEntity(activityEntityList.ToList().First().Activityid);
-                            //}
-                            // 初始化活动主表
-                            T_ActivityEntity activityModel = new T_ActivityEntity();
-                            activityModel.Create();
-                            activityModel.Activityname = dtActivities.Columns[j].ToString() + "搞起！";
-                            activityModel.Activitycode = dtActivities.Columns[j].ToString();
-                            activityModel.Activitystarttime = dateTime;
-                            activityModel.Activityendtime = dateTime;
-                            activityModel.Signupstarttime = dateTime.AddDays(-1);
-                            activityModel.Signupendtime = dateTime.AddHours(-1);
-                            activityModel.Deletemark = 0;
-                            activityModel.Enabledmark = 1;
+                    #endregion
 
-                            t_activityBLL.SaveForm("", activityModel, "");
-
-                            int n = 1;
-                            // 循环每一行数据，根据行列坐标获取单元格值进行数据插入操作
-                            for (int k = 0; k < dtActivities.Rows.Count; k++)
-                            {
-                                if (dtActivities.Rows[k][j].ToString() == "●")
-                                {
-                                    T_Activity_DetailEntity activityDetailModel = new T_Activity_DetailEntity();
-                                    activityDetailModel.Create();
-                                    activityDetailModel.Activityid = activityModel.Activityid;
-                                    // 匹配数据库中的用户
-                                    string usercode = dtActivities.Rows[k]["序号"].ToString();
-                                    string username = dtActivities.Rows[k]["姓名"].ToString();
-                                    string usernickname = dtActivities.Rows[k]["昵称"].ToString();
-                                    var userList = userBLL.GetList().Where(ele => ele.Account == usercode || ele.RealName == username || ele.NickName == usernickname).ToList();
-                                    if (userList != null && userList.Count > 0)
-                                    {
-                                        activityDetailModel.Userid = userList.FirstOrDefault().UserId;
-                                    }
-                                    activityDetailModel.Time = dateTime;
-                                    activityDetailModel.Sortcode = n;
-                                    activityDetailModel.Deletemark = 0;
-                                    activityDetailModel.Enabledmark = 1;
-
-                                    t_activity_detailBLL.SaveForm("", activityDetailModel);
-                                    n++;
-                                }
-                            }
-                        }
-                    }
+                    t_activityBLL.ActivitiesSaveForm(dtActivities);
                 }
                 return Success("上传成功。");
             }
@@ -642,7 +588,7 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
         }
 
         /// <summary>
-        /// 活动页面-小立报名上传
+        /// 活动页面-小立报名Excel上传
         /// </summary>
         /// <returns></returns>
         public ActionResult XiaoLiUpload(string folderId)
@@ -748,50 +694,13 @@ namespace DOVE.Application.Web.Areas.PublicInfoManage.Controllers
                     }
                     #endregion
 
-                    #region 插入活动
-                    // 初始化活动主表
-                    T_ActivityEntity activityModel = new T_ActivityEntity();
-                    activityModel.Create();
-                    activityModel.Activityname = "";
-                    activityModel.Activitycode = sheetName;
-                    activityModel.Deletemark = 0;
-                    activityModel.Enabledmark = 1;
-
-                    t_activityBLL.SaveForm("", activityModel, "");
-
-                    int n = 1;
-                    // 循环每一行数据，根据行列坐标获取单元格值进行数据插入操作
-                    for (int k = 0; k < dt.Rows.Count; k++)
-                    {
-                        string wechat = dt.Rows[k]["微信"].ToString();
-                        string username = dt.Rows[k]["姓名"].ToString();
-                        var userList = userBLL.GetList().Where(ele => ele.WeChat == wechat || ele.RealName == username).ToList();
-                        if (userList != null && userList.Count == 0)
-                        {
-                            return Error("用户信息不存在：" + wechat + " " + username);
-                        }
-                        T_Activity_DetailEntity activityDetailModel = new T_Activity_DetailEntity();
-                        activityDetailModel.Create();
-                        activityDetailModel.Activityid = activityModel.Activityid;
-                        activityDetailModel.Userid = userList.FirstOrDefault().UserId;
-                        activityDetailModel.Time = DateTime.Parse(dt.Rows[k]["报名时间"].ToString());
-                        activityDetailModel.Description = dt.Rows[k]["备注"].ToString();
-                        activityDetailModel.Teamname= dt.Rows[k]["队别"].ToString();
-                        activityDetailModel.Sortcode = n;
-                        activityDetailModel.Deletemark = 0;
-                        activityDetailModel.Enabledmark = 1;
-
-                        t_activity_detailBLL.SaveForm("", activityDetailModel);
-                        n++;
-
-                    }
-                    #endregion
+                    t_activityBLL.XiaoLiSaveForm(dt, sheetName);
                 }
                 return Success("上传成功。");
             }
             catch (Exception ex)
             {
-                return Content(ex.Message);
+                return Error(ex.Message);
             }
         }
         #endregion

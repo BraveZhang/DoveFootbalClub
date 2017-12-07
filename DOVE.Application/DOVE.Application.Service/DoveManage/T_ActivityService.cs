@@ -11,6 +11,8 @@ using System.Text;
 using System.Data.Common;
 using System.Data;
 using System;
+using DOVE.Application.Entity.BaseManage;
+using System.Globalization;
 
 namespace DOVE.Application.Service.DoveManage
 {
@@ -46,10 +48,11 @@ namespace DOVE.Application.Service.DoveManage
                 var queryParam = queryJson.ToJObject();
                 if (!queryParam["StartTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
                 {
-                    strSql.Append(" AND w.ACTIVITYSTARTTIME Between " + DbParameters.CreateDbParmCharacter() + "StartTime AND " + DbParameters.CreateDbParmCharacter() + "EndTime ");
+                    strSql.Append(" AND w.activitystarttime Between " + DbParameters.CreateDbParmCharacter() + "StartTime AND " + DbParameters.CreateDbParmCharacter() + "EndTime ");
                     parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "StartTime", (queryParam["StartTime"].ToString() + " 00:00:00").ToDate()));
                     parameter.Add(DbParameters.CreateDbParameter(DbParameters.CreateDbParmCharacter() + "EndTime", (queryParam["EndTime"].ToString() + " 23:59:59").ToDate()));
                 }
+                strSql.Append(" or w.activitystarttime is null");// 为了小立报名导入excel的时候没有填主表活动开始时间而加
                 return this.BaseRepository().FindTable(strSql.ToString(), parameter.ToArray(), pagination);
             }
             catch
@@ -120,7 +123,19 @@ namespace DOVE.Application.Service.DoveManage
         /// <param name="keyValue">主键</param>
         public void RemoveForm(string keyValue)
         {
-            this.BaseRepository().Delete<T_ActivityEntity>(keyValue);
+            IRepository db = new RepositoryFactory().BaseRepository().BeginTrans();
+            try
+            {
+                db.Delete<T_ActivityEntity>(keyValue);
+                db.Delete<T_Activity_DetailEntity>(ele => ele.Activityid == keyValue);
+
+                db.Commit();
+            }
+            catch (Exception)
+            {
+                db.Rollback();
+                throw;
+            }
         }
         /// <summary>
         /// 保存表单（新增、修改）
@@ -142,6 +157,9 @@ namespace DOVE.Application.Service.DoveManage
                 else
                 {
                     entity.Create();
+                    DateTime dateTime = DateTime.MinValue;
+                    IFormatProvider ifp = new CultureInfo("zh-CN", true);
+                    DateTime.TryParseExact(entity.Activitycode, "yyyyMMdd", ifp, DateTimeStyles.None, out dateTime);
 
                     db.Insert(entity);
 
@@ -158,6 +176,7 @@ namespace DOVE.Application.Service.DoveManage
                             activityDetailModel.Create();
                             activityDetailModel.Activityid = entity.Activityid;
                             activityDetailModel.Userid = item;
+                            activityDetailModel.Time = dateTime;
                             activityDetailModel.Sortcode = n;
                             activityDetailModel.Deletemark = 0;
                             activityDetailModel.Enabledmark = 1;
@@ -168,6 +187,150 @@ namespace DOVE.Application.Service.DoveManage
                     }
                 }
 
+                db.Commit();
+            }
+            catch (Exception)
+            {
+                db.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 小立报名Excel导入保存
+        /// </summary>
+        /// <param name="dt">数据dt</param>
+        /// <param name="sheetName">sheetName</param>
+        /// <returns></returns>
+        public void XiaoliSaveForm(DataTable dt, string sheetName)
+        {
+            IRepository db = new RepositoryFactory().BaseRepository().BeginTrans();
+            try
+            {
+                #region 插入活动
+                // 初始化活动主表
+                DateTime dateTime = DateTime.MinValue;
+                IFormatProvider ifp = new CultureInfo("zh-CN", true);
+                DateTime.TryParseExact(sheetName, "yyyyMMdd", ifp, DateTimeStyles.None, out dateTime);
+                T_ActivityEntity activityModel = new T_ActivityEntity();
+                activityModel.Create();
+                activityModel.Activityname = "";
+                activityModel.Activitycode = sheetName;
+                activityModel.Activitystarttime = dateTime;// 需要自己修改
+                activityModel.Activityendtime = dateTime;// 需要自己修改
+                activityModel.Deletemark = 0;
+                activityModel.Enabledmark = 1;
+
+                db.Insert(activityModel);
+
+                int n = 1;
+                // 循环每一行数据，根据行列坐标获取单元格值进行数据插入操作
+                for (int k = 0; k < dt.Rows.Count; k++)
+                {
+                    string wechat = dt.Rows[k]["微信"].ToString();
+                    string username = dt.Rows[k]["姓名"].ToString();
+                    var userList = db.IQueryable<UserEntity>().Where(ele => ele.WeChat == wechat || ele.RealName == username).ToList();
+                    if (userList != null && userList.Count == 0)
+                    {
+                        throw new Exception("用户信息不存在：" + wechat + " " + username);
+                    }
+                    T_Activity_DetailEntity activityDetailModel = new T_Activity_DetailEntity();
+                    activityDetailModel.Create();
+                    activityDetailModel.Activityid = activityModel.Activityid;
+                    activityDetailModel.Userid = userList.FirstOrDefault().UserId;
+                    activityDetailModel.Time = DateTime.Parse(dt.Rows[k]["报名时间"].ToString());
+                    activityDetailModel.Description = dt.Rows[k]["备注"].ToString();
+                    activityDetailModel.Teamname = dt.Rows[k]["队别"].ToString();
+                    activityDetailModel.Sortcode = n;
+                    activityDetailModel.Deletemark = 0;
+                    activityDetailModel.Enabledmark = 1;
+
+                    db.Insert(activityDetailModel);
+                    n++;
+
+                }
+                #endregion
+                db.Commit();
+            }
+            catch (Exception)
+            {
+                db.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 多活动Excel导入保存
+        /// </summary>
+        /// <param name="dt">数据dt</param>
+        /// <returns></returns>
+        public void ActivitiesSaveForm(DataTable dt)
+        {
+            IRepository db = new RepositoryFactory().BaseRepository().BeginTrans();
+            try
+            {
+                #region 插入活动
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    // 循环每次的活动列，进行活动插入，如果该列不是时间格式，则跳过
+                    for (int j = 0; j < dt.Columns.Count; j++)
+                    {
+                        DateTime dateTime = DateTime.MinValue;
+                        IFormatProvider ifp = new CultureInfo("zh-CN", true);
+                        bool result = DateTime.TryParseExact(dt.Columns[j].ToString(), "yyyyMMdd", ifp, DateTimeStyles.None, out dateTime);
+                        if (!result) continue;
+                        //// 查询数据库中是否存在该活动编号
+                        //List<T_ActivityEntity> activityEntityList = t_activityBLL.GetList("where activitycode='" + dtActivities.Columns[j].ToString() + "'").ToList();
+                        //if (activityEntityList != null && activityEntityList.ToList().Count > 0)
+                        //{
+                        //    if (activityEntityList.ToList().Count > 1)
+                        //        return Error("活动编号有多个！");
+                        //    t_activityBLL.GetEntity(activityEntityList.ToList().First().Activityid);
+                        //}
+                        // 初始化活动主表
+                        T_ActivityEntity activityModel = new T_ActivityEntity();
+                        activityModel.Create();
+                        activityModel.Activityname = dt.Columns[j].ToString() + "搞起！";
+                        activityModel.Activitycode = dt.Columns[j].ToString();
+                        activityModel.Activitystarttime = dateTime;
+                        activityModel.Activityendtime = dateTime;
+                        activityModel.Signupstarttime = dateTime.AddDays(-1);
+                        activityModel.Signupendtime = dateTime.AddHours(-1);
+                        activityModel.Deletemark = 0;
+                        activityModel.Enabledmark = 1;
+
+                        db.Insert(activityModel);
+
+                        int n = 1;
+                        // 循环每一行数据，根据行列坐标获取单元格值进行数据插入操作
+                        for (int k = 0; k < dt.Rows.Count; k++)
+                        {
+                            if (dt.Rows[k][j].ToString() == "●")
+                            {
+                                T_Activity_DetailEntity activityDetailModel = new T_Activity_DetailEntity();
+                                activityDetailModel.Create();
+                                activityDetailModel.Activityid = activityModel.Activityid;
+                                // 匹配数据库中的用户
+                                string usercode = dt.Rows[k]["序号"].ToString();
+                                string username = dt.Rows[k]["姓名"].ToString();
+                                string usernickname = dt.Rows[k]["昵称"].ToString();
+                                var userList = db.IQueryable<UserEntity>().Where(ele => ele.Account == usercode || ele.RealName == username || ele.NickName == usernickname).ToList();
+                                if (userList != null && userList.Count > 0)
+                                {
+                                    activityDetailModel.Userid = userList.FirstOrDefault().UserId;
+                                }
+                                activityDetailModel.Time = dateTime;
+                                activityDetailModel.Sortcode = n;
+                                activityDetailModel.Deletemark = 0;
+                                activityDetailModel.Enabledmark = 1;
+
+                                db.Insert(activityDetailModel); 
+                                n++;
+                            }
+                        }
+                    }
+                }
+                #endregion
                 db.Commit();
             }
             catch (Exception)
