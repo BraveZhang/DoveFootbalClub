@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using DOVE.Util;
 using DOVE.Util.WebControl;
 using DOVE.Util.Offices;
+using System.Text;
 
 namespace DOVE.Application.Web.Controllers
 {
@@ -44,10 +45,10 @@ namespace DOVE.Application.Web.Controllers
         {
             //设置导出格式
             ExcelConfig excelconfig = new ExcelConfig();
-            excelconfig.Title = Server.UrlDecode(filename);
+            excelconfig.Title = HttpUtility.UrlDecode(UTF8Encoding.UTF8.GetBytes(filename), Encoding.UTF8);
             excelconfig.TitleFont = "微软雅黑";
             excelconfig.TitlePoint = 15;
-            excelconfig.FileName = Server.UrlDecode(filename) + ".xls";
+            excelconfig.FileName = HttpUtility.UrlDecode(UTF8Encoding.UTF8.GetBytes(filename), Encoding.UTF8) + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
             excelconfig.IsAllSizeColumn = true;
             excelconfig.ColumnEntity = new List<ColumnEntity>();
             //表头

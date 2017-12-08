@@ -534,7 +534,8 @@ $.fn.Contextmenu = function () {
     }
     //自定义右键菜单
     $(element).bind("contextmenu", function () {
-        var event = event || window.event;
+        //var event = event || window.event;
+        var event = event || window.event || arguments.callee.caller.arguments[0];// add by zy 20171208 修复firefox下event为未定义的bug
         oMenu.show();
         oMenu.css('top', event.clientY + "px");
         oMenu.css('left', event.clientX + "px");

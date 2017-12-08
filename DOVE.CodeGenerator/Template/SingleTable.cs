@@ -830,7 +830,7 @@ namespace DOVE.CodeGenerator.Template
             sb.Append("        dialogOpen({\r\n");
             sb.Append("             id: \"ExcelIExportDialog\",\r\n");
             sb.Append("             title: '导出报表',\r\n");
-            sb.Append("             url: '/Utility/ExcelExportForm?gridId=gridTable&filename=报表导出' + formatDate(new Date(), 'yyyy-mm-dd'),\r\n");
+            sb.Append("             url: '/Utility/ExcelExportForm?gridId=gridTable&filename=报表导出',\r\n");
             sb.Append("             width: \"500px\",\r\n");
             sb.Append("             height: \"380px\",\r\n");
             sb.Append("             callBack: function (iframeId) {\r\n");

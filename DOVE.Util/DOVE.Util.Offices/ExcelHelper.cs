@@ -36,8 +36,9 @@ namespace DOVE.Util.Offices
             curContext.Response.Charset = "";
             //curContext.Response.AppendHeader("Content-Disposition",
             //    "attachment;filename=" + HttpUtility.UrlEncode(excelConfig.FileName, Encoding.UTF8));   //注释by zy 20170922 之前已经解码了，不需要再次解码
-            curContext.Response.AppendHeader("Content-Disposition",
-                "attachment;filename=" + excelConfig.FileName);
+            curContext.Response.AppendHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(excelConfig.FileName, Encoding.UTF8) + ";filename*=utf-8''" + HttpUtility.UrlEncode(excelConfig.FileName, Encoding.UTF8));   // modify by zy 20171208 完美解决有的浏览器下载文件中文乱码兼容性问题
+            //curContext.Response.AppendHeader("Content-Disposition",
+            //    "attachment;filename=" + excelConfig.FileName);
             //调用导出具体方法Export()
             curContext.Response.BinaryWrite(ExportMemoryStream(dtSource, excelConfig).GetBuffer());
             curContext.Response.End();
