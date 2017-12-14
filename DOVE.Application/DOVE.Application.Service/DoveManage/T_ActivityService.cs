@@ -229,18 +229,28 @@ namespace DOVE.Application.Service.DoveManage
                 {
                     string wechat = dt.Rows[k]["微信"].ToString();
                     string username = dt.Rows[k]["姓名"].ToString();
-                    var userList = db.IQueryable<UserEntity>().Where(ele => ele.WeChat == wechat || ele.RealName == username).ToList();
+
+                    var userList = db.IQueryable<UserEntity>().Where(ele =>
+                    ele.WeChat == wechat ||
+                    ele.RealName == username ||
+                    ele.RealName == wechat ||
+                    ele.WeChat == username).ToList();
+
                     if (userList != null && userList.Count == 0)
                     {
-                        throw new Exception("用户信息不存在：" + wechat + " " + username);
+                        throw new Exception("用户信息在数据库中不存在：" + wechat + " " + username);
                     }
+
+                    if (!dt.Columns.Contains("报名时间")) throw new Exception("列【报名时间】在Excel中不存在：" + wechat + " " + username);
+                    if (!dt.Columns.Contains("备注")) throw new Exception("列【备注】在Excel中不存在：" + wechat + " " + username);
+
                     T_Activity_DetailEntity activityDetailModel = new T_Activity_DetailEntity();
                     activityDetailModel.Create();
                     activityDetailModel.Activityid = activityModel.Activityid;
                     activityDetailModel.Userid = userList.FirstOrDefault().UserId;
                     activityDetailModel.Time = DateTime.Parse(dt.Rows[k]["报名时间"].ToString());
                     activityDetailModel.Description = dt.Rows[k]["备注"].ToString();
-                    activityDetailModel.Teamname = dt.Rows[k]["队别"].ToString();
+                    activityDetailModel.Teamname = dt.Columns.Contains("队别") == true ? dt.Rows[k]["队别"].ToString() : "";
                     activityDetailModel.Sortcode = n;
                     activityDetailModel.Deletemark = 0;
                     activityDetailModel.Enabledmark = 1;
@@ -324,7 +334,7 @@ namespace DOVE.Application.Service.DoveManage
                                 activityDetailModel.Deletemark = 0;
                                 activityDetailModel.Enabledmark = 1;
 
-                                db.Insert(activityDetailModel); 
+                                db.Insert(activityDetailModel);
                                 n++;
                             }
                         }
