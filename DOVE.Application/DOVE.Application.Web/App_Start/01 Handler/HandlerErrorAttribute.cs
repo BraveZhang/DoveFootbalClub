@@ -87,7 +87,7 @@ namespace DOVE.Application.Web
             if (ErrorToMail == true)
             {
                 string SystemName = Config.GetValue("SystemName");//系统名称
-                MailHelper.Send("receivebug@DOVE.cn", SystemName + " - 发生异常", body.Replace("-", ""));
+                MailHelper.Send("bravezhangyg@qq.com", SystemName + " - 发生异常", body.Replace("-", ""));
             }
         }
     }

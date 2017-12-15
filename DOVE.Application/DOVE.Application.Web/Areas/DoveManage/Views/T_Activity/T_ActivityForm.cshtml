@@ -7,6 +7,7 @@
     var OrganizeId = "b6a2b3c0-59b3-4535-b6e1-815e65b3512e";//鸽子队机构ID，不要修改
     $(function () {
         initControl();
+        $("#Activityname").focus();
     });
     //初始化控件
     function initControl() {
@@ -19,6 +20,15 @@
             height: "200px",
             description: "==请选择==",
             allowSearch: true
+        });
+        //加载活动地点
+        $("#Address").ComboBox({
+            url: "../../SystemManage/DataItemDetail/GetDataItemListJson",
+            param: { EnCode: "Address" },
+            id: "ItemValue",
+            text: "ItemName",
+            description: "==请选择==",
+            height: "200px"
         });
         //加载鸽子列表
         $.SetForm({
@@ -114,9 +124,14 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="formTitle">活动地点</td>
+                    @*<td class="formTitle">活动地点</td>
                     <td class="formValue" colspan='1'>
                         <input id="Address" type="text" class="form-control" />
+                    </td>*@
+                    <th class="formTitle">活动地点</th>
+                    <td class="formValue">
+                        <div id="Address" type="select" class="ui-select">
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -132,18 +147,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="formTitle">活动开始时间</td>
-                    <td class="formValue">
-                        <input id="Activitystarttime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" isvalid="yes" checkexpession="NotNull" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="formTitle">活动结束时间</td>
-                    <td class="formValue">
-                        <input id="Activityendtime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" isvalid="yes" checkexpession="NotNull" />
-                    </td>
-                </tr>
-                <tr>
                     <td class="formTitle">报名开始时间</td>
                     <td class="formValue">
                         <input id="Signupstarttime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
@@ -153,6 +156,18 @@
                     <td class="formTitle">报名截止时间</td>
                     <td class="formValue">
                         <input id="Signupendtime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">活动开始时间</td>
+                    <td class="formValue">
+                        <input id="Activitystarttime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" isvalid="yes" checkexpession="NotNull" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">活动结束时间</td>
+                    <td class="formValue">
+                        <input id="Activityendtime" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" isvalid="yes" checkexpession="NotNull" />
                     </td>
                 </tr>
                 <tr>

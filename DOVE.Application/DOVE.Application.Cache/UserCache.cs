@@ -63,17 +63,18 @@ namespace DOVE.Application.Cache
             var data = this.GetList();
             if (!string.IsNullOrEmpty(organizeId))
             {
-                data = data.Where(t => t.OrganizeId == organizeId);
+                data = data.Where(t => t.OrganizeId == organizeId).OrderBy(ele => ele.Account);
             }
             return data;
         }
-        public Dictionary<string,appUserInfoModel> GetListToApp()
+        public Dictionary<string, appUserInfoModel> GetListToApp()
         {
-            Dictionary<string, appUserInfoModel> data = new Dictionary<string,appUserInfoModel>();
+            Dictionary<string, appUserInfoModel> data = new Dictionary<string, appUserInfoModel>();
             var datalist = this.GetList();
             foreach (var item in datalist)
             {
-                appUserInfoModel one = new appUserInfoModel {
+                appUserInfoModel one = new appUserInfoModel
+                {
                     UserId = item.UserId,
                     Account = item.Account,
                     RealName = item.RealName,

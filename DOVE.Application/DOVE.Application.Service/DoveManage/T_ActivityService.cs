@@ -37,13 +37,15 @@ namespace DOVE.Application.Service.DoveManage
             try
             {
                 var strSql = new StringBuilder();
-                strSql.Append(@"SELECT w.*,u.realname initiatorname
-                                  from T_Activity w
-                                  left join base_user u
-                                    on u.userid = w.initiator
-                                   and u.enabledmark = 1
-                                   and u.deletemark = 0
-                                 WHERE 1 = 1 ");
+                strSql.Append(@"SELECT w.*, u.realname initiatorname, d.itemname as addressname
+                                 from T_Activity w
+                                 left join base_user u
+                                   on u.userid = w.initiator
+                                  and u.enabledmark = 1
+                                  and u.deletemark = 0
+                                 left join base_dataitemdetail d
+                                   on d.itemvalue = w.address
+                                WHERE 1 = 1 ");
                 var parameter = new List<DbParameter>();
                 var queryParam = queryJson.ToJObject();
                 if (!queryParam["StartTime"].IsEmpty() && !queryParam["EndTime"].IsEmpty())
@@ -70,17 +72,17 @@ namespace DOVE.Application.Service.DoveManage
             try
             {
                 var strSql = new StringBuilder();
-                strSql.Append(@"SELECT u.account, u.userid,u.realname, u.nickname, d.description, d.time
-                                     from T_Activity w
-                                     left join t_activity_detail d
-                                       on w.activityid = d.activityid
-                                      and d.enabledmark = 1
-                                      and d.deletemark = 0
-                                     left join base_user u
-                                       on u.userid = d.userid
-                                      and u.enabledmark = 1
-                                      and u.deletemark = 0
-                                    WHERE 1 = 1  ");
+                strSql.Append(@"SELECT u.account, u.userid, u.realname, u.nickname, d.description, d.time,d.sortcode,u.wechat
+                                 from T_Activity w
+                                 left join t_activity_detail d
+                                   on w.activityid = d.activityid
+                                  and d.enabledmark = 1
+                                  and d.deletemark = 0
+                                 left join base_user u
+                                   on u.userid = d.userid
+                                  and u.enabledmark = 1
+                                  and u.deletemark = 0
+                                WHERE 1 = 1  ");
                 var parameter = new List<DbParameter>();
                 var queryParam = queryJson.ToJObject();
                 if (!queryParam["activityid"].IsEmpty())
