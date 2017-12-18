@@ -71,10 +71,10 @@
             height: '100%',
             autowidth: true,
             colModel: colModelData,
-            rowNum: 30,
-            rowList: [30, 50, 100],
+            rowNum: 100,
+            rowList: [100, 200, 500],
             sortorder: 'desc',
-            rownumbers: true,
+            rownumbers: false,
             shrinkToFit: false
         });
     }

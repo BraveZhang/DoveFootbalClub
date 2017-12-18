@@ -71,17 +71,26 @@
                         if (is_stack)
                             series_temp = $.extend({}, { stack: 'stack' }, series_temp);
                         series_temp = $.extend({}, {
-                            markPoint: {
-                                data: [
-                                    { type: 'max', name: '最大值' },
-                                    { type: 'min', name: '最小值' }
-                                ]
-                            },
+                            //markPoint: {
+                            //    data: [
+                            //        { type: 'max', name: '最大值' },
+                            //        { type: 'min', name: '最小值' }
+                            //    ]
+                            //},
                             markLine: {
                                 data: [
                                     { type: 'average', name: '平均值' }
                                 ]
-                            }
+                            },
+                            itemStyle: {
+                                normal:
+                                {
+                                    label:
+                                    {
+                                        show: true
+                                    }
+                                }
+                            },
                         }, series_temp);
                         break;
 
@@ -120,7 +129,7 @@
         CommonLineOption: {//通用的折线图表的基本配置 
             title: {
                 text: '鸽子队智能图表',
-                left:"40%"
+                left: "40%"
             },
             tooltip: {
                 trigger: 'axis'
@@ -138,6 +147,11 @@
                     magicType: ['line', 'bar'],//支持柱形图和折线图的切换 
                     saveAsImage: { show: true }
                 }
+            },
+            // 后加的
+            grid: {
+                left: 25,
+                right: 30
             }
         },
         Pie: function (data, name) {
@@ -173,7 +187,7 @@
                         data: pie_datas.data
                     }
                 ]
-            }; 
+            };
             return $.extend({}, ECharts.ChartOptionTemplates.CommonOption, option);
         },
         Lines: function (data, name, is_stack) {
@@ -186,7 +200,11 @@
                 xAxis: [{
                     type: 'category', //X轴均为category，Y轴均为value 
                     data: stackline_datas.xAxis,
-                    boundaryGap: false//数值轴两端的空白策略 
+                    boundaryGap: false,//数值轴两端的空白策略 
+                    axisLabel: {
+                        interval: 0,
+                        rotate: -30  //-30度角倾斜
+                    },
                 }],
                 yAxis: [{
                     type: 'value',
